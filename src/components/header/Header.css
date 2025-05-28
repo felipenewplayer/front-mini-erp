@@ -1,0 +1,12 @@
+.nav-link-custom {
+  color: #141816; /* verde padrão do Bootstrap success */
+  text-decoration: none;
+  font-size: 1.75rem; /* fs-4 */
+  padding-left: 1rem; /* ps-3 */
+  transition: color 0.3s ease;
+}
+
+.nav-link-custom:hover {
+  color: #434844;
+  text-decoration: none;
+}
