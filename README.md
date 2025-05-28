@@ -13,12 +13,12 @@ Este projeto é a interface de um sistema ERP (Enterprise Resource Planning), de
 
 ## 📦 Funcionalidades
 
-- 📦 Estoque: visualização de produtos e quantidades
+- 📦 Estoque: visualização de produtos e quantidades (em desenvolvimento)
 - 💰 Financeiro (em desenvolvimento)
 - 🚚 Logística (em desenvolvimento)
-- 🛒 Compras
-- 📊 Relatórios
-- 🤝 CRM e Gestão de Clientes
+- 🛒 Compras (em desenvolvimento)
+- 📊 Relatórios (em desenvolvimento)
+- 🤝 CRM e Gestão de Clientes (em desenvolvimento)
 
 ## 🔧 Como rodar o projeto localmente
 
@@ -31,7 +31,7 @@ Este projeto é a interface de um sistema ERP (Enterprise Resource Planning), de
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/seu-repo.git
+git clone git@github.com:felipenewplayer/front-mini-erp.git
 
 # Acesse a pasta do projeto
 cd seu-repo
