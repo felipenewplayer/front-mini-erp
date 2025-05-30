@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 
 export default function Estoque() {
-  const [produtos, setProdutos] = useState([]);
+  const [produtos, setProdutos] = useState([{
+    nome: "Cama",
+    preco: 99,
+    estoque:{
+      id:1,
+      quantidadeAtual:1
+
+    }
+  }]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,6 +41,6 @@ export default function Estoque() {
           ))}
         </tbody>
       </table>
-    </div>  
+    </div>
   );
 }

@@ -7,6 +7,7 @@ import Relatorios from "./Relatorios";
 import { useState } from "react";
 export default function Menu() {
     const [secaoAtiva, setSecaoAtiva] = useState(null);
+    
     const fecharOverlay = () => setSecaoAtiva(null);
     return (
         <>
