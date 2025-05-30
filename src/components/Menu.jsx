@@ -33,7 +33,8 @@ export default function Menu() {
                     }}
                 >
                     <button
-                        className="btn btn-danger mb-3"
+
+                        className="btn btn-danger mb-3 "
                         onClick={fecharOverlay}
                     >
                         Fechar

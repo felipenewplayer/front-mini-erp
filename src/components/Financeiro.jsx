@@ -40,7 +40,7 @@ export default function Financeiro() {
                     </button>
                 </div>
 
-                <div className="w-100 p-2 d-flex flex-column align-items-center">
+                <div className="w-100 p-2 d-flex flex-column align-items-center" >
                     <h2>Lista de Transações</h2>
 
                     {telaAdicionar && (
@@ -112,9 +112,9 @@ export default function Financeiro() {
                             </button>
                         </div>
                     )}
-
+                    <div className="list-container w-100 h-100 d-flex flex-column align-items-center overflow-auto" style={{ maxHeight: "648px" }}>
                     {!telaAdicionar && listDeTransacoes.map((transacao, index) => (
-                        <ul className="list-group w-75 mb-3" key={index}>
+                        <ul className="list-group w-75 mb-2" key={index}>
                             <li className="list-group-item">Vencimento: {transacao.vencimento}</li>
                             <li className="list-group-item">Tipo: {transacao.tipo}</li>
                             <li className="list-group-item">Descrição: {transacao.descricao}</li>
@@ -122,6 +122,7 @@ export default function Financeiro() {
                             <li className="list-group-item">Status: {transacao.status}</li>
                         </ul>
                     ))}
+                    </div>
                 </div>
             </div>
         </div>
