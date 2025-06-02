@@ -1,130 +1,204 @@
-import { useState } from "react"
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Financeiro() {
-    const [telaAdicionar, setTelaAdicionar] = useState(false);
-    const [listDeTransacoes, setListDeTransacoes] = useState([{
-        valor: 12.00,
-        tipo: "Pago",
-        vencimento: "12/12/2025",
-        descricao: "Pagamento do cliente X",
-        status: "pendente"
-    }]);
-
-    const [novaTransacao, setNovaTransacao] = useState({
+    const [showForm, setShowForm] = useState(false);
+    const [transacoes, setTransacoes] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState("");
+    const [form, setForm] = useState({
         valor: "",
         tipo: "",
         vencimento: "",
         descricao: "",
-        status: ""
+        status: "",
     });
+    const [editId, setEditId] = useState(null);
+    const [filtroStatus, setFiltroStatus] = useState("");
 
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setNovaTransacao(prev => ({
-            ...prev,
-            [name]: value
-        }));
+    useEffect(() => {
+        const fetchTransacoes = async () => {
+            try {
+                const { data } = await axios.get("http://localhost:8080/transacao");
+                setTransacoes(data);
+            } catch (err) {
+                setError("Não foi possível carregar as transações 😢", err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchTransacoes();
+    }, []);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setForm((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (editId !== null) {
+                const { data } = await axios.put(`http://localhost:8080/transacao/${editId}`, form);
+                setTransacoes(prev => prev.map(t => (t.id === editId ? data : t)));
+                alert("Transação atualizada com sucesso!");
+            }
+            else {
+                const { data } = await axios.post("http://localhost:8080/transacao", form);
+                setTransacoes((prev) => [...prev, data]);
+                setForm({ valor: "", tipo: "", vencimento: "", descricao: "", status: "" });
+                setShowForm(false);
+                alert("Transação salva com sucesso!");
+            }
+        } catch (err) {
+            const msg = err.response?.data?.message || "Erro ao salvar, tente novamente.";
+            alert(msg);
+        }
+        setEditId(null);
+    }
+
+    const handleDelete = async (id) => {
+        if (!window.confirm("Tem certeza que deseja excluir essa transação?")) return;
+
+        try {
+            await axios.delete(`http://localhost:8080/transacao/${id}`);
+            setTransacoes(prev => prev.filter(t => t.id !== id));
+            setShowForm(false);
+            setEditId(null);
+            alert("Transação excluída com sucesso!");
+            showForm
+        }
+        catch (err) {
+            alert("Erro ao excluir a transação, tente novamente.", err);
+        }
+
     };
 
     return (
-        <div className="bg-secondary d-flex flex-column justify-content-around h-75 container rounded p-2">
-            <h1 className="text-center mb-5">Financeiro</h1>
+        <div className="container p-4 bg-secondary rounded">
+            <h1 className="text-center mb-4">Financeiro</h1>
 
-            <div className="d-flex h-100">
-                <div className="d-flex flex-column">
-                    <button className="p-3 w-100 rounded m-2">Filtrar</button>
-                    <button
-                        className="p-3 w-100 rounded m-2"
-                        onClick={() => setTelaAdicionar(!telaAdicionar)}>
-                        Adicionar lançamento
+            <div className="d-flex mb-3">
+                {!showForm && (
+                    <>
+                        <select
+                            className="form-select"
+                            style={{ width: "200px" }}
+                            value={filtroStatus}
+                            onChange={(e) => setFiltroStatus(e.target.value)}
+                        >
+                            <option value="">Todos os Status</option>
+                            <option value="PENDENTE">PENDENTE</option>
+                            <option value="PAGO">PAGO</option>
+                            <option value="CANCELADO">CANCELADO</option>
+                        </select>
+
+                        <button className="btn btn-outline-secondary" onClick={() => setFiltroStatus("")}>
+                            Limpar Filtro
+                        </button>
+                    </>
+                )}
+
+
+                <button className="btn btn-success" onClick={() => setShowForm(!showForm)}>
+                    {showForm ? "Cancelar" : "Adicionar lançamento"}
+                </button>
+            </div>
+
+            {showForm && (
+                <form className="card p-3 mb-4" onSubmit={handleSubmit}>
+                    <div className="mb-2">
+                        <label className="form-label">Valor</label>
+                        <input
+                            className="form-control"
+                            name="valor"
+                            type="number"
+                            value={form.valor}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label className="form-label">Tipo</label>
+                        <input
+                            className="form-control"
+                            name="tipo"
+                            value={form.tipo}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label className="form-label">Vencimento</label>
+                        <input
+                            className="form-control"
+                            name="vencimento"
+                            type="date"
+                            value={form.vencimento}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label className="form-label">Descrição</label>
+                        <input
+                            className="form-control"
+                            name="descricao"
+                            value={form.descricao}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </div>
+                    <div className="mb-2">
+                        <label className="form-label">Status</label>
+                        <select
+                            className="form-control"
+                            name="status"
+                            value={form.status}
+                            onChange={handleInputChange}
+                            required
+                        >
+                            <option value="">Selecione...</option>
+                            <option value="PENDENTE">PENDENTE</option>
+                            <option value="CANCELADO">CANCELADO</option>
+                            <option value="PAGO">PAGO</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" className="btn btn-success mt-3">
+                        Salvar Transação
                     </button>
-                </div>
+                </form>
+            )}
+            {!showForm && (
+                <>
+                    {isLoading && <p>Carregando...</p>}
+                    {error && <p className="text-danger">{error}</p>}
+                    {!isLoading && !error && (
+                        <div className="list-container overflow-auto" style={{ maxHeight: 600 }}>
+                            {transacoes.filter((t) => !filtroStatus || t.status === filtroStatus)
+                                .map((t) => (
+                                    <ul key={t.id} className="list-group mb-2">
+                                        <li className="list-group-item">Vencimento: {t.vencimento}</li>
+                                        <li className="list-group-item">Tipo: {t.tipo}</li>
+                                        <li className="list-group-item">Descrição: {t.descricao}</li>
+                                        <li className="list-group-item">Valor: {parseFloat(t.valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</li>
+                                        <li className="list-group-item">Status: {t.status}</li>
 
-                <div className="w-100 p-2 d-flex flex-column align-items-center" >
-                    <h2>Lista de Transações</h2>
-
-                    {telaAdicionar && (
-                        <div className="m-5 w-75 d-flex flex-column h-100">
-                            <form>
-                                <p>Valor</p>
-                                <input
-                                    name="valor"
-                                    value={novaTransacao.valor}
-                                    onChange={handleChange}
-                                    className="w-75 m-1 p-2 rounded"
-                                    type="text"
-                                    placeholder="Digite o valor"
-                                />
-                                <p>Tipo</p>
-                                <input
-                                    name="tipo"
-                                    value={novaTransacao.tipo}
-                                    onChange={handleChange}
-                                    className="w-75 m-1 p-2 rounded"
-                                    type="text"
-                                    placeholder="Digite o tipo, pago ou não"
-                                />
-                                <p>Vencimento</p>
-                                <input
-                                    name="vencimento"
-                                    value={novaTransacao.vencimento}
-                                    onChange={handleChange}
-                                    className="w-75 m-1 p-2 rounded"
-                                    type="text"
-                                    placeholder="Digite o vencimento"
-                                />
-                                <p>Descrição</p>
-                                <input
-                                    name="descricao"
-                                    value={novaTransacao.descricao}
-                                    onChange={handleChange}
-                                    className="w-75 m-1 p-2 rounded"
-                                    type="text"
-                                    placeholder="Digite a descrição"
-                                />
-                                <p>Status</p>
-                                <input
-                                    name="status"
-                                    value={novaTransacao.status}
-                                    onChange={handleChange}
-                                    className="w-75 m-1 p-2 rounded"
-                                    type="text"
-                                    placeholder="Digite o status"
-                                />
-                            </form>
-
-                            <button
-                                className="btn btn-success w-75 p-3 m-5"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setListDeTransacoes([...listDeTransacoes, novaTransacao]);
-                                    setNovaTransacao({
-                                        valor: "",
-                                        tipo: "",
-                                        vencimento: "",
-                                        descricao: "",
-                                        status: ""
-                                    });
-                                    setTelaAdicionar(false);
-                                }}
-                            >
-                                Salvar Transação
-                            </button>
+                                        <div className="d-flex gap-2 mt-3">
+                                            <button className="btn btn-danger" onClick={() => handleDelete(t.id)}>Excluir</button>
+                                            <button className="btn btn-warning" onClick={() => {
+                                                setForm({ valor: t.valor, tipo: t.tipo, vencimento: t.vencimento, descricao: t.descricao, status: t.status });
+                                                setEditId(t.id);
+                                                setShowForm(true);
+                                            }}>Editar</button>
+                                        </div>
+                                    </ul>
+                                ))}
                         </div>
                     )}
-                    <div className="list-container w-100 h-100 d-flex flex-column align-items-center overflow-auto" style={{ maxHeight: "648px" }}>
-                    {!telaAdicionar && listDeTransacoes.map((transacao, index) => (
-                        <ul className="list-group w-75 mb-2" key={index}>
-                            <li className="list-group-item">Vencimento: {transacao.vencimento}</li>
-                            <li className="list-group-item">Tipo: {transacao.tipo}</li>
-                            <li className="list-group-item">Descrição: {transacao.descricao}</li>
-                            <li className="list-group-item">Valor: R$ {transacao.valor}</li>
-                            <li className="list-group-item">Status: {transacao.status}</li>
-                        </ul>
-                    ))}
-                    </div>
-                </div>
-            </div>
+                </>
+            )}
         </div>
     );
 }
