@@ -66,7 +66,6 @@ export default function Financeiro() {
             setShowForm(false);
             setEditId(null);
             alert("Transação excluída com sucesso!");
-            showForm
         }
         catch (err) {
             alert("Erro ao excluir a transação, tente novamente.", err);
