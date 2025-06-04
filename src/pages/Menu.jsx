@@ -15,7 +15,7 @@ export default function Menu() {
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("estoque")}>Estoque</button>
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("financeiro")}>Financeiro</button>
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("logistica")}>Logistica</button>
-                <button className="btn btn-light" onClick={() => setSecaoAtiva("compras")}>Comras</button>
+                <button className="btn btn-light" onClick={() => setSecaoAtiva("compras")}>Compras</button>
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("crm")}>CRM</button>
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("relatorios")}>Relatorios</button>
             </section>
