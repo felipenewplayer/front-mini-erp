@@ -86,7 +86,7 @@ export default function Financeiro() {
     };
 
     return (
-        <div className="container p-5 bg-secondary rounded">
+        <div className="container p-4 bg-secondary rounded">
             <h1 className="text-center mb-5">Financeiro</h1>
 
             <div className="d-flex mb-4">
@@ -110,7 +110,7 @@ export default function Financeiro() {
                     </>
                 )}
                 <button
-                    className="btn btn-success"
+                    className="btn btn-success p-3 rounded"
                     onClick={() => {
                         setShowForm(!showForm);
                         setForm({ valor: "", tipo: "", vencimento: "", descricao: "", status: "" });

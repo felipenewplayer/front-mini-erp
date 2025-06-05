@@ -2,12 +2,13 @@ import Estoque from "./Estoque";
 import Financeiro from "./Financeiro";
 import Logistica from "./Logistica";
 import Compras from "./Compras";
-import CRM from "./CRM";
+import Cliente from "./Cliente";
 import Relatorios from "./Relatorios";
 import { useState } from "react";
+
 export default function Menu() {
     const [secaoAtiva, setSecaoAtiva] = useState(null);
-    
+
     const fecharOverlay = () => setSecaoAtiva(null);
     return (
         <>
@@ -15,8 +16,8 @@ export default function Menu() {
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("estoque")}>Estoque</button>
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("financeiro")}>Financeiro</button>
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("logistica")}>Logistica</button>
+                <button className="btn btn-light" onClick={() => setSecaoAtiva("cliente")}>Clientes</button>
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("compras")}>Compras</button>
-                <button className="btn btn-light" onClick={() => setSecaoAtiva("crm")}>CRM</button>
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("relatorios")}>Relatorios</button>
             </section>
 
@@ -34,7 +35,7 @@ export default function Menu() {
                 >
                     <button
 
-                        className="btn btn-danger mb-3 "
+                        className="btn btn-danger ms-3 p-3 "
                         onClick={fecharOverlay}
                     >
                         Fechar
@@ -44,7 +45,7 @@ export default function Menu() {
                     {secaoAtiva === "financeiro" && <Financeiro />}
                     {secaoAtiva === "logistica" && <Logistica />}
                     {secaoAtiva === "compras" && <Compras />}
-                    {secaoAtiva === "crm" && <CRM />}
+                    {secaoAtiva === "cliente" && <Cliente />}
                     {secaoAtiva === "relatorios" && <Relatorios />}
                 </div>
             )}

@@ -6,7 +6,7 @@ export default function ListaDasTransacoes({
 }) {
     return (
 
-        <div className="list-container overflow-auto " style={{ maxHeight: 600 }}>
+        <div className="list-container overflow-auto " style={{ maxHeight: 580 }}>
             {transacoes.filter((t) => !filtroStatus || t.status === filtroStatus)
                 .map((t) => (
                     <ul key={t.id} className="list-group w-75 ">

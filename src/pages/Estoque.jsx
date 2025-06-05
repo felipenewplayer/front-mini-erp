@@ -83,10 +83,10 @@ export default function Estoque() {
       setProdutos(prev => prev.filter(p => p.id !== id));
       setShowTable(false);
       setEditId(null);
-      alert("Produto excluido com sucesso!")
+      toast.success("Produto excluido com sucesso!")
     }
     catch (err) {
-      alert("Erro ao excluir o produto, tente novamente.", err);
+      toast.error("Erro ao excluir o produto, tente novamente.", err);
     }
   }
   return (
