@@ -12,13 +12,13 @@ export default function Menu() {
     const fecharOverlay = () => setSecaoAtiva(null);
     return (
         <>
-            <section className="container d-flex gap-3 p-3 mt-5 border border-primary justify-content-center">
+            <section className="container-fluid d-flex flex-wrap gap-3 p-3 mt-5 border border-primary justify-content-center">
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("estoque")}>Estoque</button>
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("financeiro")}>Financeiro</button>
-                <button className="btn btn-light" onClick={() => setSecaoAtiva("logistica")}>Logistica</button>
+                {/* <button className="btn btn-light" onClick={() => setSecaoAtiva("logistica")}>Logistica</button> */}
                 <button className="btn btn-light" onClick={() => setSecaoAtiva("cliente")}>Clientes</button>
-                <button className="btn btn-light" onClick={() => setSecaoAtiva("compras")}>Compras</button>
-                <button className="btn btn-light" onClick={() => setSecaoAtiva("relatorios")}>Relatorios</button>
+                {/* <button className="btn btn-light" onClick={() => setSecaoAtiva("compras")}>Compras</button>
+                <button className="btn btn-light" onClick={() => setSecaoAtiva("relatorios")}>Relatorios</button> */}
             </section>
 
             {secaoAtiva && (
@@ -43,10 +43,10 @@ export default function Menu() {
 
                     {secaoAtiva === "estoque" && <Estoque />}
                     {secaoAtiva === "financeiro" && <Financeiro />}
-                    {secaoAtiva === "logistica" && <Logistica />}
-                    {secaoAtiva === "compras" && <Compras />}
+                    {/* {secaoAtiva === "logistica" && <Logistica />}
+                    {secaoAtiva === "compras" && <Compras />} */}
                     {secaoAtiva === "cliente" && <Cliente />}
-                    {secaoAtiva === "relatorios" && <Relatorios />}
+                    {/* {secaoAtiva === "relatorios" && <Relatorios />} */}
                 </div>
             )}
         </>

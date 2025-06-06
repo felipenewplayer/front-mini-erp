@@ -1,42 +1,44 @@
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { produtoSchema } from "./ProdutoSchema"
+import { useEffect } from "react"
+
 export default function FormProduto({
-    form,
-    onChange,
-    onSubmit
+    defaultValues,
+    onHandleSubmit
 }) {
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+        resolver: zodResolver(produtoSchema), defaultValues
+    })
+    useEffect(() => {
+        reset(defaultValues);
+    }, [defaultValues, reset]);
+
     return (
-        <form className="card p-3 mb-4" onSubmit={onSubmit}>
+        <form className="card p-3 mb-4" onSubmit={handleSubmit(onHandleSubmit)}>
             <div className="mb-2">
                 <label className="form-label">Nome</label>
                 <input
-                    type="text"
-                    name="nome"
                     className="form-control"
-                    required
-                    value={form.nome}
-                    onChange={onChange}
+                    {...register("nome")}
                 />
+                {errors.nome && <span className="text-danger">{errors.nome.message}</span>}
             </div>
             <div className="mb-2">
                 <label className="form-label">Preço</label>
                 <input
-                    type="number"
-                    name="preco"
                     className="form-control"
-                    required
-                    value={form.preco}
-                    onChange={onChange}
+                    {...register("preco")}
                 />
+                {errors.preco && <span className="text-danger">{errors.preco.message}</span>}
             </div>
             <div className="mb-2">
                 <label className="form-label">Quantidade</label>
                 <input
-                    type="number"
-                    name="quantidade"
                     className="form-control"
-                    required
-                    value={form.quantidade}
-                    onChange={onChange}
+                    {...register("estoque.quantidade")}
                 />
+                {errors.estoque?.quantidade && <span className="text-danger">{errors.estoque.quantidade.message}</span>}
             </div>
             <button type="submit" className="btn btn-success mt-3">
                 Salvar Produto

@@ -1,73 +1,57 @@
-export default function FormFinanceiro({
-    form,
-    onSubmit,
-    onChange
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {transacaoSchema} from "./TransacaoSchema.js";
 
-}) {
+export default function FormFinanceiro({ defaultValues, onHandleSubmit }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(transacaoSchema),
+    defaultValues,
+  });
 
-    return (
-        <form className="card p-3 mb-4" onSubmit={onSubmit}>
-            <div className="mb-2">
-                <label className="form-label">Valor</label>
-                <input
-                    className="form-control"
-                    name="valor"
-                    type="number"
-                    value={form.valor}
-                    onChange={onChange}
-                    required
-                />
-            </div>
-            <div className="mb-2">
-                <label className="form-label">Tipo</label>
-                <input
-                    className="form-control"
-                    name="tipo"
-                    value={form.tipo}
-                    onChange={onChange}
-                    required
-                />
-            </div>
-            <div className="mb-2">
-                <label className="form-label">Vencimento</label>
-                <input
-                    className="form-control"
-                    name="vencimento"
-                    type="date"
-                    value={form.vencimento}
-                    onChange={onChange}
-                    required
-                />
-            </div>
-            <div className="mb-2">
-                <label className="form-label">Descrição</label>
-                <input
-                    className="form-control"
-                    name="descricao"
-                    value={form.descricao}
-                    onChange={onChange}
-                    required
-                />
-            </div>
-            <div className="mb-2">
-                <label className="form-label">Status</label>
-                <select
-                    className="form-control"
-                    name="status"
-                    value={form.status}
-                    onChange={onChange}
-                    required
-                >
-                    <option value="">Selecione...</option>
-                    <option value="PENDENTE">PENDENTE</option>
-                    <option value="CANCELADO">CANCELADO</option>
-                    <option value="PAGO">PAGO</option>
-                </select>
-            </div>
+  return (
+    <form className="card p-3 mb-4" onSubmit={handleSubmit(onHandleSubmit)}>
+      <div className="mb-2">
+        <label className="form-label">Valor</label>
+        <input type="number" step="0.01" className="form-control" {...register("valor")} />
+        {errors.valor && <span className="text-danger">{errors.valor.message}</span>}
+      </div>
 
-            <button type="submit" className="btn btn-success mt-3">
-                Salvar Transação
-            </button>
-        </form>
-    )
+      <div className="mb-2">
+        <label className="form-label">Tipo</label>
+        <input type="text" className="form-control" {...register("tipo")} />
+        {errors.tipo && <span className="text-danger">{errors.tipo.message}</span>}
+      </div>
+
+      <div className="mb-2">
+        <label className="form-label">Vencimento</label>
+        <input type="date" className="form-control" {...register("vencimento")} />
+        {errors.vencimento && <span className="text-danger">{errors.vencimento.message}</span>}
+      </div>
+
+      <div className="mb-2">
+        <label className="form-label">Descrição</label>
+        <input type="text" className="form-control" {...register("descricao")} />
+        {errors.descricao && <span className="text-danger">{errors.descricao.message}</span>}
+      </div>
+
+      <div className="mb-2">
+        <label className="form-label">Status</label>
+        <select className="form-control" {...register("status")}>
+          <option value="">Selecione...</option>
+          <option value="PENDENTE">PENDENTE</option>
+          <option value="CANCELADO">CANCELADO</option>
+          <option value="PAGO">PAGO</option>
+        </select>
+        {errors.status && <span className="text-danger">{errors.status.message}</span>}
+      </div>
+
+      <button type="submit" className="btn btn-success mt-3">
+        Salvar Transação
+      </button>
+    </form>
+  );
 }

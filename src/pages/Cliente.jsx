@@ -1,174 +1,124 @@
 import axios from "axios";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ClienteTabela from "../components/cliente/ClienteTabela";
+import ClienteForm from "../components/cliente/ClienteForm";
 
 export default function Cliente() {
-    const [showTable, setshowTable] = useState(true);
+    const [showForm, setShowForm] = useState(false);
     const [editId, setEditId] = useState(null);
     const [form, setForm] = useState({
         nome: "",
         email: "",
         telefone: "",
         endereco: ""
-    })
-    const [clientes, setClientes] = useState([
-
-    ])
+    });
+    const [clientes, setClientes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const fecthClientes = async () => {
+        const fetchClientes = async () => {
             try {
                 const { data } = await axios.get("http://localhost:8080/clientes");
                 setClientes(data);
             } catch (error) {
-                toast.error(error)
-            }
-            finally {
+                toast.error(error.message || "Erro ao buscar clientes");
+            } finally {
                 setIsLoading(false);
             }
-        }
-        fecthClientes();
-    }, [])
+        };
+        fetchClientes();
+    }, []);
 
-    const handleChangeInput = (e) => {
-        const { name, value } = e.target;
-        setForm(prev => ({ ...prev, [name]: value }));
-    };
-    const onsubmit = async (e) => {
-        e.preventDefault();
-
-        if (!form.nome || !form.email || !form.telefone || !form.endereco) {
-            toast.error("Preencha todos os campos");
-            return;
-        }
+    const handleFormSubmit = async (data) => {
         try {
             if (editId !== null) {
-                const { data } = await axios.put(`http://localhost:8080/clientes/${editId}`, form);
-                setClientes(c => c.map(c => c.id === editId ? data : c));
-                toast.success("Cliente atualizado com sucesso!!")
-
+                const res = await axios.put(`http://localhost:8080/clientes/${editId}`, data);
+                setClientes(c => c.map(c => c.id === editId ? res.data : c));
+                toast.success("Cliente atualizado com sucesso!!");
             } else {
-                const { data } = await axios.post("http://localhost:8080/clientes", form);
-                setClientes(prev => [...prev, data]);
-                setForm({ valor: "", tipo: "", vencimento: "", descricao: "", status: "" });
+                const res = await axios.post("http://localhost:8080/clientes", data);
+                setClientes(prev => [...prev, res.data]);
                 toast.success("Cliente criado com sucesso");
             }
-
-            setForm({
-                nome: "",
-                email: "",
-                telefone: "",
-                endereco: ""
-            });
             setEditId(null);
-            setshowTable(true);
-            
+            setForm({ nome: "", email: "", telefone: "", endereco: "" });
+            setShowForm(false);
+        } catch (error) {
+            toast.error(error.message || "Erro desconhecido");
         }
-        catch (error) {
-            toast.error(error)
+    };
 
-        }
-    }
-    const onExluir = async (id) => {
-        if (!window.confirm("Deseja realmente excluir!!")) return;
+    const onExcluir = async (id) => {
+        if (!window.confirm("Deseja realmente excluir?")) return;
 
         try {
             await axios.delete(`http://localhost:8080/clientes/${id}`);
-            setClientes(cliente => cliente.filter(cliente.id !== id));
-            setForm(false);
+            setClientes(clientes => clientes.filter(cliente => cliente.id !== id));
+            setForm({ nome: "", email: "", telefone: "", endereco: "" });
             setEditId(null);
-            toast.success("Cliente excluido com sucesso!!")
+            toast.success("Cliente excluído com sucesso!!");
         } catch (error) {
-            toast.error(error);
+            toast.error(error.message || "Erro ao excluir cliente");
         }
-
-    }
-
+    };
 
     return (
-        <div className="container p-5 bg-secondary rounded">
-            <h1 className="text-center">Clientes</h1>
-            <div>
+        <div className="container p-4 bg-secondary rounded mt-3">
+            <h1 className="text-center mb-4 text-light">Clientes</h1>
+            <div className="d-flex ">
                 <button
-                    className="btn btn-success p-2"
-                    onClick={() => setshowTable(!showTable)}>
-                    {showTable ? "Adicionar Clientes" : "Cancelar"}</button>
-
-                {isLoading && <p>...carregando !!!</p>}
+                    className="btn btn-success ms-5"
+                    onClick={() => {
+                        setShowForm(!showForm);
+                        if (showForm) {
+                            setEditId(null);
+                            setForm({ nome: "", email: "", telefone: "", endereco: "" });
+                        }
+                    }}
+                >
+                    {showForm ? "Cancelar" : "Adicionar Cliente"}
+                </button>
             </div>
-            {showTable && (
+
+            {isLoading && (
+                <div className="text-center text-light">
+                    <div className="spinner-border" role="status" />
+                    <p>Carregando...</p>
+                </div>
+            )}
+
+            {!isLoading && (
                 <>
-                    {clientes.length >= 1 ? (
-                        <ClienteTabela
-                            clientes={clientes}
-                            onEditar={(c) => {
-                                setEditId(c.id);
-                                setForm({
-                                    nome: c.nome,
-                                    email: c.email,
-                                    telefone: c.telefone,
-                                    endereco: c.endereco
-                                });
-                                setshowTable(false);
-                            }}
-                            onExluir={onExluir}
+                    {showForm ? (
+                        <ClienteForm
+                            handleFormSubmit={handleFormSubmit}
+                            defaultValues={form}
                         />
                     ) : (
-                        <p className="text-center p-5">Ainda sem clientes</p>
+                        <>
+                            {clientes.length > 0 ? (
+                                <ClienteTabela
+                                    clientes={clientes}
+                                    onEditar={(c) => {
+                                        setEditId(c.id);
+                                        setForm({
+                                            nome: c.nome,
+                                            email: c.email,
+                                            telefone: c.telefone,
+                                            endereco: c.endereco
+                                        });
+                                        setShowForm(true);
+                                    }}
+                                    onExcluir={onExcluir}
+                                />
+                            ) : (
+                                <p className="text-center p-5 text-light">Ainda sem clientes cadastrados.</p>
+                            )}
+                        </>
                     )}
                 </>
             )}
-
-            {!showTable && (
-                <form className="form" onSubmit={onsubmit}>
-                    <div>
-                        <label className="form-label mt-4">Nome</label>
-                        <input
-                            className="form-control w-50"
-                            type="text"
-                            name="nome"
-                            value={form.nome}
-                            onChange={handleChangeInput}
-                        />
-                    </div>
-                    <div>
-                        <label className="form-label mt-4">Email</label>
-                        <input
-                            className="form-control w-50"
-                            type="email"
-                            name="email"
-                            value={form.email}
-                            onChange={handleChangeInput}
-                        />
-                    </div>
-                    <div>
-                        <label className="form-label mt-4">Telefone</label>
-                        <input
-                            className="form-control w-50"
-                            type="number"
-                            name="telefone"
-                            value={form.telefone}
-                            onChange={handleChangeInput}
-                        />
-                    </div>
-                    <div>
-                        <label className="form-label mt-4">Endereço</label>
-                        <input
-                            className="form-control w-50"
-                            type="text"
-                            name="endereco"
-                            value={form.endereco}
-                            onChange={handleChangeInput}
-                        />
-                    </div>
-                    <button className="btn btn-success mt-3 p-2" type="submit" >Confirmar</button>
-                </form>
-            )}
-
-
-
         </div>
-    )
+    );
 }

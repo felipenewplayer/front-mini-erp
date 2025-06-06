@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const schemaFinanceiro = z.object({
+export const transacaoSchema = z.object({
     valor: z.coerce.number().positive("Valor deve ser positivo"),
     tipo: z.string().min(1, "Tipo é obrigatório"),
     vencimento: z.string().min(1, "Data de vencimento é obrigatória"),

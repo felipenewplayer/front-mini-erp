@@ -11,7 +11,9 @@ export default function Estoque() {
   const [form, setForm] = useState({
     nome: "",
     preco: "",
-    quantidade: ""
+    estoque:{
+      quantidade:""
+    }
   });
   const [editId, setEditId] = useState(null);
   const [produtos, setProdutos] = useState([]);
@@ -32,32 +34,20 @@ export default function Estoque() {
     fectchProdutos();
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (data) => {
     try {
-      const payload = {
-        nome: form.nome,
-        preco: parseFloat(form.preco),
-        estoque: {
-          quantidadeAtual: parseInt(form.quantidade)
-        }
-      };
+    
       if (editId !== null) {
-        const { data } = await axios.put(`http://localhost:8080/produtos/${editId}`, payload);
-        setProdutos(prev => prev.map(p => (p.id === editId ? data : p)));
+        const res = await axios.put(`http://localhost:8080/produtos/${editId}`, data);
+        setProdutos(prev => prev.map(p => (p.id === editId ? res.data : p)));
         toast.success("Produto atualizado com sucesso!");
       } else {
-        const { data } = await axios.post("http://localhost:8080/produtos", payload);
-        setProdutos((prev) => [...prev, data]);
+        const res = await axios.post("http://localhost:8080/produtos", data);
+        setProdutos((prev) => [...prev, res.data]);
         toast.success("Produto salvo com sucesso!");
       }
 
-      setForm({ nome: "", preco: "", quantidade: "" });
+      setForm({ nome: "", preco: "", estoque:{ quantidade: ""}});
       setEditId(null);
       setShowTable(false);
     } catch (err) {
@@ -90,15 +80,15 @@ export default function Estoque() {
     }
   }
   return (
-    <div className="container p-4 bg-secondary rounded">
+    <div className="container mt-3 p-4 bg-secondary rounded">
       <h1 className="text-center mb-4">Estoque</h1>
 
-      <div className="d-flex mb-3 align-items-center gap-2">
+      <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4 gap-2">
         {!showTable && (
           <>
             <input
               className="form-control"
-              style={{ width: "200px" }}
+              style={{ width: "150px" }}
               type="text"
               placeholder="Filtrar por nome"
               value={filtroNome}
@@ -107,7 +97,7 @@ export default function Estoque() {
 
             <select
               className="form-select"
-              style={{ width: "200px" }}
+              style={{ width: "150px" }}
               value={ordemPreco}
               onChange={(e) => setOrdemPreco(e.target.value)}
             >
@@ -128,16 +118,15 @@ export default function Estoque() {
           </>
         )}
 
-        <button className="btn btn-success" onClick={() => setShowTable(!showTable)}>
+        <button className="btn btn-success " onClick={() => setShowTable(!showTable)}>
           {showTable ? "Cancelar" : "Adicionar Produto"}
         </button>
       </div>
 
       {showTable && (
         <FormProduto
-          form={form}
-          onSubmit={handleSubmit}
-          onChange={handleInputChange}
+          onHandleSubmit={handleSubmit}
+          defaultValues={form}
         />
       )}
 
@@ -156,7 +145,8 @@ export default function Estoque() {
               setForm({
                 nome: p.nome,
                 preco: p.preco,
-                quantidade: p.estoque?.quantidadeAtual ?? 0
+                estoque:{
+                quantidade: p.estoque?.quantidadeAtual ?? 0}
               });
               setShowTable(true);
             }}
