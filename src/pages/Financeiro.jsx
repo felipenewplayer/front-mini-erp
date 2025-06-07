@@ -23,7 +23,7 @@ export default function Financeiro() {
   useEffect(() => {
     const fetchTransacoes = async () => {
       try {
-        const { data } = await axios.get("http://localhost:8080/transacao");
+        const { data } = await axios.get("https://mini-erp-y8nj.onrender.com/transacao");
         setTransacoes(data);
       } catch (errr) {
         setError("Não foi possível carregar as transações", errr);
@@ -43,11 +43,11 @@ export default function Financeiro() {
     }
     try {
       if (editId !== null) {
-        const res = await axios.put(`http://localhost:8080/transacao/${editId}`, data);
+        const res = await axios.put(`https://mini-erp-y8nj.onrender.com/transacao/${editId}`, data);
         setTransacoes(prev => prev.map(t => (t.id === editId ? res.data : t)));
         toast.success("Transação atualizada com sucesso!");
       } else {
-        const res = await axios.post("http://localhost:8080/transacao", data);
+        const res = await axios.post("https://mini-erp-y8nj.onrender.com/transacao", data);
         setTransacoes((prev) => [...prev, res.data]);
         setShowForm(false);
         setForm({
@@ -69,7 +69,7 @@ export default function Financeiro() {
   const handleDelete = async (id) => {
     if (!window.confirm("Deseja realmente excluir??")) return;
     try {
-      await axios.delete(`http://localhost:8080/transacao/${id}`);
+      await axios.delete(`https://mini-erp-y8nj.onrender.com/transacao/${id}`);
       setTransacoes(prev => prev.filter(t => t.id !== id));
       setShowForm(false);
       setEditId(null);
