@@ -23,10 +23,10 @@ export default function Estoque() {
   useEffect(() => {
     const fectchProdutos = async () => {
       try {
-        const { data } = await axios.get("http://localhost:8080/produtos");
+        const { data } = await axios.get("https://mini-erp-y8nj.onrender.com/produtos");
         setProdutos(data);
       } catch (err) {
-        setError("Não foi possível carregar os produtos 😢", err);
+        setError("Não foi possível carregar os produtos ", err);
       } finally {
         setIsLoading(false);
       }
@@ -38,11 +38,11 @@ export default function Estoque() {
     try {
     
       if (editId !== null) {
-        const res = await axios.put(`http://localhost:8080/produtos/${editId}`, data);
+        const res = await axios.put(`https://mini-erp-y8nj.onrender.com/produtos/${editId}`, data);
         setProdutos(prev => prev.map(p => (p.id === editId ? res.data : p)));
         toast.success("Produto atualizado com sucesso!");
       } else {
-        const res = await axios.post("http://localhost:8080/produtos", data);
+        const res = await axios.post("https://mini-erp-y8nj.onrender.com/produtos", data);
         setProdutos((prev) => [...prev, res.data]);
         toast.success("Produto salvo com sucesso!");
       }
@@ -69,7 +69,7 @@ export default function Estoque() {
     if (!window.confirm("Tem certeza que quer deletar")) return;
 
     try {
-      await axios.delete(`http://localhost:8080/produtos/${id}`);
+      await axios.delete(`https://mini-erp-y8nj.onrender.com/produtos/${id}`);
       setProdutos(prev => prev.filter(p => p.id !== id));
       setShowTable(false);
       setEditId(null);
