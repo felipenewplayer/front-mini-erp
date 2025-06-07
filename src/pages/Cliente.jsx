@@ -19,7 +19,7 @@ export default function Cliente() {
     useEffect(() => {
         const fetchClientes = async () => {
             try {
-                const { data } = await axios.get("http://localhost:8080/clientes");
+                const { data } = await axios.get("https://mini-erp-y8nj.onrender.com/clientes");
                 setClientes(data);
             } catch (error) {
                 toast.error(error.message || "Erro ao buscar clientes");
@@ -33,11 +33,11 @@ export default function Cliente() {
     const handleFormSubmit = async (data) => {
         try {
             if (editId !== null) {
-                const res = await axios.put(`http://localhost:8080/clientes/${editId}`, data);
+                const res = await axios.put(`https://mini-erp-y8nj.onrender.com/clientes/${editId}`, data);
                 setClientes(c => c.map(c => c.id === editId ? res.data : c));
                 toast.success("Cliente atualizado com sucesso!!");
             } else {
-                const res = await axios.post("http://localhost:8080/clientes", data);
+                const res = await axios.post("https://mini-erp-y8nj.onrender.com/clientes", data);
                 setClientes(prev => [...prev, res.data]);
                 toast.success("Cliente criado com sucesso");
             }
@@ -53,7 +53,7 @@ export default function Cliente() {
         if (!window.confirm("Deseja realmente excluir?")) return;
 
         try {
-            await axios.delete(`http://localhost:8080/clientes/${id}`);
+            await axios.delete(`https://mini-erp-y8nj.onrender.com/clientes/${id}`);
             setClientes(clientes => clientes.filter(cliente => cliente.id !== id));
             setForm({ nome: "", email: "", telefone: "", endereco: "" });
             setEditId(null);
