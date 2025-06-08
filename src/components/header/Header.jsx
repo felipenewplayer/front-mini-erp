@@ -1,8 +1,13 @@
 import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom'
 
 export default function Header() {
+    const navigate = useNavigate();
+    const irParaLogin = () => {
+        navigate('/Login');
+    }
     return (
         <nav className="navbar navbar-expand-md navbar-dark bg-dark ">
             <div className="container-fluid d-flex justify-content-center">
@@ -23,7 +28,9 @@ export default function Header() {
                                 <span className='input-group-text ms-4'>@</span>
                             </div>
                             <input type="text" className="form-control mr-3" placeholder='Username' />
-                            <button className="btn btn-outline-success">Login</button>
+                            <button
+                                className="btn btn-outline-success"
+                                onClick={irParaLogin}>Login</button>
                         </div>
                     </form>
                 </section>
