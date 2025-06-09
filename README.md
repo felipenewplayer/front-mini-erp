@@ -4,21 +4,21 @@ Este projeto é a interface de um sistema ERP (Enterprise Resource Planning), de
 
 ## 🚀 Tecnologias utilizadas
 
-- React 18
+- React 19
 - Bootstrap 5
 - Vite
 - JavaScript (ES6+)
-- Consumo de API REST (via `fetch`)
+- Consumo de API REST (via `axios`)
 - Integração com backend Java Spring Boot
 
 ## 📦 Funcionalidades
 
 - 📦 Estoque: visualização de produtos e quantidades (em desenvolvimento)
 - 💰 Financeiro (em desenvolvimento)
-- 🚚 Logística (em desenvolvimento)
+- 🚚 Vendas (em desenvolvimento)
 - 🛒 Compras (em desenvolvimento)
 - 📊 Relatórios (em desenvolvimento)
-- 🤝 CRM e Gestão de Clientes (em desenvolvimento)
+- 🤝 Clientes (em desenvolvimento)
 
 ## 🔧 Como rodar o projeto localmente
 
