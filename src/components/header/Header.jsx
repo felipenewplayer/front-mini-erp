@@ -2,12 +2,12 @@ import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom'
+import { useUser } from '../UserContext';
 
 export default function Header() {
+    const { usuario, logOut } = useUser();
     const navigate = useNavigate();
-    const irParaLogin = () => {
-        navigate('/Login');
-    }
+
     return (
         <nav className="navbar navbar-expand-md navbar-dark bg-dark ">
             <div className="container-fluid d-flex justify-content-center">
@@ -20,18 +20,31 @@ export default function Header() {
                         ">Produtos</a>
                         <a href="#" className="nav-item nav-link ms-3">Parceiros</a>
                         <a href="#" className="nav-item nav-link ms-3">Sobre</a>
-                        <a href="#" className="nav-item nav-link ms-3 ">Login</a>
                     </div>
                     <form className='form-inline'>
-                        <div className="input-group">
-                            <div className="input-group-prepend">
-                                <span className='input-group-text ms-4'>@</span>
+                        {usuario ? (
+                            <div className="input-group gap-2 d-flex align-items-center">
+                                <span className='text-success'>Olá, {usuario.nome}!</span>
+                                <button
+                                    className="btn btn-outline-light ms-2"
+                                    onClick={() => { 
+                                        logOut();
+                                        navigate('/') }}>
+                                    Sair
+                                </button>
                             </div>
-                            <input type="text" className="form-control mr-3" placeholder='Username' />
-                            <button
-                                className="btn btn-outline-success"
-                                onClick={irParaLogin}>Login</button>
-                        </div>
+                        ) : (
+                            <div className="input-group gap-2">
+                                <button
+                                    className="btn btn-outline-success "
+                                    onClick={() => navigate("/Cadastro")}>Cadastrar
+                                </button>
+                                <button
+                                    className="btn btn-outline-success "
+                                    onClick={() => navigate("/Login")}>Login
+                                </button>
+                            </div>
+                        )}
                     </form>
                 </section>
                 <button

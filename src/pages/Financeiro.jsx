@@ -82,7 +82,7 @@ export default function Financeiro() {
   };
 
   return (
-    <div className="container mt-3 p-4 bg-secondary rounded">
+    <div className="container mt-5 p-4 bg-secondary rounded">
       <h1 className="text-center mb-4">Financeiro</h1>
 
       <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4 gap-2">

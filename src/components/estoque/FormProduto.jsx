@@ -27,6 +27,8 @@ export default function FormProduto({
             <div className="mb-2">
                 <label className="form-label">Preço</label>
                 <input
+                    type="number"
+                    step="0.01"
                     className="form-control"
                     {...register("preco")}
                 />
@@ -36,6 +38,7 @@ export default function FormProduto({
                 <label className="form-label">Quantidade</label>
                 <input
                     className="form-control"
+                    type="number"
                     {...register("estoque.quantidade")}
                 />
                 {errors.estoque?.quantidade && <span className="text-danger">{errors.estoque.quantidade.message}</span>}

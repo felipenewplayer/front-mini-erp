@@ -12,13 +12,14 @@ export default function Menu() {
     const fecharOverlay = () => setSecaoAtiva(null);
     return (
         <>
-            <section className="container-fluid d-flex flex-wrap gap-3 p-3 mt-5 border border-primary justify-content-center">
-                <button className="btn btn-light" onClick={() => setSecaoAtiva("estoque")}>Estoque</button>
-                <button className="btn btn-light" onClick={() => setSecaoAtiva("financeiro")}>Financeiro</button>
-                {/* <button className="btn btn-light" onClick={() => setSecaoAtiva("logistica")}>Logistica</button> */}
-                <button className="btn btn-light" onClick={() => setSecaoAtiva("cliente")}>Clientes</button>
-                {/* <button className="btn btn-light" onClick={() => setSecaoAtiva("compras")}>Compras</button>
-                <button className="btn btn-light" onClick={() => setSecaoAtiva("relatorios")}>Relatorios</button> */}
+            <section className="container d-flex flex-wrap gap-3 p-3 mt-5 align-items-center justify-content-center 
+            border border-dark">
+                <button className="btn btn-light fs-2" onClick={() => setSecaoAtiva("estoque")}>Estoque</button>
+                <button className="btn btn-light fs-2" onClick={() => setSecaoAtiva("financeiro")}>Financeiro</button>
+                <button className="btn btn-light fs-2" onClick={() => setSecaoAtiva("cliente")}>Clientes</button>
+                <button className="btn btn-light fs-2" onClick={() => setSecaoAtiva("logistica")}>Logistica</button>
+                <button className="btn btn-light fs-2" onClick={() => setSecaoAtiva("compras")}>Compras</button>
+                <button className="btn btn-light fs-2" onClick={() => setSecaoAtiva("relatorios")}>Relatorios</button>
             </section>
 
             {secaoAtiva && (

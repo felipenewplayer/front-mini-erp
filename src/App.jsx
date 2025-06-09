@@ -7,6 +7,7 @@ import Menu from './pages/Menu';
 import Footer from './pages/Footer';
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
+import Cadastro from './pages/Cadastro';
 
 
 function App() {
@@ -16,8 +17,9 @@ function App() {
       <Header />
       <div className='container-fluid p-0'>
         <Routes>
-          <Route path='/' element={<Menu/>} />
-          <Route path='/login' element={<Login/>} />
+          <Route path='/' element={<Menu />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/cadastro' element={<Cadastro />} />
         </Routes >
       </div>
 

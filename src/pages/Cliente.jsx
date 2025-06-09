@@ -53,7 +53,7 @@ export default function Cliente() {
         if (!window.confirm("Deseja realmente excluir?")) return;
 
         try {
-            await axios.delete(`https://mini-erp-y8nj.onrender.com/clientes/${id}`);
+            await axios.delete(`https://mini-erp-y8nj.onrender.com//clientes/${id}`);
             setClientes(clientes => clientes.filter(cliente => cliente.id !== id));
             setForm({ nome: "", email: "", telefone: "", endereco: "" });
             setEditId(null);
@@ -64,7 +64,7 @@ export default function Cliente() {
     };
 
     return (
-        <div className="container p-4 bg-secondary rounded mt-3">
+        <div className="container p-4 bg-secondary rounded mt-5">
             <h1 className="text-center mb-4 text-light">Clientes</h1>
             <div className="d-flex ">
                 <button
