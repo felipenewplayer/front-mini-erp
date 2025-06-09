@@ -19,11 +19,11 @@ export default function Financeiro() {
     descricao: "",
     status: ""
   });
-
+  const url = "https://mini-erp-y8nj.onrender.com/transacao";
   useEffect(() => {
     const fetchTransacoes = async () => {
       try {
-        const { data } = await axios.get("https://mini-erp-y8nj.onrender.com/transacao");
+        const { data } = await axios.get(`${url}`);
         setTransacoes(data);
       } catch (errr) {
         setError("Não foi possível carregar as transações", errr);
@@ -43,11 +43,11 @@ export default function Financeiro() {
     }
     try {
       if (editId !== null) {
-        const res = await axios.put(`https://mini-erp-y8nj.onrender.com/transacao/${editId}`, data);
+        const res = await axios.put(`${url}/${editId}`, data);
         setTransacoes(prev => prev.map(t => (t.id === editId ? res.data : t)));
         toast.success("Transação atualizada com sucesso!");
       } else {
-        const res = await axios.post("https://mini-erp-y8nj.onrender.com/transacao", data);
+        const res = await axios.post(`${url}`, data);
         setTransacoes((prev) => [...prev, res.data]);
         setShowForm(false);
         setForm({
@@ -69,20 +69,20 @@ export default function Financeiro() {
   const handleDelete = async (id) => {
     if (!window.confirm("Deseja realmente excluir??")) return;
     try {
-      await axios.delete(`https://mini-erp-y8nj.onrender.com/transacao/${id}`);
+      await axios.delete(`${url}/${id}`);
       setTransacoes(prev => prev.filter(t => t.id !== id));
       setShowForm(false);
       setEditId(null);
       toast.success("Transação excluída com sucesso!");
     }
     catch (err) {
-    const msg = err.response?.data?.message || "Erro ao excluir a transação, tente novamente.";
-    toast.error(msg);
+      const msg = err.response?.data?.message || "Erro ao excluir a transação, tente novamente.";
+      toast.error(msg);
     }
   };
 
   return (
-    <div className="container mt-5 p-4 bg-secondary rounded">
+    <div className="container-fluid p-4 bg-secondary rounded">
       <h1 className="text-center mb-4">Financeiro</h1>
 
       <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4 gap-2">
