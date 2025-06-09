@@ -4,7 +4,7 @@ import { transacaoSchema } from "../components/financeiro/TransacaoSchema.js";
 import axios from "axios";
 import FormFinanceiro from "../components/financeiro/FormFinanceiro";
 import ListaDasTransacoes from "../components/financeiro/ListaDasTransacoes";
-
+import DivsDosConteudos from "../components/DivsDosConteudos.jsx"
 export default function Financeiro() {
   const [showForm, setShowForm] = useState(false);
   const [transacoes, setTransacoes] = useState([]);
@@ -82,7 +82,7 @@ export default function Financeiro() {
   };
 
   return (
-    <div className="container-fluid p-4 bg-secondary rounded">
+    <DivsDosConteudos>
       <h1 className="text-center mb-4">Financeiro</h1>
 
       <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4 gap-2">
@@ -144,6 +144,6 @@ export default function Financeiro() {
           )}
         </>
       )}
-    </div>
+    </DivsDosConteudos>
   );
 }

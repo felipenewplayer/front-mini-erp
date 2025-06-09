@@ -3,11 +3,11 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Header from './components/header/Header'
-import Menu from './pages/Menu';
 import Footer from './pages/Footer';
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
+import Sidebar from './pages/SideBar';
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
       <Header />
       <div className='container-fluid p-0'>
         <Routes>
-          <Route path='/' element={<Menu />} />
+          <Route path='/' element={<Sidebar />} />
           <Route path='/login' element={<Login />} />
           <Route path='/cadastro' element={<Cadastro />} />
         </Routes >

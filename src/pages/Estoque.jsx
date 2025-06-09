@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from "react";
 import TabelaProdutos from "../components/estoque/TabelaProdutos";
 import FormProduto from "../components/estoque/FormProduto";
-
+import DivsDosConteudos from "../components/DivsDosConteudos";
 export default function Estoque() {
   const [isLoading, setIsLoading] = useState(true);
   const [showTable, setShowTable] = useState(false);
@@ -81,7 +81,7 @@ export default function Estoque() {
     }
   }
   return (
-    <div className="container mt-5 p-4 bg-secondary rounded">
+    <DivsDosConteudos>
       <h1 className="text-center mb-4">Estoque</h1>
 
       <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4 gap-2">
@@ -155,6 +155,6 @@ export default function Estoque() {
             } />
         </>
       )}
-    </div>
+    </DivsDosConteudos>
   );
 }

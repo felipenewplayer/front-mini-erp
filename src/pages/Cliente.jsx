@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ClienteTabela from "../components/cliente/ClienteTabela";
 import ClienteForm from "../components/cliente/ClienteForm";
+import DivsDosConteudos from "../components/DivsDosConteudos";
 
 export default function Cliente() {
     const [showForm, setShowForm] = useState(false);
@@ -64,7 +65,7 @@ export default function Cliente() {
     };
 
     return (
-        <div className="container p-4 bg-secondary rounded mt-5">
+        <DivsDosConteudos >
             <h1 className="text-center mb-4 text-light">Clientes</h1>
             <div className="d-flex ">
                 <button
@@ -119,6 +120,6 @@ export default function Cliente() {
                     )}
                 </>
             )}
-        </div>
+        </DivsDosConteudos>
     );
 }
