@@ -82,7 +82,7 @@ export default function Estoque() {
   }
   return (
     <DivsDosConteudos>
-      <h1 className="text-center mb-4">Estoque</h1>
+      <h1 className="text-center text-light mb-4">Estoque</h1>
 
       <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4 gap-2">
         {!showTable && (
@@ -108,7 +108,7 @@ export default function Estoque() {
             </select>
 
             <button
-              className="btn btn-outline-secondary"
+              className="btn btn-secondary"
               onClick={() => {
                 setFiltroNome("");
                 setOrdemPreco("");

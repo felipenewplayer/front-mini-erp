@@ -20,6 +20,7 @@ export default function ClienteForm({handleFormSubmit, defaultValues}){
                     <div>
                         <label className="form-label mt-4">Email</label>
                         <input
+                        placeholder="informar o email"
                             className="form-control w-75"
                             {...register("email")}
                         />

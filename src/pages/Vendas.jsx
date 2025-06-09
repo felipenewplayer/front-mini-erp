@@ -6,7 +6,7 @@ export default function Vendas() {
         <DivsDosConteudos>
             <h2 className="text-light">Pedido de Venda</h2>
             <form
-                className=" mt-1 pt-1 d-flex flex-column ps-3 list-container overflow-auto gap-3"
+                className=" mt-1 pt-1 d-flex flex-column ps-3 overflow-auto gap-2"
                 style={{ maxHeight: 675 }}>
                 <div className="d-flex flex-column gap-3 justify-content-around ">
                     <div className="d-flex flex-column">

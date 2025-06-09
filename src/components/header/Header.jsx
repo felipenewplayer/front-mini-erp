@@ -1,7 +1,7 @@
 import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { useUser } from '../UserContext';
 
 export default function Header() {
@@ -10,48 +10,14 @@ export default function Header() {
 
     return (
         <nav className="navbar navbar-expand-md navbar-dark"
-        style={{background:"linear-gradient(to right , var(--gray-50), var(--gray-70))"}}>
-            
-            <div className="container-fluid d-flex justify-content-center">
-                <section className="collapse navbar-collapse p-2" id="navbarMainToggler">
-                    <a className="navbar-brand ms-3" href="#">
-                        <FontAwesomeIcon icon={faStroopwafel} />&nbsp; ERP do Futuro
-                    </a>
-                    <div className="navbar-nav ms-auto m-3">
-                        <a href="#" className="nav-item nav-link ms-3
-                        ">Produtos</a>
-                        <a href="#" className="nav-item nav-link ms-3">Parceiros</a>
-                        <a href="#" className="nav-item nav-link ms-3">Sobre</a>
-                    </div>
-                    <form className='form-inline'>
-                        {usuario ? (
-                            <div className="input-group gap-2 d-flex align-items-center">
-                                <span className='text-success'>Olá, {usuario.nome}!</span>
-                                <button
-                                    className="btn btn-outline-light ms-2"
-                                    onClick={() => { 
-                                        logOut();
-                                        navigate('/') }}>
-                                    Sair
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="input-group gap-2">
-                                <button
-                                    className="btn btn-success "
-                                    onClick={() => navigate("/Cadastro")}>Cadastrar
-                                </button>
-                                <button
-                                    className="btn btn-success "
-                                    onClick={() => navigate("/Login")}>Login
-                                </button>
-                            </div>
-                        )}
-                    </form>
-                </section>
+            style={{ background: "linear-gradient(to right , var(--gray-50), var(--gray-70))" }}>
+            <div className="container-fluid m-2">
+                <a className="navbar-brand" href="/">
+                    <FontAwesomeIcon icon={faStroopwafel} /> ERP do Futuro
+                </a>
+
                 <button
-                    className="navbar-toggler mt-2 mb-2 "
-                    style={{top:"10px"}}
+                    className="navbar-toggler"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarMainToggler"
@@ -61,6 +27,49 @@ export default function Header() {
                 >
                     <span className="navbar-toggler-icon"></span>
                 </button>
+
+                <div className="collapse navbar-collapse" id="navbarMainToggler">
+                    <ul className="navbar-nav ms-auto me-3">
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">Produtos</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">Parceiros</a>
+                        </li>
+                        <li className="nav-item">
+                            <a className="nav-link" href="#">Sobre</a>
+                        </li>
+                    </ul>
+
+                    <div className="d-flex align-items-center gap-2">
+                        {usuario ? (
+                            <>
+                                <span className='text-success'>Olá, {usuario.nome}!</span>
+                                <button
+                                    className="btn btn-outline-light"
+                                    onClick={() => {
+                                        logOut();
+                                        navigate('/');
+                                    }}>
+                                    Sair
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <button
+                                    className="btn btn-success"
+                                    onClick={() => navigate("/Cadastro")}>
+                                    Cadastrar
+                                </button>
+                                <button
+                                    className="btn btn-success"
+                                    onClick={() => navigate("/Login")}>
+                                    Login
+                                </button>
+                            </>
+                        )}
+                    </div>
+                </div>
             </div>
         </nav>
     );

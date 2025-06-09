@@ -4,6 +4,7 @@ import Estoque from './Estoque';
 import Financeiro from './Financeiro';
 import Cliente from './Cliente';
 import Vendas from './Vendas';
+import Relatorios from "./Relatorios";
 
 // Hook para detectar se está em mobile
 function useIsMobile() {
@@ -100,7 +101,7 @@ export default function Sidebar() {
                     <button 
                     className="btn btn-dark btn-lg text-start mb-3 w-100" 
                      style={{ backgroundColor: 'var(--black-80)' }}
-                    onClick={() => alert("Relatórios ainda não implementado")}>
+                    onClick={() => handleSectionClick("relatorios")}>
                         <FaChartLine className="me-2" /> Relatórios
                     </button>
                 </aside>
@@ -115,6 +116,7 @@ export default function Sidebar() {
                 {secaoAtiva === "vendas" && <Vendas />}
                 {secaoAtiva === "financeiro" && <Financeiro />}
                 {secaoAtiva === "cliente" && <Cliente />}
+                {secaoAtiva === "relatorios" && <Relatorios/>}
             </main>
         </>
     );
