@@ -9,7 +9,9 @@ export default function Header() {
     const navigate = useNavigate();
 
     return (
-        <nav className="navbar navbar-expand-md navbar-dark bg-dark ">
+        <nav className="navbar navbar-expand-md navbar-dark"
+        style={{background:"linear-gradient(to right , var(--gray-50), var(--gray-70))"}}>
+            
             <div className="container-fluid d-flex justify-content-center">
                 <section className="collapse navbar-collapse p-2" id="navbarMainToggler">
                     <a className="navbar-brand ms-3" href="#">
@@ -36,11 +38,11 @@ export default function Header() {
                         ) : (
                             <div className="input-group gap-2">
                                 <button
-                                    className="btn btn-outline-success "
+                                    className="btn btn-success "
                                     onClick={() => navigate("/Cadastro")}>Cadastrar
                                 </button>
                                 <button
-                                    className="btn btn-outline-success "
+                                    className="btn btn-success "
                                     onClick={() => navigate("/Login")}>Login
                                 </button>
                             </div>
@@ -49,6 +51,7 @@ export default function Header() {
                 </section>
                 <button
                     className="navbar-toggler mt-2 mb-2 "
+                    style={{top:"10px"}}
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarMainToggler"

@@ -2,7 +2,9 @@
 
 export default function DivsDosConteudos({ children }) {
     return (
-        <div className="container p-4 bg-secondary rounded mt-2">
+        <div 
+        className="container p-4 rounded mt-2"
+        style={{background:"linear-gradient(to right top, var(--gray-20),var(--gray-70))"}}>
             {children}
         </div>
 

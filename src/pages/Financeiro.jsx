@@ -83,13 +83,13 @@ export default function Financeiro() {
 
   return (
     <DivsDosConteudos>
-      <h1 className="text-center mb-4">Financeiro</h1>
+      <h1 className="text-center mb-4 text-light">Financeiro</h1>
 
       <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4 gap-2">
         {!showForm && (
           <>
             <select
-              className="form-select w-100 w-md-auto"
+              className="form-select w-100"
               style={{ maxWidth: "200px" }}
               value={filtroStatus}
               onChange={(e) => setFiltroStatus(e.target.value)}
@@ -101,7 +101,7 @@ export default function Financeiro() {
             </select>
 
             <button
-              className="btn btn-outline-secondary w-50 w-md-auto"
+              className="btn btn-secondary w-50"
               onClick={() => setFiltroStatus("")}
             >
               Limpar Filtro

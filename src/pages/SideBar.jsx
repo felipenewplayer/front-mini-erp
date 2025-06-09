@@ -38,58 +38,79 @@ export default function Sidebar() {
             {/* Botão ☰ visível apenas no mobile quando sidebar está fechada */}
             {isMobile && !menuAberto && (
                 <button
-                    className="btn btn-dark"
-                    style={{ top: '80px', left: ''}}
-                    onClick={() =>{setMenuAberto(true) 
-                        setSecaoAtiva(null)}}
+                    className="btn mt-2"
+                    style={{background: "var(--gray-50)"}}
+                    onClick={() => {
+                        setMenuAberto(true)
+                        setSecaoAtiva(null)
+                        
+                    }}
                 >
-                    ☰ Menu
+                    Menu
                 </button>
             )}
 
             {/* Sidebar */}
             {menuAberto && (
                 <aside
-                    className="bg-dark text-light p-3 d-flex flex-column align-items-start  border rounded"
+                    className="text-light p-3 d-flex flex-column align-items-start  border rounded shadow"
                     style={{
                         width: '270px',
                         left: '0',
-                        zIndex: 999,
-                        overflowY: 'auto'
+                        overflowY: 'auto',
+                         background: 'linear-gradient(to bottom, var(--gray-20), var(--gray-50))'
+                        
                     }}
                 >
                     {/* Botão de fechar no mobile */}
                     {isMobile && (
                         <button
-                            className="btn btn-outline-light mb-4"
+                            className="btn btn-cyan mb-4 border"
                             onClick={() => setMenuAberto(false)}
                         >
                             Fechar ✖
                         </button>
                     )}
 
-                    <button className="btn btn-dark btn-lg text-start mb-3 w-100" onClick={() => handleSectionClick("estoque")}>
+                    <button
+                        className="btn btn-dark btn-lg text-start mb-3 w-100"
+                        style={{ backgroundColor: 'var(--black-10)' }}
+                        onClick={() => handleSectionClick("estoque")}
+                    >
                         <FaBoxes className="me-2" /> Estoque
                     </button>
-                    <button className="btn btn-dark btn-lg text-start mb-3 w-100" onClick={() => handleSectionClick("vendas")}>
+
+                    <button className="btn btn-dark btn-lg text-start mb-3 w-100"
+                        style={{ backgroundColor: 'var(--black-20)' }}
+                        onClick={() => handleSectionClick("vendas")}>
                         <FaShoppingCart className="me-2" /> Vendas
                     </button>
-                    <button className="btn btn-dark btn-lg text-start mb-3 w-100" onClick={() => handleSectionClick("financeiro")}>
+                    <button
+                        className="btn btn-dark btn-lg text-start mb-3 w-100"
+                        style={{ backgroundColor: 'var(--black-30)' }}
+                        onClick={() => handleSectionClick("financeiro")}>
                         <FaMoneyBillWave className="me-2" /> Financeiro
                     </button>
-                    <button className="btn btn-dark btn-lg text-start mb-3 w-100" onClick={() => handleSectionClick("cliente")}>
+                    <button
+                        className="btn btn-dark btn-lg text-start mb-3 w-100"
+                        style={{ backgroundColor: 'var(--black-50)' }}
+                        onClick={() => handleSectionClick("cliente")}>
                         <FaUsers className="me-2" /> Clientes
                     </button>
-                    <button className="btn btn-dark btn-lg text-start mb-3 w-100" onClick={() => alert("Relatórios ainda não implementado")}>
+                    <button 
+                    className="btn btn-dark btn-lg text-start mb-3 w-100" 
+                     style={{ backgroundColor: 'var(--black-80)' }}
+                    onClick={() => alert("Relatórios ainda não implementado")}>
                         <FaChartLine className="me-2" /> Relatórios
                     </button>
                 </aside>
             )}
 
             {/* Conteúdo principal */}
-            <main style={{ marginTop: !isMobile ? '-360px' : '0', paddingTop: '', paddingLeft: '20px',
-                marginLeft:!isMobile ? "":"-20px"
-             }}>
+            <main style={{
+                marginTop: !isMobile ? '-360px' : '0', paddingTop: '', paddingLeft: '20px',
+                marginLeft: !isMobile ? "" : "-20px"
+            }}>
                 {secaoAtiva === "estoque" && <Estoque />}
                 {secaoAtiva === "vendas" && <Vendas />}
                 {secaoAtiva === "financeiro" && <Financeiro />}
