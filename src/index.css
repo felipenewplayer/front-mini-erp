@@ -131,3 +131,8 @@
     bottom: 0;
     height: 50px;
 }
+
+.container_dos_conteudos{
+    max-width: 400px;
+    background-color: blue;
+}

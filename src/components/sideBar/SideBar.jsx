@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { FaBoxes, FaChartLine, FaUsers, FaShoppingCart, FaMoneyBillWave } from 'react-icons/fa';
-import Estoque from './Estoque';
-import Financeiro from './Financeiro';
-import Cliente from './Cliente';
-import Vendas from './Vendas';
-import Relatorios from "./Relatorios";
-
+import Estoque from '../../pages/Estoque';
+import Financeiro from '../../pages/Financeiro';
+import Cliente from '../../pages/Cliente';
+import Vendas from '../../pages/Vendas';
+import Relatorios from "../../pages/Relatorios";
+import "./sideBar.css"
 // Hook para detectar se está em mobile
 function useIsMobile() {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -39,12 +39,12 @@ export default function Sidebar() {
             {/* Botão ☰ visível apenas no mobile quando sidebar está fechada */}
             {isMobile && !menuAberto && (
                 <button
-                    className="btn mt-2"
+                    className="btn mt-2 ms-1"
                     style={{background: "var(--gray-50)"}}
                     onClick={() => {
                         setMenuAberto(true)
                         setSecaoAtiva(null)
-                        
+                
                     }}
                 >
                     Menu
@@ -54,7 +54,7 @@ export default function Sidebar() {
             {/* Sidebar */}
             {menuAberto && (
                 <aside
-                    className="text-light p-3 d-flex flex-column align-items-start  border rounded shadow"
+                    className="text-light mt-1 p-3 d-flex flex-column align-items-start  border rounded shadow"
                     style={{
                         width: '270px',
                         left: '0',
@@ -74,32 +74,32 @@ export default function Sidebar() {
                     )}
 
                     <button
-                        className="btn btn-dark btn-lg text-start mb-3 w-100"
+                        className="btn btn-dark btn-sideBar btn-lg text-start mb-3 w-100"
                         style={{ backgroundColor: 'var(--black-10)' }}
                         onClick={() => handleSectionClick("estoque")}
                     >
                         <FaBoxes className="me-2" /> Estoque
                     </button>
 
-                    <button className="btn btn-dark btn-lg text-start mb-3 w-100"
+                    <button className="btn btn-dark btn-sideBar btn-lg text-start mb-3 w-100"
                         style={{ backgroundColor: 'var(--black-20)' }}
                         onClick={() => handleSectionClick("vendas")}>
                         <FaShoppingCart className="me-2" /> Vendas
                     </button>
                     <button
-                        className="btn btn-dark btn-lg text-start mb-3 w-100"
+                        className="btn btn-dark  btn-sideBar btn-lg text-start mb-3 w-100"
                         style={{ backgroundColor: 'var(--black-30)' }}
                         onClick={() => handleSectionClick("financeiro")}>
                         <FaMoneyBillWave className="me-2" /> Financeiro
                     </button>
                     <button
-                        className="btn btn-dark btn-lg text-start mb-3 w-100"
+                        className="btn btn-dark  btn-sideBar btn-lg text-start mb-3 w-100"
                         style={{ backgroundColor: 'var(--black-50)' }}
                         onClick={() => handleSectionClick("cliente")}>
                         <FaUsers className="me-2" /> Clientes
                     </button>
                     <button 
-                    className="btn btn-dark btn-lg text-start mb-3 w-100" 
+                    className="btn btn-dark  btn-sideBar btn-lg text-start mb-3 w-100" 
                      style={{ backgroundColor: 'var(--black-80)' }}
                     onClick={() => handleSectionClick("relatorios")}>
                         <FaChartLine className="me-2" /> Relatórios

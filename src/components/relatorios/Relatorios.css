@@ -1,9 +1,8 @@
 .btn-relatorio {
-  background: linear-gradient(to right, var(--blue-30), var(--blue-60));
+  background: linear-gradient(to right, var(--blue-20), var(--blue-40));
   transition: background 0.3s ease;
 }
 
 .btn-relatorio:hover {
   background: linear-gradient(to right, var(--blue-40), var(--blue-70));
-  cursor: pointer;
 }

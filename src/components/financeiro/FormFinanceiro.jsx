@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {transacaoSchema} from "./TransacaoSchema.js";
+import { transacaoSchema } from "./TransacaoSchema.js";
 
 export default function FormFinanceiro({ defaultValues, onHandleSubmit }) {
   const {
@@ -22,8 +22,14 @@ export default function FormFinanceiro({ defaultValues, onHandleSubmit }) {
 
       <div className="mb-2">
         <label className="form-label">Tipo</label>
-        <input type="text" className="form-control" {...register("tipo")} />
-        {errors.tipo && <span className="text-danger">{errors.tipo.message}</span>}
+        <select className="form-control" {...register("tipo")} >
+          <option value="">Selecione...</option>
+          <option value="PIX">Pix</option>
+          <option value="CRÉDITO">Crédito</option>
+          <option value="DÉBITO">Débito</option>
+          <option value="BOLETO">Boleto</option>
+        </select>
+
       </div>
 
       <div className="mb-2">

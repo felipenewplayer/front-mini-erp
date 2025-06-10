@@ -24,7 +24,7 @@ export default function TabelaProdutos({
                             <td>R$ {p.preco.toFixed(2)}</td>
                             <td>{p.estoque?.quantidade ?? 0}</td>
                             <td>
-                                <div className="d-flex justify-content-evenly" >
+                                <div className="d-flex justify-content-evenly gap-2" >
                                     <button
                                         className="btn btn-warning "
                                         onClick={() => { onEditar(p) }}

@@ -20,7 +20,7 @@ export default function Cliente() {
     useEffect(() => {
         const fetchClientes = async () => {
             try {
-                const { data } = await axios.get("https://mini-erp-y8nj.onrender.com/clientes");
+                const { data } = await axios.get("https://mini-erp-y8nj.onrender.com/clientes" );
                 setClientes(data);
             } catch (error) {
                 toast.error(error.message || "Erro ao buscar clientes");

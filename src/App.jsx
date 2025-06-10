@@ -7,7 +7,7 @@ import Footer from './pages/Footer';
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
-import Sidebar from './pages/SideBar';
+import Sidebar from './components/sideBar/SideBar.jsx';
 
 
 function App() {
