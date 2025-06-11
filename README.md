@@ -2,14 +2,34 @@
 
 Este projeto é a interface de um sistema ERP (Enterprise Resource Planning), desenvolvido com **React**, estilizado com **Bootstrap 5**, e que consome uma API REST em **Spring Boot**.
 
-## 🚀 Tecnologias utilizadas
+[Frontend React] → chama → [Spring Boot - API principal na Render]
+                               ↑
+                               │
+                  [FastAPI - Serviço de relatório]
+                  (puxa dados da API do Spring Boot)
 
-- React 19
-- Bootstrap 5
-- Vite
-- JavaScript (ES6+)
-- Consumo de API REST (via `axios`)
-- Integração com backend Java Spring Boot
+                  
+
+## 🧠 Stack do Projeto ERP
+
+### 🔹 Frontend
+- **React 19** com **Vite**
+- **Bootstrap 5** para estilização responsiva
+- **JavaScript (ES6+)**
+- Consumo de API REST usando **Axios**
+- Interface organizada com layout "lado a lado", permitindo exibir dados (como clientes, produtos, etc.) ao lado dos detalhes selecionados
+
+### 🔹 Backend
+- **Spring Boot** (Java), hospedado na **Render**
+- API RESTful para fornecer os dados ao frontend
+- Integração com microserviço Python para geração de relatórios
+
+### 🔹 Relatórios
+- Serviço auxiliar em **Python (FastAPI)**
+- Consome dados diretamente da API do backend Java
+- Gera relatórios (PDF, Excel ou visualizações) sob demanda
+
+---
 
 ## 📦 Funcionalidades
 
