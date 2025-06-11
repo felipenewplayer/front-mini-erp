@@ -30,7 +30,7 @@ export default function Cadastro() {
   };
 
   return (
-    <div className="container my-5">
+    <div className="container my-4">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mx-auto p-4 p-md-5 bg-light rounded shadow"
@@ -48,7 +48,6 @@ export default function Cadastro() {
           />
           {errors.nome && <div className="invalid-feedback">{errors.nome.message}</div>}
         </div>
-
         <div className="mb-3">
           <label className="form-label">Email</label>
           <input
@@ -59,6 +58,20 @@ export default function Cadastro() {
           />
           {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
         </div>
+        <div className="mb-3">
+          <label className="form-label">Setor</label>
+          <select className={`form-select ${errors.role ? "is-invalid" : ""}`}
+            {...register("role")}
+          >
+            <option value="">Selecione...</option>
+            <option value="admin">Administração</option>
+            <option value="logistica">Logística</option>
+            <option value="vendas">Vendas</option>
+
+          </select>
+          {errors.role && <div className="invalid-feedback">{errors.role.message}</div>}
+        </div>
+
 
         <div className="mb-4">
           <label className="form-label">Senha</label>

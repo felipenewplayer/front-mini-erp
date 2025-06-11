@@ -6,20 +6,21 @@ import Cliente from '../../pages/Cliente';
 import Vendas from '../../pages/Vendas';
 import Relatorios from "../../pages/Relatorios";
 import "./sideBar.css"
+import { useUser } from "../UserContext";
+import { toast } from "react-toastify";
 // Hook para detectar se está em mobile
 function useIsMobile() {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth <= 768);
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
-
     return isMobile;
 }
 
 export default function Sidebar() {
+    const { usuario } = useUser();
     const isMobile = useIsMobile();
     const [menuAberto, setMenuAberto] = useState(!isMobile);
     const [secaoAtiva, setSecaoAtiva] = useState(null);
@@ -29,9 +30,18 @@ export default function Sidebar() {
         setMenuAberto(!isMobile);
     }, [isMobile]);
 
-    const handleSectionClick = (secao) => {
+    useEffect(() => {
+        if(!usuario){
+            setSecaoAtiva(false)
+        }
+    },[usuario])
+    const handleSectionClickComPermissão = (secao, rolesPermitidos = []) => {
+        if (!rolesPermitidos.includes(usuario?.role) && usuario?.role !== "admin") {
+            toast.error("Você não tem acesso a essa seção, cadastre-se.")
+            return
+        }
         setSecaoAtiva(secao);
-        if (isMobile) setMenuAberto(false); // só fecha no mobile
+        if (isMobile) setMenuAberto(false);
     };
 
     return (
@@ -40,17 +50,15 @@ export default function Sidebar() {
             {isMobile && !menuAberto && (
                 <button
                     className="btn mt-2 ms-1"
-                    style={{background: "var(--gray-50)"}}
+                    style={{ background: "var(--gray-50)" }}
                     onClick={() => {
                         setMenuAberto(true)
                         setSecaoAtiva(null)
-                
                     }}
                 >
                     Menu
                 </button>
             )}
-
             {/* Sidebar */}
             {menuAberto && (
                 <aside
@@ -59,8 +67,8 @@ export default function Sidebar() {
                         width: '270px',
                         left: '0',
                         overflowY: 'auto',
-                         background: 'linear-gradient(to bottom, var(--gray-20), var(--gray-50))'
-                        
+                        background: 'linear-gradient(to bottom, var(--gray-20), var(--gray-50))'
+
                     }}
                 >
                     {/* Botão de fechar no mobile */}
@@ -76,32 +84,34 @@ export default function Sidebar() {
                     <button
                         className="btn btn-dark btn-sideBar btn-lg text-start mb-3 w-100"
                         style={{ backgroundColor: 'var(--black-10)' }}
-                        onClick={() => handleSectionClick("estoque")}
+                        onClick={() => handleSectionClickComPermissão("estoque", ["admin"])}
                     >
                         <FaBoxes className="me-2" /> Estoque
                     </button>
 
                     <button className="btn btn-dark btn-sideBar btn-lg text-start mb-3 w-100"
                         style={{ backgroundColor: 'var(--black-20)' }}
-                        onClick={() => handleSectionClick("vendas")}>
+                        onClick={() => handleSectionClickComPermissão("vendas", ["vendas"])}
+                    >
                         <FaShoppingCart className="me-2" /> Vendas
                     </button>
                     <button
                         className="btn btn-dark  btn-sideBar btn-lg text-start mb-3 w-100"
                         style={{ backgroundColor: 'var(--black-30)' }}
-                        onClick={() => handleSectionClick("financeiro")}>
+                        onClick={() => handleSectionClickComPermissão("financeiro", ["admin"])}
+                    >
                         <FaMoneyBillWave className="me-2" /> Financeiro
                     </button>
                     <button
                         className="btn btn-dark  btn-sideBar btn-lg text-start mb-3 w-100"
                         style={{ backgroundColor: 'var(--black-50)' }}
-                        onClick={() => handleSectionClick("cliente")}>
+                        onClick={() => handleSectionClickComPermissão("cliente", ["admin"])}>
                         <FaUsers className="me-2" /> Clientes
                     </button>
-                    <button 
-                    className="btn btn-dark  btn-sideBar btn-lg text-start mb-3 w-100" 
-                     style={{ backgroundColor: 'var(--black-80)' }}
-                    onClick={() => handleSectionClick("relatorios")}>
+                    <button
+                        className="btn btn-dark  btn-sideBar btn-lg text-start mb-3 w-100"
+                        style={{ backgroundColor: 'var(--black-80)' }}
+                        onClick={() => handleSectionClickComPermissão("relatorios", ["admin"])}>
                         <FaChartLine className="me-2" /> Relatórios
                     </button>
                 </aside>
@@ -116,7 +126,7 @@ export default function Sidebar() {
                 {secaoAtiva === "vendas" && <Vendas />}
                 {secaoAtiva === "financeiro" && <Financeiro />}
                 {secaoAtiva === "cliente" && <Cliente />}
-                {secaoAtiva === "relatorios" && <Relatorios/>}
+                {secaoAtiva === "relatorios" && <Relatorios />}
             </main>
         </>
     );

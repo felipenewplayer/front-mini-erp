@@ -8,7 +8,7 @@ export default function TabelaProdutos({
 }) {
     return (
         <div className="table-responsive ">
-            <table className="table table-dark table-bordered mt-4">
+            <table className="table table-dark table-bordered overflow-auto mt-4">
                 <thead className="table-dark">
                     <tr>
                         <th className="p-3">Nome</th>

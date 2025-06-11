@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
+import {
+    BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
+} from "recharts";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { FaSpinner } from "react-icons/fa";
 
 export default function EstoqueRelatorio() {
     const [dados, setDados] = useState([]);
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState(null);
     const [ordem, setOrdem] = useState("desc");
+    const [baixandoExcel, setBaixandoExcel] = useState(false);
+    const [baixandoPDF, setBaixandoPDF] = useState(false);
+
     useEffect(() => {
         axios.get("http://localhost:8000/relatorio/estoque")
             .then((res) => {
@@ -19,6 +26,50 @@ export default function EstoqueRelatorio() {
             });
     }, []);
 
+    const baixarExcel = () => {
+        setBaixandoExcel(true);
+        axios.get("http://127.0.0.1:8000/relatorio/estoque/excel", {
+            responseType: "blob"
+        })
+            .then((res) => {
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", "relatório_estoque.xlsx");
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            })
+            .catch(() => {
+                toast.error("Erro ao baixar o relatório em Excel.");
+            })
+            .finally(() => {
+                setBaixandoExcel(false);
+            });
+    };
+
+    const baixarPDF = () => {
+        setBaixandoPDF(true);
+        axios.get("http://127.0.0.1:8000/relatorio/estoque/pdf", {
+            responseType: "blob"
+        })
+            .then((res) => {
+                const url = window.URL.createObjectURL(new Blob([res.data]));
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", "relatório_estoque.pdf");
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+            })
+            .catch(() => {
+                toast.error("Erro ao baixar o relatório em PDF.");
+            })
+            .finally(() => {
+                setBaixandoPDF(false);
+            });
+    };
+
     const ordenarDados = (dados) => {
         return [...dados].sort((a, b) =>
             ordem === "asc" ? a.quantidade - b.quantidade : b.quantidade - a.quantidade
@@ -29,20 +80,49 @@ export default function EstoqueRelatorio() {
     if (erro) return <p className="text-danger">{erro}</p>;
 
     return (
-        <div className="mt-3 overflow-auto" style={{ height: 460 }}>
+        <>
             <p className="text-light">Relatório de Estoque</p>
+            <div className="d-flex gap-4 align-items-center mb-3">
+                <select
+                    value={ordem}
+                    onChange={(e) => setOrdem(e.target.value)}
+                    className="form-select w-auto"
+                >
+                    <option value="desc">Maior para menor</option>
+                    <option value="asc">Menor para maior</option>
+                </select>
 
-            <select
-                value={ordem}
-                onChange={(e) => setOrdem(e.target.value)}
-                className="form-select w-auto mb-3"
-            >
-                <option value="desc">Maior para menor</option>
-                <option value="asc">Menor para maior</option>
-            </select>
+                <div className="d-flex gap-2 flex-column">
+                    <button
+                        className="btn p-2 d-flex align-items-center justify-content-center gap-2"
+                        style={{
+                            width: "138px", height: "40px", paddingBottom: "3px",
+                            background: "linear-gradient(to right, var(--green-20), var(--green-50))"
+                        }}
+                        onClick={baixarExcel}
+                        disabled={baixandoExcel}
+                    >
+                        {baixandoExcel ? <FaSpinner className="spin" /> : "Baixar em Excel"}
+                    </button>
+                    <button
+                        className="btn p-2 d-flex align-items-center justify-content-center gap-2"
+                        style={{
+                            width: "138px", height: "40px", paddingBottom: "3px",
+                            background: "linear-gradient(to right, var(--red-20), var(--orange-40))"
+                        }}
+                        onClick={baixarPDF}
+                        disabled={baixandoPDF}
+                    >
+                        {baixandoPDF ? <FaSpinner className="spin" /> : "Baixar em PDF"}
+                    </button>
+                </div>
+            </div>
 
             <ResponsiveContainer height={400}>
-                <BarChart data={ordenarDados(dados)} margin={{ top: 10, right: 0, left: 0, bottom: 20 }}>
+                <BarChart
+                    data={ordenarDados(dados)}
+                    margin={{ top: 10, right: 0, left: 0, bottom: 20 }}
+                >
                     <defs>
                         <linearGradient id="gradienteBar" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="0%" stopColor="#0c332f" stopOpacity={1} />
@@ -57,12 +137,16 @@ export default function EstoqueRelatorio() {
                         interval={0}
                         height={65}
                         style={{ fontSize: 10 }}
+                        stroke="#FFFFF"
+                        tick={{ fill: "#d12e2e" }}
                     />
-                    <YAxis />
+                    <YAxis
+                        tick={{ fill: "#d62929" }} />
                     <Tooltip />
                     <Bar dataKey="quantidade" fill="url(#gradienteBar)" />
                 </BarChart>
             </ResponsiveContainer>
-        </div>
+
+        </>
     );
 }

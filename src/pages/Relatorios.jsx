@@ -14,39 +14,43 @@ export default function Relatorios() {
 
     return (
         <DivsDosConteudos>
-            <h1 className="text-light mb-3">Relatórios</h1>
-            {!showListaMenu && (
-                <div className="d-flex gap-5">
-                    <button className="btn btn-sm ms-3 mb-2 rounded shadow  p-1"
-                        style={{ background: "linear-gradient(to right, var(--orange-20), var(--orange-50))" }}
-                        onClick={() => setShowListaMenu(true)}>Voltar</button>
+            <div className="overflow-auto" style={{ height: 600 }}>
+                <h1 className="text-light mb-3">Relatórios</h1>
+                {!showListaMenu && (
+                    <div className="d-flex gap-5">
+                        <button className="btn btn-sm ms-3 mb-2 rounded shadow  p-1"
+                            style={{ background: "linear-gradient(to right, var(--orange-20), var(--orange-40))" }}
+                            onClick={() => setShowListaMenu(true)}>Voltar</button>
+                    </div>
 
-                </div>
+                )}
+                {showListaMenu && (
+                    <section className="container d-flex  gap-3">
+                        <button
+                            className="btn btn-relatorio btn- text-light  shadow"
+                            onClick={() => handleSecaoAtiva("estoque-relatorio")}
+                        >
+                            <p>Relatório do estoque</p>
+                        </button>
+                        <button
+                            className="btn btn-relatorio text-light shadow"
+                            onClick={() => handleSecaoAtiva("estoque-relatorio")}
+                        >
+                            <p>Relatório de clientes</p>
+                        </button>
+                        <button
+                            className="btn btn-relatorio text-light shadow"
+                            onClick={() => handleSecaoAtiva("estoque-relatorio")}
+                        >
+                            <p>Relatório de vendas</p>
+                        </button>
+                    </section>
+                )}
+                {!showListaMenu && (
+                    secaoAtiva === "estoque-relatorio" && <EstoqueRelatorio />
+                )}
+            </div>
 
-            )}
-            {showListaMenu && (
-                <section className="container d-flex  gap-3">
-                    <button
-                        className="btn btn-relatorio btn- text-light  shadow"
-                        onClick={() => handleSecaoAtiva("estoque-relatorio")}
-                    >
-                        <p>Relatório do estoque</p>
-                    </button>
-                    <button
-                        className="btn btn-relatorio text-light shadow"
-                        onClick={() => handleSecaoAtiva("estoque-relatorio")}
-                    >
-                        <p>Sendo feito</p>
-                    </button>
-                    <button
-                        className="btn btn-relatorio text-light shadow"
-                        onClick={() => handleSecaoAtiva("estoque-relatorio")}
-                    >
-                        <p>Sendo feito</p>
-                    </button>
-                </section>
-            )}
-            {secaoAtiva === "estoque-relatorio" && <EstoqueRelatorio />}
         </DivsDosConteudos>
-    );
+    )
 }

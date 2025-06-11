@@ -6,3 +6,17 @@
 .btn-relatorio:hover {
   background: linear-gradient(to right, var(--blue-40), var(--blue-70));
 }
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
