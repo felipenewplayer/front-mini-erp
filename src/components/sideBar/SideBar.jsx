@@ -8,16 +8,7 @@ import Relatorios from "../../pages/Relatorios";
 import "./sideBar.css"
 import { useUser } from "../UserContext";
 import { toast } from "react-toastify";
-// Hook para detectar se está em mobile
-function useIsMobile() {
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-    useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth <= 768);
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-    return isMobile;
-}
+
 
 export default function Sidebar() {
     const { usuario } = useUser();
@@ -25,16 +16,26 @@ export default function Sidebar() {
     const [menuAberto, setMenuAberto] = useState(!isMobile);
     const [secaoAtiva, setSecaoAtiva] = useState(null);
 
+    function useIsMobile() {
+        const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+        useEffect(() => {
+            const handleResize = () => setIsMobile(window.innerWidth <= 768);
+            window.addEventListener("resize", handleResize);
+            return () => window.removeEventListener("resize", handleResize);
+        }, []);
+        return isMobile;
+    }
+
     // Atualiza se estiver em mobile
     useEffect(() => {
         setMenuAberto(!isMobile);
     }, [isMobile]);
 
     useEffect(() => {
-        if(!usuario){
+        if (!usuario) {
             setSecaoAtiva(false)
         }
-    },[usuario])
+    }, [usuario])
     const handleSectionClickComPermissão = (secao, rolesPermitidos = []) => {
         if (!rolesPermitidos.includes(usuario?.role) && usuario?.role !== "admin") {
             toast.error("Você não tem acesso a essa seção, cadastre-se.")

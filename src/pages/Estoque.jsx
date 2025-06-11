@@ -1,137 +1,109 @@
-import axios from "axios";
 import { toast } from 'react-toastify';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TabelaProdutos from "../components/estoque/TabelaProdutos";
 import FormProduto from "../components/estoque/FormProduto";
 import DivsDosConteudos from "../components/DivsDosConteudos";
-export default function Estoque() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [showTable, setShowTable] = useState(false);
-  const [error, setError] = useState("");
-  const [form, setForm] = useState({
-    nome: "",
-    preco: "",
-    estoque:{
-      quantidade:""
-    }
-  });
-  const [editId, setEditId] = useState(null);
-  const [produtos, setProdutos] = useState([]);
-  const [filtroNome, setFiltroNome] = useState("");
-  const [ordemPreco, setOrdemPreco] = useState("");
+import { atualizarProduto, criarProduto, deletarProduto } from "../components/estoque/produto/produtoService";
+import useProdutos from '../components/estoque/produto/useProduto';
+import useFormProduto from '../components/estoque/produto/useFormProduto';
 
-  const url = "https://mini-erp-y8nj.onrender.com/produtos"
-  useEffect(() => {
-    const fectchProdutos = async () => {
-      try {
-        const { data } = await axios.get(`${url}`);
-        setProdutos(data);
-      } catch (err) {
-        setError("Não foi possível carregar os produtos ", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fectchProdutos();
-  }, []);
+
+export default function Estoque() {
+  const { produtos, setProdutos, isLoading, error } = useProdutos();
+  const { form, editId, setEditId, iniciarEdicao, limparForm } = useFormProduto();
+  const [formAberto, setFormAberto] = useState(false);
+  const [colunaOrdenada, setColunaOrdenada] = useState("");
+  const [ordemAscendente, setOrdemAscendente] = useState(true);
 
   const handleSubmit = async (data) => {
     try {
-    
       if (editId !== null) {
-        const res = await axios.put(`${url}/${editId}`, data);
+        const res = await atualizarProduto(editId, data);
         setProdutos(prev => prev.map(p => (p.id === editId ? res.data : p)));
         toast.success("Produto atualizado com sucesso!");
       } else {
-        const res = await axios.post(`${url}`, data);
+        const res = await criarProduto(data);
         setProdutos((prev) => [...prev, res.data]);
         toast.success("Produto salvo com sucesso!");
       }
-
-      setForm({ nome: "", preco: "", estoque:{ quantidade: ""}});
-      setEditId(null);
-      setShowTable(false);
+      limparForm()
+      setFormAberto(false);
     } catch (err) {
       const msg = err.response?.data?.message || "Erro ao salvar. Tente novamente.";
       toast.error(msg);
     }
   };
 
-  const produtosFiltrados = [...produtos]
-    .filter(p => p.nome.toLowerCase().includes(filtroNome.toLowerCase()))
-    .sort((a, b) => {
-      if (ordemPreco === "asc") return a.preco - b.preco;
-      if (ordemPreco === "desc") return b.preco - a.preco;
-      return 0;
-    });
-
-
   const handleDelete = async (id) => {
     if (!window.confirm("Tem certeza que quer deletar")) return;
 
     try {
-      await axios.delete(`${url}/${id}`);
+      await deletarProduto(id)
       setProdutos(prev => prev.filter(p => p.id !== id));
-      setShowTable(false);
-      setEditId(null);
-      toast.success("Produto excluido com sucesso!")
+      limparForm();
+      setFormAberto(false);
+      toast.success("Produto excluido com sucesso!");
     }
     catch (err) {
       toast.error("Erro ao excluir o produto, tente novamente.", err);
     }
   }
+
+  const produtosFiltrados = [...produtos]
+    .sort((a, b) => {
+      const ordem = ordemAscendente ? 1 : -1;
+
+      if (colunaOrdenada === "preco") return ordem * (a.preco - b.preco);
+      if (colunaOrdenada === "quantidade") {
+        const qa = a.estoque?.quantidade ?? 0;
+        const qb = b.estoque?.quantidade ?? 0;
+        return ordem * (qa - qb);
+      }
+
+      return 0;
+    });
+
+  const handleOrdenar = (coluna) => {
+    if (colunaOrdenada === coluna) {
+      setOrdemAscendente(!ordemAscendente);
+    } else {
+      setColunaOrdenada(coluna);
+      setOrdemAscendente(true);
+    }
+  };
+
   return (
     <DivsDosConteudos>
       <h1 className="text-center text-light mb-4">Estoque</h1>
 
       <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4 gap-2">
-        {!showTable && (
-          <>
-            <input
-              className="form-control"
-              style={{ width: "150px" }}
-              type="text"
-              placeholder="Filtrar por nome"
-              value={filtroNome}
-              onChange={(e) => setFiltroNome(e.target.value)}
-            />
-
-            <select
-              className="form-select"
-              style={{ width: "150px" }}
-              value={ordemPreco}
-              onChange={(e) => setOrdemPreco(e.target.value)}
-            >
-              <option value="">Ordenar por</option>
-              <option value="asc">Menor Preço</option>
-              <option value="desc">Maior Preço</option>
-            </select>
-
-            <button
-              className="btn btn-secondary"
-              onClick={() => {
-                setFiltroNome("");
-                setOrdemPreco("");
-              }}
-            >
-              Limpar Filtros
-            </button>
-          </>
-        )}
-
-        <button className="btn btn-success " onClick={() => setShowTable(!showTable)}>
-          {showTable ? "Cancelar" : "Adicionar Produto"}
+        <button
+          className="btn btn-success"
+          onClick={() => {
+            if (formAberto) {
+              // Se estava no modo "formulário visível", clicou para cancelar
+              setFormAberto(false);
+              setEditId(null);
+              limparForm()
+            } else {
+              // Se estava oculto, clicou para adicionar novo → limpa tudo
+              limparForm()
+              setFormAberto(true);
+            }
+          }}
+        >
+          {formAberto ? "Cancelar" : "Adicionar Produto"}
         </button>
       </div>
 
-      {showTable && (
+      {formAberto && (
         <FormProduto
           onHandleSubmit={handleSubmit}
           defaultValues={form}
         />
       )}
 
-      {!showTable && (
+      {!formAberto && (
         <>
           {isLoading &&
             (<div className="text-center">
@@ -142,17 +114,13 @@ export default function Estoque() {
           <TabelaProdutos
             produtos={produtosFiltrados}
             onEditar={(p) => {
-              setEditId(p.id);
-              setForm({
-                nome: p.nome,
-                preco: p.preco,
-                estoque:{
-                quantidade: p.estoque?.quantidadeAtual ?? 0}
-              });
-              setShowTable(true);
+              iniciarEdicao(p);
+              setFormAberto(true);
             }}
-            onExcluir={handleDelete
-            } />
+            onExcluir={handleDelete}
+            onOrdenar={handleOrdenar}
+            colunaOrdenada={colunaOrdenada}
+            ordemAscendente={ordemAscendente} />
         </>
       )}
     </DivsDosConteudos>

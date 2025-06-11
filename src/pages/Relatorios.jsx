@@ -14,7 +14,7 @@ export default function Relatorios() {
 
     return (
         <DivsDosConteudos>
-            <div className="overflow-auto" style={{ height: 600 }}>
+            <div className="overflow-auto" style={{ height: 518 }}>
                 <h1 className="text-light mb-3">Relatórios</h1>
                 {!showListaMenu && (
                     <div className="d-flex gap-5">
