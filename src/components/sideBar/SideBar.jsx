@@ -84,7 +84,7 @@ export default function Sidebar() {
                     <button
                         className="btn btn-dark btn-sideBar btn-lg text-start mb-3 w-100"
                         style={{ backgroundColor: 'var(--black-10)' }}
-                        onClick={() => handleSectionClickComPermissão("estoque", ["admin"])}
+                        onClick={() => handleSectionClickComPermissão("estoque", ["logistica"])}
                     >
                         <FaBoxes className="me-2" /> Estoque
                     </button>
@@ -111,7 +111,7 @@ export default function Sidebar() {
                     <button
                         className="btn btn-dark  btn-sideBar btn-lg text-start mb-3 w-100"
                         style={{ backgroundColor: 'var(--black-80)' }}
-                        onClick={() => handleSectionClickComPermissão("relatorios", ["admin"])}>
+                        onClick={() => handleSectionClickComPermissão("relatorios", ["logistica"])}>
                         <FaChartLine className="me-2" /> Relatórios
                     </button>
                 </aside>
