@@ -6,26 +6,35 @@ export default function TabelaProdutos({
     onExcluir,
     onOrdenar,
     colunaOrdenada,
-    ordemAscendente
+    ordemAscendente,
+    onAdicionar
 }) {
     return (
         <div className="table-responsive">
+            <button
+                className="btn btn-success mb-2"
+                onClick={onAdicionar}
+            >
+                {onAdicionar ? "Adicionar Produto" : "Voltar"}
+            </button>
+           
+
             <table className="table table-dark table-bordered overflow-auto">
                 <thead className="table-dark">
                     <tr>
                         <th className="p-3 text-center">Nome</th>
-
+                        <th className="p-3 text-center">Categoria</th>
                         <th
-                            className="p-3 text-end"
+                            className="p-3 text-center"
                             style={{ cursor: "pointer" }}
-                            onClick={() => onOrdenar("preco")}
+                            onClick={() => onOrdenar("precoUN")}
                         >
-                            Preço (R$){" "}
-                            {colunaOrdenada === "preco" && (ordemAscendente ? "↑" : "↓")}
+                            Preço(UN){" "}
+                            {colunaOrdenada === "precoUN" && (ordemAscendente ? "↑" : "↓")}
                         </th>
 
                         <th
-                            className="p-3 text-end"
+                            className="p-3 text-center"
                             style={{ cursor: "pointer" }}
                             onClick={() => onOrdenar("quantidade")}
                         >
@@ -33,7 +42,14 @@ export default function TabelaProdutos({
                             {colunaOrdenada === "quantidade" &&
                                 (ordemAscendente ? "↑" : "↓")}
                         </th>
-
+                        <th
+                            className="p-3 text-center"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => onOrdenar("precoUN")}
+                        >
+                            Preço(T){" "}
+                            {colunaOrdenada === "precoUN" && (ordemAscendente ? "↑" : "↓")}
+                        </th>
                         <th className="p-3 text-center">Ações</th>
                     </tr>
                 </thead>
@@ -41,8 +57,10 @@ export default function TabelaProdutos({
                     {produtos.map((p) => (
                         <tr key={p.id}>
                             <td>{p.nome}</td>
-                            <td className="text-end">R$ {p.preco.toFixed(2)}</td>
-                            <td className="text-end">{p.estoque?.quantidade ?? 0}</td>
+                            <td>{p.categoria}</td>
+                            <td className="text-end">R$ {Number(p.precoUN).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</td>
+                            <td className="text-end">{p.quantidade}</td>
+                            <td className="text-end">R$ {Number(p.quantidade * p.precoUN).toLocaleString("pt-BR", { minimumIntegerDigits: 2 })}</td>
                             <td>
                                 <div className="d-flex justify-content-evenly gap-2">
                                     <button

@@ -20,7 +20,7 @@ export default function Cliente() {
     useEffect(() => {
         const fetchClientes = async () => {
             try {
-                const { data } = await axios.get("https://mini-erp-y8nj.onrender.com/clientes" );
+                const { data } = await axios.get("https://mini-erp-y8nj.onrender.com/clientes");
                 setClientes(data);
             } catch (error) {
                 toast.error(error.message || "Erro ao buscar clientes");
@@ -65,8 +65,8 @@ export default function Cliente() {
     };
 
     return (
-        <DivsDosConteudos >
-            <h1 className="text-center mb-4 text-light">Clientes</h1>
+        <DivsDosConteudos
+            title="Clientes">
             <div className="d-flex ">
                 <button
                     className="btn btn-success ms-5"

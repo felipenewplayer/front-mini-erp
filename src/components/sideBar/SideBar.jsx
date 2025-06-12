@@ -36,6 +36,7 @@ export default function Sidebar() {
             setSecaoAtiva(false)
         }
     }, [usuario])
+
     const handleSectionClickComPermissão = (secao, rolesPermitidos = []) => {
         if (!rolesPermitidos.includes(usuario?.role) && usuario?.role !== "admin") {
             toast.error("Você não tem acesso a essa seção, cadastre-se.")

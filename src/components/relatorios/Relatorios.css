@@ -1,10 +1,10 @@
 .btn-relatorio {
-  background: linear-gradient(to right, var(--blue-20), var(--blue-40));
-  transition: background 0.3s ease;
+  background: linear-gradient(to right, var(--blue-10), var(--blue-30));
 }
 
 .btn-relatorio:hover {
-  background: linear-gradient(to right, var(--blue-40), var(--blue-70));
+  background: linear-gradient(to right, var(--blue-20), var(--blue-50));
+
 }
 
 .spin {

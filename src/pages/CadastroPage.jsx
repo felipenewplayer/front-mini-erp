@@ -8,7 +8,6 @@ import { useUser } from "../components/context/UserContext";
 export default function CadastroPage() {
   const navigate = useNavigate();
   const { cadastrar } = useUser();
-
   const {
     register,
     handleSubmit,

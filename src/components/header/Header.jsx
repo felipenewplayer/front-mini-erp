@@ -44,7 +44,7 @@ export default function Header() {
                     <div className="d-flex align-items-center gap-2">
                         {usuario ? (
                             <>
-                                <span className='text-success'>Olá, {usuario.nome}!</span>
+                                <span>Olá, <strong className='text-success'>{usuario.nome}!</strong></span>
                                 <button
                                     className="btn btn-outline-light"
                                     onClick={() => {

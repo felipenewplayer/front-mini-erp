@@ -1,38 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { toast } from 'react-toastify';
-import { transacaoSchema } from "../components/financeiro/TransacaoSchema.js";
-import axios from "axios";
+import { transacaoSchema } from "../components/schemas/TransacaoSchema.js";
 import FormFinanceiro from "../components/financeiro/FormFinanceiro";
 import ListaDasTransacoes from "../components/financeiro/ListaDasTransacoes";
 import DivsDosConteudos from "../components/DivsDosConteudos.jsx"
+import { atualizarTransacao, criarTransacao, deletarTransacao } from "../services/transacaoService.js";
+import useTransacao from "../components/financeiro/transacao/useTransacao.jsx";
+import useFormTransacao from "../components/financeiro/transacao/useFormTransacao.jsx";
 export default function Financeiro() {
   const [showForm, setShowForm] = useState(false);
-  const [transacoes, setTransacoes] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [editId, setEditId] = useState(null);
+  const { transacoes, setTransacoes, isLoading, error } = useTransacao();
   const [filtroStatus, setFiltroStatus] = useState("");
-  const [form, setForm] = useState({
-    valor: "",
-    tipo: "",
-    vencimento: "",
-    descricao: "",
-    status: ""
-  });
-  const url = "https://mini-erp-y8nj.onrender.com/transacao";
-  useEffect(() => {
-    const fetchTransacoes = async () => {
-      try {
-        const { data } = await axios.get(`${url}`);
-        setTransacoes(data);
-      } catch (errr) {
-        setError("Não foi possível carregar as transações", errr);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchTransacoes();
-  }, []);
+  const { editId, setEditId, form,iniciarEdicao, limparForm} = useFormTransacao();
+
 
   const handleSubmit = async (data) => {
     const parsed = transacaoSchema.safeParse(data);
@@ -43,20 +23,14 @@ export default function Financeiro() {
     }
     try {
       if (editId !== null) {
-        const res = await axios.put(`${url}/${editId}`, data);
+        const res = await atualizarTransacao(editId, data);
         setTransacoes(prev => prev.map(t => (t.id === editId ? res.data : t)));
         toast.success("Transação atualizada com sucesso!");
       } else {
-        const res = await axios.post(`${url}`, data);
+        const res = await criarTransacao(data);
         setTransacoes((prev) => [...prev, res.data]);
         setShowForm(false);
-        setForm({
-          valor: "",
-          tipo: "",
-          vencimento: "",
-          descricao: "",
-          status: ""
-        });
+        limparForm();
         toast.success("Transação salva com sucesso!");
       }
     } catch (err) {
@@ -69,7 +43,7 @@ export default function Financeiro() {
   const handleDelete = async (id) => {
     if (!window.confirm("Deseja realmente excluir??")) return;
     try {
-      await axios.delete(`${url}/${id}`);
+      await deletarTransacao(id);
       setTransacoes(prev => prev.filter(t => t.id !== id));
       setShowForm(false);
       setEditId(null);
@@ -82,9 +56,9 @@ export default function Financeiro() {
   };
 
   return (
-    <DivsDosConteudos>
-      <h1 className="text-center mb-4 text-light">Financeiro</h1>
-
+    <DivsDosConteudos
+    title="Financeiro">
+      
       <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mb-4 gap-2">
         {!showForm && (
           <>
@@ -113,7 +87,7 @@ export default function Financeiro() {
           className="btn btn-success rounded w-50 w-md-auto"
           onClick={() => {
             setShowForm(!showForm);
-            setEditId(null);
+            limparForm();
           }}
         >
           {showForm ? "Cancelar" : "Adicionar lançamento"}
@@ -136,7 +110,7 @@ export default function Financeiro() {
               transacoes={transacoes}
               filtroStatus={filtroStatus}
               onEdit={(t) => {
-                setEditId(t.id);
+                iniciarEdicao(t)
                 setShowForm(true);
               }}
               onExcluir={handleDelete}

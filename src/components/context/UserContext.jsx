@@ -7,6 +7,7 @@ export const useUser = () => useContext(UserContext);
 export const UserProvider = ({ children }) => {
     const [usuario, setUsuario] = useState(null);
 
+
     useEffect(() => {
         const usuarioLogado = localStorage.getItem("usuario_logado");
         if (usuarioLogado) {
@@ -27,6 +28,39 @@ export const UserProvider = ({ children }) => {
         return true;
     };
 
+    const adicionarProduto = (novoProduto) => {
+        const produtos = JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
+
+        const nomeJaExistente = produtos.some(p => p.nome === novoProduto.nome);
+        if (nomeJaExistente) return false;
+
+        const novosProdutos = [...produtos, novoProduto];
+        localStorage.setItem("produtos_cadastrados", JSON.stringify(novosProdutos));
+        // opcional, se quiser mostrar o último adicionado
+        return true;
+    };
+
+
+    const getProdutosLocal = () => {
+        return JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
+    };
+
+    const atualizarProdutoLocal = (produtoAtualizado) => {
+        const produtos = JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
+
+        const produtosAtualizados = produtos.map(p =>
+            p.id === produtoAtualizado.id ? produtoAtualizado : p
+        );
+
+        localStorage.setItem("produtos_cadastrados", JSON.stringify(produtosAtualizados));
+    };
+    const deletarProdutoLocal = (produtoId) => {
+        const produtos = JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
+        const produtosAtualizados = produtos.filter(p => p.id !== produtoId);
+        localStorage.setItem("produtos_cadastrados", JSON.stringify(produtosAtualizados));
+    };
+
+
     const logOut = () => {
         localStorage.removeItem("usuario_logado");
         setUsuario(null);
@@ -46,8 +80,11 @@ export const UserProvider = ({ children }) => {
         return false;
     };
 
+
+
+
     return (
-        <UserContext.Provider value={{ usuario, login, cadastrar, logOut }}>
+        <UserContext.Provider value={{ usuario, login, cadastrar, logOut, adicionarProduto, getProdutosLocal, deletarProdutoLocal, atualizarProdutoLocal }}>
             {children}
         </UserContext.Provider>
     );

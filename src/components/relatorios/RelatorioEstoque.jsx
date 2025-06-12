@@ -5,6 +5,7 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaSpinner } from "react-icons/fa";
+import { useUser } from "../context/UserContext.jsx";
 
 export default function EstoqueRelatorio() {
     const [dados, setDados] = useState([]);
@@ -13,17 +14,18 @@ export default function EstoqueRelatorio() {
     const [ordem, setOrdem] = useState("desc");
     const [baixandoExcel, setBaixandoExcel] = useState(false);
     const [baixandoPDF, setBaixandoPDF] = useState(false);
-
+    const { getProdutosLocal } = useUser();
     useEffect(() => {
-        axios.get("https://erp-relatorio.onrender.com/relatorio/estoque")
-            .then((res) => {
-                setDados(res.data);
-                setLoading(false);
-            })
-            .catch(() => {
-                setErro("Erro ao carregar dados do relatório.");
-                setLoading(false);
-            });
+        try {
+            const list = getProdutosLocal();
+            setDados(list);
+            setLoading(false);
+
+        } catch (err) {
+
+            setErro("Erro ao carregar dados do relatório.",err);
+            setLoading(false);
+        }
     }, []);
 
     const baixarExcel = () => {
@@ -47,7 +49,6 @@ export default function EstoqueRelatorio() {
                 setBaixandoExcel(false);
             });
     };
-
     const baixarPDF = () => {
         setBaixandoPDF(true);
         axios.get("https://erp-relatorio.onrender.com/relatorio/estoque/pdf", {
@@ -97,7 +98,7 @@ export default function EstoqueRelatorio() {
                         className="btn p-2 d-flex align-items-center justify-content-center gap-2"
                         style={{
                             width: "138px", height: "40px", paddingBottom: "3px",
-                            background: "linear-gradient(to right, var(--green-20), var(--green-50))"
+                            background: "linear-gradient(to right, var(--green-10), var(--green-30))"
                         }}
                         onClick={baixarExcel}
                         disabled={baixandoExcel}
@@ -108,7 +109,7 @@ export default function EstoqueRelatorio() {
                         className="btn p-2 d-flex align-items-center justify-content-center gap-2"
                         style={{
                             width: "138px", height: "40px", paddingBottom: "3px",
-                            background: "linear-gradient(to right, var(--red-20), var(--orange-40))"
+                            background: "linear-gradient(to right, var(--red-10), var(--orange-30))"
                         }}
                         onClick={baixarPDF}
                         disabled={baixandoPDF}
