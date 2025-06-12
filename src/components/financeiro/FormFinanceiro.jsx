@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { transacaoSchema } from "../schemas/TransacaoSchema";
+import { transacaoSchema } from "../schemas/transacaoSchema.js";
 
 export default function FormFinanceiro({ defaultValues, onHandleSubmit }) {
   const {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from 'react-toastify';
-import { transacaoSchema } from "../components/schemas/TransacaoSchema.js";
+import { transacaoSchema } from "../components/schemas/transacaoSchema.js";
 import FormFinanceiro from "../components/financeiro/FormFinanceiro";
 import ListaDasTransacoes from "../components/financeiro/ListaDasTransacoes";
 import DivsDosConteudos from "../components/DivsDosConteudos.jsx"
