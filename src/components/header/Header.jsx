@@ -2,7 +2,7 @@ import './Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../UserContext';
+import { useUser } from '../context/UserContext';
 
 export default function Header() {
     const { usuario, logOut } = useUser();

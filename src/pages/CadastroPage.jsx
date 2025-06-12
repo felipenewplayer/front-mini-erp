@@ -3,9 +3,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cadastroSchema } from "../components/cadastro/cadastroSchema";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useUser } from "../components/UserContext";
+import { useUser } from "../components/context/UserContext";
 
-export default function Cadastro() {
+export default function CadastroPage() {
   const navigate = useNavigate();
   const { cadastrar } = useUser();
 

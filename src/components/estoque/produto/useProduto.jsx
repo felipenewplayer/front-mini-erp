@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getProdutos } from "./produtoService";
+import { getProdutos } from "../../../services/produtoService";
 export default function useProdutos() {
     const [produtos, setProdutos] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

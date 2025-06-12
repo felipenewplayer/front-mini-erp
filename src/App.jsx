@@ -6,7 +6,7 @@ import Header from './components/header/Header'
 import Footer from './pages/Footer';
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
-import Cadastro from './pages/Cadastro';
+import CadastroPage from './pages/CadastroPage';
 import Sidebar from './components/sideBar/SideBar.jsx';
 
 
@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Sidebar />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/cadastro' element={<Cadastro />} />
+          <Route path='/cadastro' element={<CadastroPage />} />
         </Routes >
       </div>
 

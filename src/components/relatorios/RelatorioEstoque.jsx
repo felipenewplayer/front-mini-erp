@@ -15,7 +15,7 @@ export default function EstoqueRelatorio() {
     const [baixandoPDF, setBaixandoPDF] = useState(false);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/relatorio/estoque")
+        axios.get("https://erp-relatorio.onrender.com/relatorio/estoque")
             .then((res) => {
                 setDados(res.data);
                 setLoading(false);
@@ -28,7 +28,7 @@ export default function EstoqueRelatorio() {
 
     const baixarExcel = () => {
         setBaixandoExcel(true);
-        axios.get("http://127.0.0.1:8000/relatorio/estoque/excel", {
+        axios.get("https://erp-relatorio.onrender.com/relatorio/estoque/excel", {
             responseType: "blob"
         })
             .then((res) => {
@@ -50,7 +50,7 @@ export default function EstoqueRelatorio() {
 
     const baixarPDF = () => {
         setBaixandoPDF(true);
-        axios.get("http://127.0.0.1:8000/relatorio/estoque/pdf", {
+        axios.get("https://erp-relatorio.onrender.com/relatorio/estoque/pdf", {
             responseType: "blob"
         })
             .then((res) => {

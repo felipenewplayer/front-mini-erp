@@ -3,7 +3,7 @@ import { useState } from "react";
 import TabelaProdutos from "../components/estoque/TabelaProdutos";
 import FormProduto from "../components/estoque/FormProduto";
 import DivsDosConteudos from "../components/DivsDosConteudos";
-import { atualizarProduto, criarProduto, deletarProduto } from "../components/estoque/produto/produtoService";
+import { atualizarProduto, criarProduto, deletarProduto } from "../services/produtoService";
 import useProdutos from '../components/estoque/produto/useProduto';
 import useFormProduto from '../components/estoque/produto/useFormProduto';
 
