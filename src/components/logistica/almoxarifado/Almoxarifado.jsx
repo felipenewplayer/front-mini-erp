@@ -6,7 +6,7 @@ export default function Almoxarifado() {
 
     return (
         <>
-            <div className="border-bottom border-top gap-2 d-flex align-items-center p-2 rounded"
+            <div className="border-bottom border-top gap-1 d-flex align-items-center p-2 rounded"
                 style={{ background: "linear-gradient(to left,var(--gray-30),var(--gray-60))" }}>
 
                 <button
