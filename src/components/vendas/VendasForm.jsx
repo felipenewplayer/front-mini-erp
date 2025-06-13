@@ -2,10 +2,10 @@ import { FaSearch } from "react-icons/fa";
 
 export default function VendasForm() {
     return (
-            <div className="shadow border ">
+            <div className="shadow border rounded">
             <form
                 className=" mt-1 pt-1 d-flex flex-column ps-3 overflow-auto gap-2"
-                style={{ maxHeight: 675 }}>
+                style={{ height:"500px" }}>
                 <div className="d-flex flex-column gap-3 justify-content-around ">
                     <div className="d-flex flex-column">
                         <label className="form-label">Orçamento</label>
@@ -21,6 +21,7 @@ export default function VendasForm() {
                     <div className="d-flex flex-column">
                         <label className="form-label">Vendedor</label>
                         <select className="w-50 p-1 rounded">
+                            <option value="">Selecione...</option>
                             <option value="">João</option>
                             <option value="">Marcos</option>
                             <option value="">Rafa</option>
@@ -86,7 +87,7 @@ export default function VendasForm() {
                             <option value="">NORTE TRANSPORTE</option>
                         </select>
                     </div>
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column mb-5">
                         <label className="form-label">Valor Frete</label>
                         <input
                             className="w-25 rounded"

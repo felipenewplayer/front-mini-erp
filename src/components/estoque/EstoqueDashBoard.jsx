@@ -85,10 +85,21 @@ export default function EstoqueDashBoard() {
     const valor = payload.value.toLowerCase();
 
     let icone;
-    if (valor.includes("console")) icone = <FaGamepad color="#ffffff" size={20} />;
-    else if (valor.includes("teclado")) icone = <FaKeyboard color="#ffffff" size={20} />;
-    else if (valor.includes("monitor")) icone = <FiMonitor color="#ffffff" size={20} />;
-    else if (valor.includes("processador"))icone = <FiCpu  color="#ffffff" size={20} />;
+    switch (true) {
+      case valor.includes("console"):
+        icone = <FaGamepad color="#ffffff" size={20} />
+        break;
+      case valor.includes("teclado"):
+        icone = <FaKeyboard color="#ffffff" size={20} />;
+        break;
+      case valor.includes("monitor"):
+        icone = <FiMonitor color="#ffffff" size={20} />;
+        break;
+      case valor.includes("processador"):
+        icone = <FiCpu color="#ffffff" size={20} />;
+        break;
+    }
+
 
     return (
       <g transform={`translate(${x},${y})`}>

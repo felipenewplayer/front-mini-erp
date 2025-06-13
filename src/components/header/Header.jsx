@@ -13,7 +13,7 @@ export default function Header() {
             style={{ background: "linear-gradient(to right , var(--gray-50), var(--gray-70))" }}>
             <div className="container-fluid m-2">
                 <a className="navbar-brand" href="/">
-                    <FontAwesomeIcon icon={faStroopwafel} /> ERP do Futuro
+                    <FontAwesomeIcon icon={faStroopwafel} /> ERP Tech
                 </a>
 
                 <button

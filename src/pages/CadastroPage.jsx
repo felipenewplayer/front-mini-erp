@@ -63,9 +63,9 @@ export default function CadastroPage() {
             {...register("role")}
           >
             <option value="">Selecione...</option>
-            <option value="admin">Administração</option>
-            <option value="logistica">Logística</option>
-            <option value="vendas">Vendas</option>
+            <option value="admin">Administração (Acesso a todos os setores)</option>
+            <option value="logistica">Logística (Acesso somente ao Estoque)</option>
+            <option value="vendas">Vendas (Acesso somente às vendas)</option>
 
           </select>
           {errors.role && <div className="invalid-feedback">{errors.role.message}</div>}
