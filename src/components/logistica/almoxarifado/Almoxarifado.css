@@ -1,0 +1,12 @@
+.botao-custom {
+  background: linear-gradient(to right, var(--gray-90), var(--gray-60));
+  color: white;
+  border: 1px solid var(--gray-50);
+  transition: all 0.2s ease;
+}
+
+.botao-custom:hover {
+    color: white;
+  background: linear-gradient(to right, var(--gray-70), var(--gray-40));
+  transform: scale(1.02);
+}

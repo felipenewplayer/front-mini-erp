@@ -1,0 +1,23 @@
+.bnt {
+  padding: 8px 16px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.bnt:hover {
+  opacity: 0.9;
+  transform: scale(1.03);
+}
+
+@media (max-width: 768px) {
+  .bnt {
+    width: 100%;
+    font-size: 0.90rem;
+  }
+
+  .botoes-logistica {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

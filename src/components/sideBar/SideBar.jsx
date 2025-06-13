@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaBoxes, FaChartLine, FaUsers, FaShoppingCart, FaMoneyBillWave } from 'react-icons/fa';
-import Estoque from '../../pages/Estoque';
+import Logistica from '../../pages/Logistica';
 import Financeiro from '../../pages/Financeiro';
 import Cliente from '../../pages/Cliente';
 import Vendas from '../../pages/Vendas';
@@ -86,9 +86,9 @@ export default function Sidebar() {
                     <button
                         className="btn btn-dark btn-sideBar btn-lg text-start mb-3 w-100"
                         style={{ backgroundColor: 'var(--black-10)' }}
-                        onClick={() => handleSectionClickComPermissão("estoque", ["logistica"])}
+                        onClick={() => handleSectionClickComPermissão("logistica", ["logistica"])}
                     >
-                        <FaBoxes className="me-2" /> Estoque
+                        <FaBoxes className="me-2" /> Logistica
                     </button>
 
                     <button className="btn btn-dark btn-sideBar btn-lg text-start mb-3 w-100"
@@ -124,7 +124,7 @@ export default function Sidebar() {
                 marginTop: !isMobile ? '-360px' : '0', paddingTop: '', paddingLeft: '20px',
                 marginLeft: !isMobile ? "" : "-20px"
             }}>
-                {secaoAtiva === "estoque" && <Estoque />}
+                {secaoAtiva === "logistica" && <Logistica />}
                 {secaoAtiva === "vendas" && <Vendas />}
                 {secaoAtiva === "financeiro" && <Financeiro />}
                 {secaoAtiva === "cliente" && <Cliente />}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 // import { getProdutos } from "../../../services/produtoService";
-import { useUser } from "../../context/UserContext";
+import { useUser } from "../../../../context/UserContext";
 export default function useProdutos() {
     const [produtos, setProdutos] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

@@ -12,12 +12,12 @@ export default function TabelaProdutos({
     return (
         <div className="table-responsive">
             <button
-                className="btn btn-success mb-2"
+                className="btn btn-sm btn-success mb-2"
                 onClick={onAdicionar}
             >
                 {onAdicionar ? "Adicionar Produto" : "Voltar"}
             </button>
-           
+
 
             <table className="table table-dark table-bordered overflow-auto">
                 <thead className="table-dark">
@@ -60,7 +60,9 @@ export default function TabelaProdutos({
                             <td>{p.categoria}</td>
                             <td className="text-end">R$ {Number(p.precoUN).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</td>
                             <td className="text-end">{p.quantidade}</td>
-                            <td className="text-end">R$ {Number(p.quantidade * p.precoUN).toLocaleString("pt-BR", { minimumIntegerDigits: 2 })}</td>
+                            <td className="text-end">
+                                R$ {Number(p.quantidade * p.precoUN).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                            </td>
                             <td>
                                 <div className="d-flex justify-content-evenly gap-2">
                                     <button
