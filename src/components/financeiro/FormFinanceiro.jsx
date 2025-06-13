@@ -12,6 +12,8 @@ export default function FormFinanceiro({ defaultValues, onHandleSubmit }) {
     defaultValues,
   });
 
+
+  
   return (
     <form className="card p-3 mb-4" onSubmit={handleSubmit(onHandleSubmit)}>
       <div className="mb-2">

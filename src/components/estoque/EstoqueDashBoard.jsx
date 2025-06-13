@@ -1,6 +1,9 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
 import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext";
+import { FaGamepad, FaMouse, FaCube, FaProcedures } from "react-icons/fa";
+import { FiCpu, FiMonitor } from "react-icons/fi";
+import { FaKeyboard } from "react-icons/fa6";
 
 export default function EstoqueDashBoard() {
   const { getProdutosLocal } = useUser();
@@ -12,68 +15,42 @@ export default function EstoqueDashBoard() {
     setProdutos(lista);
   }, [getProdutosLocal]);
 
-  // Dados agrupados por categoria
   const dadosPorCategoria = () => {
     const map = {};
-
     produtos.forEach(p => {
       const cat = p.categoria || "Sem Categoria";
       const qtd = Number(p.quantidade) || 0;
       map[cat] = (map[cat] || 0) + qtd;
     });
-
-    return Object.entries(map).map(([categoria, quantidade]) => ({
-      categoria,
-      quantidade,
-    }));
+    return Object.entries(map).map(([categoria, quantidade]) => ({ categoria, quantidade }));
   };
 
-  // Dados agrupados por ano (extraído de dataEntrada)
   const dadosPorAno = () => {
     const map = {};
-
     produtos.forEach(p => {
       if (!p.dataEntrada) return;
-
       const data = new Date(p.dataEntrada);
       if (isNaN(data)) return;
-
       const ano = data.getFullYear();
       const qtd = Number(p.quantidade) || 0;
-
       map[ano] = (map[ano] || 0) + qtd;
     });
-
-    return Object.entries(map).map(([ano, quantidade]) => ({
-      ano,
-      quantidade,
-    }));
+    return Object.entries(map).map(([ano, quantidade]) => ({ ano, quantidade }));
   };
 
-  // Dados agrupados por mês/ano (ex: "2025-06")
   const dadosPorMes = () => {
     const map = {};
-
     produtos.forEach(p => {
       if (!p.dataEntrada) return;
-
       const data = new Date(p.dataEntrada);
       if (isNaN(data)) return;
-
-      // Formata para "YYYY-MM"
       const mesAno = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, "0")}`;
       const qtd = Number(p.quantidade) || 0;
-
       map[mesAno] = (map[mesAno] || 0) + qtd;
     });
-
-    return Object.entries(map).map(([mesAno, quantidade]) => ({
-      mesAno,
-      quantidade,
-    }));
+    return Object.entries(map).map(([mesAno, quantidade]) => ({ mesAno, quantidade }));
   };
 
-  // Escolher os dados para o gráfico conforme o filtro
   let dadosGrafico = [];
   let dataKey = "";
   if (filtro === "categoria") {
@@ -86,6 +63,40 @@ export default function EstoqueDashBoard() {
     dadosGrafico = dadosPorMes();
     dataKey = "mesAno";
   }
+
+  const TickComIcone = ({ x, y, payload }) => {
+    if (filtro !== "categoria") {
+      // Mostrar texto normal para filtros ano e mes, com rotação
+      return (
+        <text
+          x={x}
+          y={y + 10}
+          textAnchor="end"
+          fill="#ffffff"
+          fontSize={12}
+          transform={`rotate(-19, ${x}, ${y + 10})`}
+        >
+          {payload.value}
+        </text>
+      );
+    }
+
+    // Para categoria, mostrar ícone e texto
+    const valor = payload.value.toLowerCase();
+
+    let icone;
+    if (valor.includes("console")) icone = <FaGamepad color="#ffffff" size={20} />;
+    else if (valor.includes("teclado")) icone = <FaKeyboard color="#ffffff" size={20} />;
+    else if (valor.includes("monitor")) icone = <FiMonitor color="#ffffff" size={20} />;
+    else if (valor.includes("processador"))icone = <FiCpu  color="#ffffff" size={20} />;
+
+    return (
+      <g transform={`translate(${x},${y})`}>
+        {icone}
+
+      </g>
+    );
+  };
 
   return (
     <>
@@ -116,7 +127,7 @@ export default function EstoqueDashBoard() {
 
       <div style={{ width: "100%", height: 400, marginTop: 30 }}>
         <ResponsiveContainer height={400}>
-          <BarChart data={dadosGrafico} margin={{ top: 10, right: 0, left: 0, bottom: 20 }}>
+          <BarChart data={dadosGrafico} margin={{ top: 10, right: 0, left: 0, bottom: 60 }}>
             <defs>
               <linearGradient id="gradienteBar" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="20%" stopColor="#18756c" stopOpacity={1} />
@@ -127,13 +138,11 @@ export default function EstoqueDashBoard() {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey={dataKey}
-              angle={-19}
               textAnchor="end"
               interval={0}
-              height={65}
-              style={{ fontSize: 12 }}
+              height={10}
               stroke="#461212F"
-              tick={{ fill: "#702222b7" }}
+              tick={TickComIcone}
             />
             <YAxis tick={{ fill: "#ffffff" }} />
             <Tooltip />
