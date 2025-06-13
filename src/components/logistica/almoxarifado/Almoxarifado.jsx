@@ -6,11 +6,11 @@ export default function Almoxarifado() {
 
     return (
         <>
-            <div className="border-bottom border-top gap-1 d-flex align-items-center p-2 rounded"
+            <div className="border-bottom border-top d-flex align-items-center p-2 rounded"
                 style={{ background: "linear-gradient(to left,var(--gray-30),var(--gray-60))" }}>
 
                 <button
-                    className="btn  btn-sm me-3 botao-custom "
+                    className="btn  btn-sm me-2 botao-custom "
                     onClick={() => setAbaAtiva(abaAtiva === "estoque" ? "" : "estoque")}>
                     Estoque
                 </button>
