@@ -11,7 +11,7 @@ export default function ClienteTabela({
                     className="btn btn-sm btn-success mb-2"
                     onClick={onAdicionar}
                 >
-                    {onAdicionar ? "Adicionar Produto" : "Voltar"}
+                    {onAdicionar ? "Adicionar Cliente" : "Voltar"}
                 </button>
             </div>
             <div className="table-responsive">
