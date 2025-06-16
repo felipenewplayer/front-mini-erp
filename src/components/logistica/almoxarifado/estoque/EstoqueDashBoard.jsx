@@ -1,7 +1,7 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
 import { useEffect, useState } from "react";
-import { useUser } from "../../../context/UserContext";
-import { FaGamepad, FaMouse, FaCube, FaProcedures } from "react-icons/fa";
+import { useUser } from "../../../context/AuthContext";
+import { FaGamepad } from "react-icons/fa";
 import { FiCpu, FiMonitor } from "react-icons/fi";
 import { FaKeyboard } from "react-icons/fa6";
 

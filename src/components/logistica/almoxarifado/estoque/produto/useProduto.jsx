@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 // import { getProdutos } from "../../../services/produtoService";
-import { useUser } from "../../../../context/UserContext";
+import { useProduto } from "../../../../context/ProdutoContext";
 export default function useProdutos() {
     const [produtos, setProdutos] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState("");
-    const { getProdutosLocal } = useUser();
+    const { getProdutos } = useProduto();
 
     // Esse useEffect é para usar com a API
     // useEffect(() => {
@@ -25,14 +25,14 @@ export default function useProdutos() {
 
     useEffect(() => {
         try {
-            const dados = getProdutosLocal();
+            const dados = getProdutos();
             if (!dados) {
                 setError("Não foi possível carregar os produtos do localStorage.");
             } else {
                 setProdutos(dados);
             }
         } catch (err) {
-            setError("Erro ao acessar o localStorage.",err);
+            setError("Erro ao acessar o localStorage.", err);
         } finally {
             setIsLoading(false);
         }

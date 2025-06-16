@@ -1,103 +1,117 @@
-import { FaSearch } from "react-icons/fa";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useClientes } from "../context/ClienteContext";
+import { useEffect, useState } from "react";
+import { useProduto } from "../context/ProdutoContext";
+import { vendaSchema } from "../schemas/vendaSchema"
 
-export default function VendasForm() {
+
+export default function VendasForm({ onSubmit }) {
+    const { getClientes } = useClientes();
+    const { updateProduto, getProdutos } = useProduto();
+    const [produtos, setProdutos] = useState([]);
+    const [clientes, setClientes] = useState([]);
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm({
+        resolver: zodResolver(vendaSchema),
+    });
+
+    const produtoIdSelecionado = watch("produtoId");
+    const produtoSelecionado = produtos.find(
+        (p) => p.id === parseInt(produtoIdSelecionado)
+    );
+
+    useEffect(() => {
+        setProdutos(getProdutos());
+        setClientes(getClientes());
+    }, []);
+
+    const handleAdicionar = (data) => {
+        const clienteSelecionado = clientes.find(c => c.id === data.cliente);
+        const produto = produtos.find(p => p.id === data.produtoId);
+
+        if (!clienteSelecionado || !produto) {
+            alert("Cliente ou produto inválido.");
+            return;
+        }
+
+        if (produto.quantidade < data.quantidade) {
+            alert(`Estoque insuficiente! Disponível: ${produto.quantidade}`);
+            return;
+        }
+
+        const produtoAtualizado = {
+            ...produto,
+            quantidade: produto.quantidade - data.quantidade,
+        };
+
+        updateProduto(produtoAtualizado);
+        setProdutos(getProdutos());
+
+        onSubmit({
+            cliente: clienteSelecionado,
+            produto: produtoAtualizado,
+            quantidade: data.quantidade,
+        });
+    };
     return (
-            <div className="shadow border rounded">
-            <form
-                className=" mt-1 pt-1 d-flex flex-column ps-3 overflow-auto gap-2"
-                style={{ height:"500px" }}>
-                <div className="d-flex flex-column gap-3 justify-content-around ">
-                    <div className="d-flex flex-column">
-                        <label className="form-label">Orçamento</label>
-                        <div className="d-flex align-items-center w-50">
-                            <input
-                                className="form-control me-2"
-                                type="number"
-                                placeholder="Informe o número do orçamento"
-                            />
-                            <FaSearch />
-                        </div>
-                    </div>
-                    <div className="d-flex flex-column">
-                        <label className="form-label">Vendedor</label>
-                        <select className="w-50 p-1 rounded">
-                            <option value="">Selecione...</option>
-                            <option value="">João</option>
-                            <option value="">Marcos</option>
-                            <option value="">Rafa</option>
-                        </select>
-                    </div>
-                    <div className="d-flex flex-column">
-                        <label className="form-label">Número da fatura</label>
-                        <input
-                            className="w-25 rounded"
-                            type="number" />
-                    </div>
-                </div>
-                <div className="d-flex flex-column justify-content-around">
-                    <div className="d-flex flex-column">
-                        <label className="form-label">Cliente</label>
-                        <div className="d-flex align-items-center">
-                            <input className="form-control me-2 w-50" type="number" />
-                            <FaSearch />
-                        </div>
-                    </div>
+        <form onSubmit={handleSubmit(handleAdicionar)} className="p-3 shadow border rounded">
+            <div className="mb-3">
+                <label className="form-label">Cliente</label>
+                <select className="form-select  w-50"{...register("cliente")}>
+                    <option value="">Selecione</option>
+                    {clientes.map(c => (
+                        <option key={c.id} value={c.id}>
+                            {c.nome}
+                        </option>
+                    ))}
+                </select>
+                {errors.cliente && <p className="text-danger">{errors.cliente.message}</p>}
+            </div>
 
-                    <div className="d-flex flex-column">
-                        <label className="form-label mt-3 ">Data Venda</label>
-                        <input
-                            className="w-25 rounded  ps-2"
-                            type="date" />
+            <div className="mb-3">
+                <label className="form-label">Produto</label>
+                <select className="form-select w-50" {...register("produtoId")}>
+                    <option value="">Selecione</option>
+                    {produtos.map((p) => (
+                        <option key={p.id} value={p.id}>
+                            {p.nome}
+                        </option>
+                    ))}
+                </select>
+                {errors.produtoId && <p className="text-danger">{errors.produtoId.message}</p>}
+            </div>
 
-                        <label className="form-label mt-3">Data Saída</label>
-                        <input
-                            className="w-25 rounded  ps-2"
-                            type="date" />
-
-
-                        <label className="form-label mt-3">Hora  Saída</label>
-                        <input
-                            className="w-25 rounded ps-1"
-                            type="hour" />
-                    </div>
-                    <div className="d-flex flex-column">
-                        <label className="form-label ">Situação</label>
-                        <input
-                            className="w-50"
-                            type="number" />
-                    </div>
+            {produtoSelecionado && (
+                <div className="mb-3">
+                    <label className="form-label">Quantidade</label>
+                    <input
+                        type="number"
+                        className="form-control w-25"
+                        {...register("quantidade")}
+                        min={1}
+                        max={produtoSelecionado.quantidade}
+                        placeholder={`Máx: ${produtoSelecionado.quantidade}`}
+                    />
+                    {errors.quantidade && (
+                        <p className="text-danger">{errors.quantidade.message}</p>
+                    )}
                 </div>
 
-                <div className="d-flex flex-column gap-3 justify-content-around ">
-                    <div className="d-flex flex-column">
-                        <label className="form-label">Frete</label>
-                        <div className="d-flex align-items-center w-50">
-                            <select className="p-1">
-                                <option >Por conta do cliente</option>
-                            </select>
-                            <FaSearch />
-                        </div>
-                    </div>
-                    <div className="d-flex flex-column">
-                        <label className="form-label">Transportadora</label>
-                        <select className="w-50 p-1">
-                            <option value="">TW TRANSPORTADORA E LOGISTICA LTDA</option>
-                            <option value="">SAIRUS BRASIL LTDA</option>
-                            <option value="">TRANVIASUL</option>
-                            <option value="">NORTE TRANSPORTE</option>
-                        </select>
-                    </div>
-                    <div className="d-flex flex-column mb-5">
-                        <label className="form-label">Valor Frete</label>
-                        <input
-                            className="w-25 rounded"
-                            type="number" />
-                    </div>
-                </div>
+            )}
+            <div>
+                <label className="form-label">Data da Venda</label>
+                <input type="date" className="p-1 rounded form-control w-25 mb-2" />
+            </div>
 
-
-            </form>
-        </div>
-
-    )
+            <button className="btn btn-success" type="submit">
+                Adicionar ao pedido
+            </button>
+        </form>
+    );
 }

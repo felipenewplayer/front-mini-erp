@@ -6,7 +6,7 @@ import Cliente from '../../pages/Cliente';
 import Vendas from '../../pages/Vendas';
 import Relatorios from "../../pages/Relatorios";
 import "./sideBar.css"
-import { useUser } from "../context/UserContext";
+import { useUser } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
 

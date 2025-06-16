@@ -59,7 +59,7 @@ export default function TabelaProdutos({
                             <td>{p.nome}</td>
                             <td>{p.categoria}</td>
                             <td className="text-end">R$ {Number(p.precoUN).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</td>
-                            <td className="text-end">{p.quantidade}</td>
+                            <td className="text-end">{p.quantidade === null ? 0 : p.quantidade}</td>
                             <td className="text-end">
                                 R$ {Number(p.quantidade * p.precoUN).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                             </td>

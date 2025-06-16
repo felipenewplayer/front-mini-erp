@@ -5,7 +5,7 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaSpinner } from "react-icons/fa";
-import { useUser } from "../context/UserContext.jsx";
+import { useUser } from "../context/AuthContext";
 
 export default function EstoqueRelatorio() {
     const [dados, setDados] = useState([]);

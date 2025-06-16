@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { produtoSchema } from "./ProdutoSchema";
+import { produtoSchema } from "../../../schemas/produtoSchema";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
@@ -61,8 +61,6 @@ export default function FormProduto({ defaultValues, onHandleSubmit, onCancel })
             setValue("codigo", "");
         }
     }, [nomeSelecionado, setValue]);
-
-
 
     return (
 
@@ -153,7 +151,7 @@ export default function FormProduto({ defaultValues, onHandleSubmit, onCancel })
             <div className="mb-2">
                 <label className="form-label">Quantidade</label>
                 <input type="number" step="0.01" className="form-control" {...register("quantidade")} />
-                {errors.precoUN && <span className="text-danger">{errors.quantidade.message}</span>}
+                {errors.quantidade && <span className="text-danger">{errors.quantidade.message}</span>}
             </div>
 
             {/* Data de Entrada */}

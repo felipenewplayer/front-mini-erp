@@ -1,54 +1,45 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import ClienteTabela from "../components/cliente/ClienteTabela";
 import ClienteForm from "../components/cliente/ClienteForm";
 import DivsDosConteudos from "../components/DivsDosConteudos";
+import useCliente from "../components/cliente/useCliente";
+import {useClientes} from "../components/context/ClienteContext";
+import useFormCliente from "../components/cliente/useFormCliente";
 
 export default function Cliente() {
-    const [showForm, setShowForm] = useState(false);
-    const [editId, setEditId] = useState(null);
-    const [form, setForm] = useState({
-        nome: "",
-        email: "",
-        telefone: "",
-        endereco: ""
-    });
-    const [clientes, setClientes] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const { form, editId, iniciarEdicao, limparForm } = useFormCliente();
+    const { clientes, setClientes, error } = useCliente();
+    const { addCliente, atualizarClientes } = useClientes();
+    const [abaAberta, setAbaAberta] = useState("");
 
-    useEffect(() => {
-        const fetchClientes = async () => {
-            try {
-                const { data } = await axios.get("https://mini-erp-y8nj.onrender.com/clientes");
-                setClientes(data);
-            } catch (error) {
-                toast.error(error.message || "Erro ao buscar clientes");
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchClientes();
-    }, []);
+
+    
 
     const handleFormSubmit = async (data) => {
         try {
             if (editId !== null) {
-                const res = await axios.put(`https://mini-erp-y8nj.onrender.com/clientes/${editId}`, data);
-                setClientes(c => c.map(c => c.id === editId ? res.data : c));
-                toast.success("Cliente atualizado com sucesso!!");
+                const clienteAtualizado = { ...data, id: editId };
+                atualizarClientes(clienteAtualizado); // Atualiza no localStorage
+                setClientes(c => c.map(c => c.id === editId ? clienteAtualizado : c)); // Atualiza no estado
+                toast.success("Cliente atualizado com sucesso!");
             } else {
-                const res = await axios.post("https://mini-erp-y8nj.onrender.com/clientes", data);
-                setClientes(prev => [...prev, res.data]);
-                toast.success("Cliente criado com sucesso");
+                const novoCliente = { ...data, id: Date.now() };
+                if (!addCliente(novoCliente)) {
+                    toast.error("Já existe um cliente com esse nome.");
+                    return;
+                }
+                setClientes(prev => [...prev, novoCliente]);
+                toast.success("Cliente criado com sucesso!");
             }
-            setEditId(null);
-            setForm({ nome: "", email: "", telefone: "", endereco: "" });
-            setShowForm(false);
+            limparForm();
+            setAbaAberta("lista");
         } catch (error) {
             toast.error(error.message || "Erro desconhecido");
         }
     };
+
 
     const onExcluir = async (id) => {
         if (!window.confirm("Deseja realmente excluir?")) return;
@@ -56,8 +47,7 @@ export default function Cliente() {
         try {
             await axios.delete(`https://mini-erp-y8nj.onrender.com//clientes/${id}`);
             setClientes(clientes => clientes.filter(cliente => cliente.id !== id));
-            setForm({ nome: "", email: "", telefone: "", endereco: "" });
-            setEditId(null);
+            limparForm();
             toast.success("Cliente excluído com sucesso!!");
         } catch (error) {
             toast.error(error.message || "Erro ao excluir cliente");
@@ -67,59 +57,38 @@ export default function Cliente() {
     return (
         <DivsDosConteudos
             title="Clientes">
-            <div className="d-flex ">
-                <button
-                    className="btn btn-success ms-5"
-                    onClick={() => {
-                        setShowForm(!showForm);
-                        if (showForm) {
-                            setEditId(null);
-                            setForm({ nome: "", email: "", telefone: "", endereco: "" });
-                        }
-                    }}
-                >
-                    {showForm ? "Cancelar" : "Adicionar Cliente"}
-                </button>
+            <div className="d-flex gap-3 mb-2">
+                <button className="btn btn-primary"
+                    onClick={() => setAbaAberta("lista")}>Lista</button>
             </div>
+            {error && <p className="text-danger">{error}</p>}
 
-            {isLoading && (
-                <div className="text-center text-light">
-                    <div className="spinner-border" role="status" />
-                    <p>Carregando...</p>
-                </div>
-            )}
+            <>
 
-            {!isLoading && (
-                <>
-                    {showForm ? (
-                        <ClienteForm
-                            handleFormSubmit={handleFormSubmit}
-                            defaultValues={form}
-                        />
-                    ) : (
-                        <>
-                            {clientes.length > 0 ? (
-                                <ClienteTabela
-                                    clientes={clientes}
-                                    onEditar={(c) => {
-                                        setEditId(c.id);
-                                        setForm({
-                                            nome: c.nome,
-                                            email: c.email,
-                                            telefone: c.telefone,
-                                            endereco: c.endereco
-                                        });
-                                        setShowForm(true);
-                                    }}
-                                    onExcluir={onExcluir}
-                                />
-                            ) : (
-                                <p className="text-center p-5 text-light">Ainda sem clientes cadastrados.</p>
-                            )}
-                        </>
-                    )}
-                </>
-            )}
+                {abaAberta === "formulario" && <ClienteForm
+                    handleFormSubmit={handleFormSubmit}
+                    defaultValues={form}
+                    onCancel={() => setAbaAberta("")} />
+                }
+
+
+                {abaAberta === "lista" && (
+                    <ClienteTabela
+                        clientes={clientes}
+                        onEditar={(c) => {
+                            iniciarEdicao(c)
+                            setAbaAberta("formulario")
+                        }}
+                        onAdicionar={() => {
+                            limparForm()
+                            setAbaAberta("formulario")
+                        }}
+                        onExcluir={onExcluir}
+                    />
+                )}
+            </>
+
+
         </DivsDosConteudos>
     );
 }

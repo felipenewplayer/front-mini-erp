@@ -11,7 +11,7 @@ export default function Logistica() {
 
   return (
     <DivsDosConteudos>
-      <div className="d-flex gap-3 mb-3 botoes-logistica flex-wrap">        <button className="bnt rounded text-light" onClick={() => setAbaAtiva(abaAtiva === "almoxarifado" ? "" : "almoxarifado")}
+      <nav className="d-flex gap-3 mb-3 botoes-logistica flex-wrap">        <button className="bnt rounded text-light" onClick={() => setAbaAtiva(abaAtiva === "almoxarifado" ? "" : "almoxarifado")}
         style={{ background: "linear-gradient(to right, var(--red-30), var(--yellow-80))" }}>
         Almoxarifado  <FaWarehouse className="ms-2" />
       </button>
@@ -23,7 +23,7 @@ export default function Logistica() {
           style={{ background: "linear-gradient(to right, var(--green-40), var(--teal-80))" }}>
           Recebimento< FaReceipt className="ms-2" />
         </button>
-      </div>
+      </nav>
 
       {abaAtiva === "almoxarifado" && <Almoxarifado />}
       {abaAtiva === "expedicao" && <Expedicao />}

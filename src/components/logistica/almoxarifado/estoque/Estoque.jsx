@@ -3,15 +3,15 @@ import EstoqueDashBoard from "./EstoqueDashBoard";
 import { useState } from "react";
 import useFormProduto from "./produto/useFormProduto";
 import FormProduto from "./FormProduto";
-import { useUser } from "../../../context/UserContext";
+import { useProduto } from "../../../context/ProdutoContext.jsx";
 import useProdutos from "./produto/useProduto";
 import { toast } from "react-toastify";
 import TabelaProdutos from "../estoque/TabelaProdutos.jsx";
 
 export default function Estoque() {
-    const [abaAtiva, setAbaAtiva] = useState(""); // "", "tabela", "formulario"
+    const [abaAtiva, setAbaAtiva] = useState("");
     const { form, editId, setEditId, iniciarEdicao, limparForm } = useFormProduto();
-    const { adicionarProduto, deletarProdutoLocal, atualizarProdutoLocal } = useUser();
+    const { addProduto , updateProduto, deleteProduto } = useProduto();
     const { produtos, setProdutos, isLoading, error } = useProdutos();
     const [colunaOrdenada, setColunaOrdenada] = useState("");
     const [ordemAscendente, setOrdemAscendente] = useState(true);
@@ -19,12 +19,12 @@ export default function Estoque() {
     const handleSubmit = (data) => {
         if (editId) {
             const produtoAtualizado = { ...data, id: editId };
-            atualizarProdutoLocal(produtoAtualizado);
+            updateProduto(produtoAtualizado);
             setProdutos(prev => prev.map(p => p.id === editId ? produtoAtualizado : p));
             toast.success("Produto atualizado com sucesso!");
         } else {
             const produtoComId = { ...data, id: Date.now() };
-            const sucesso = adicionarProduto(produtoComId);
+            const sucesso = addProduto(produtoComId);
             if (sucesso) {
                 setProdutos(prev => [...prev, produtoComId]);
                 toast.success("Produto cadastrado com sucesso!");
@@ -41,7 +41,7 @@ export default function Estoque() {
         if (!window.confirm("Tem certeza que quer deletar?")) return;
 
         try {
-            deletarProdutoLocal(id);
+            deleteProduto(id);
             setProdutos(prev => prev.filter(p => p.id !== id));
             toast.success("Produto excluído com sucesso!");
         } catch (err) {
@@ -111,7 +111,7 @@ export default function Estoque() {
                 />
             )}
 
-            {abaAtiva === "" && <EstoqueDashBoard />}
+            {/* {abaAtiva === "" && <EstoqueDashBoard />} */}
         </div>
     );
 }
