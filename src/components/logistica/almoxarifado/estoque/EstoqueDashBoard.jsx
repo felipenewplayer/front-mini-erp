@@ -1,14 +1,12 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
 import { useEffect, useState } from "react";
+import { ResponsiveBar } from "@nivo/bar";
 import { useUser } from "../../../context/AuthContext";
-import { FaGamepad } from "react-icons/fa";
-import { FiCpu, FiMonitor } from "react-icons/fi";
-import { FaKeyboard } from "react-icons/fa6";
+
 
 export default function EstoqueDashBoard() {
   const { getProdutosLocal } = useUser();
   const [produtos, setProdutos] = useState([]);
-  const [filtro, setFiltro] = useState("categoria"); // "ano", "mes", "categoria"
+  const [filtro, setFiltro] = useState("categoria");
 
   useEffect(() => {
     const lista = getProdutosLocal();
@@ -17,7 +15,7 @@ export default function EstoqueDashBoard() {
 
   const dadosPorCategoria = () => {
     const map = {};
-    produtos.forEach(p => {
+    produtos.forEach((p) => {
       const cat = p.categoria || "Sem Categoria";
       const qtd = Number(p.quantidade) || 0;
       map[cat] = (map[cat] || 0) + qtd;
@@ -27,7 +25,7 @@ export default function EstoqueDashBoard() {
 
   const dadosPorAno = () => {
     const map = {};
-    produtos.forEach(p => {
+    produtos.forEach((p) => {
       if (!p.dataEntrada) return;
       const data = new Date(p.dataEntrada);
       if (isNaN(data)) return;
@@ -40,7 +38,7 @@ export default function EstoqueDashBoard() {
 
   const dadosPorMes = () => {
     const map = {};
-    produtos.forEach(p => {
+    produtos.forEach((p) => {
       if (!p.dataEntrada) return;
       const data = new Date(p.dataEntrada);
       if (isNaN(data)) return;
@@ -52,62 +50,18 @@ export default function EstoqueDashBoard() {
   };
 
   let dadosGrafico = [];
-  let dataKey = "";
+  let indexBy = "";
+
   if (filtro === "categoria") {
     dadosGrafico = dadosPorCategoria();
-    dataKey = "categoria";
+    indexBy = "categoria";
   } else if (filtro === "ano") {
     dadosGrafico = dadosPorAno();
-    dataKey = "ano";
+    indexBy = "ano";
   } else if (filtro === "mes") {
     dadosGrafico = dadosPorMes();
-    dataKey = "mesAno";
+    indexBy = "mesAno";
   }
-
-  const TickComIcone = ({ x, y, payload }) => {
-    if (filtro !== "categoria") {
-      // Mostrar texto normal para filtros ano e mes, com rotação
-      return (
-        <text
-          x={x}
-          y={y + 10}
-          textAnchor="end"
-          fill="#ffffff"
-          fontSize={12}
-          transform={`rotate(-19, ${x}, ${y + 10})`}
-        >
-          {payload.value}
-        </text>
-      );
-    }
-
-    // Para categoria, mostrar ícone e texto
-    const valor = payload.value.toLowerCase();
-
-    let icone;
-    switch (true) {
-      case valor.includes("console"):
-        icone = <FaGamepad color="#ffffff" size={20} />
-        break;
-      case valor.includes("teclado"):
-        icone = <FaKeyboard color="#ffffff" size={20} />;
-        break;
-      case valor.includes("monitor"):
-        icone = <FiMonitor color="#ffffff" size={20} />;
-        break;
-      case valor.includes("processador"):
-        icone = <FiCpu color="#ffffff" size={20} />;
-        break;
-    }
-
-
-    return (
-      <g transform={`translate(${x},${y})`}>
-        {icone}
-
-      </g>
-    );
-  };
 
   return (
     <>
@@ -121,13 +75,10 @@ export default function EstoqueDashBoard() {
       >
         Dashboard
       </h1>
+
       <select
         className="form-select form-select-sm ms-4 pl-1"
-        style={{
-          fontSize: "0.75rem",
-          width: "100px",
-          height: "30px",
-        }}
+        style={{ fontSize: "0.75rem", width: "100px", height: "30px" }}
         value={filtro}
         onChange={(e) => setFiltro(e.target.value)}
       >
@@ -137,29 +88,48 @@ export default function EstoqueDashBoard() {
       </select>
 
       <div style={{ width: "100%", height: 400, marginTop: 30 }}>
-        <ResponsiveContainer height={400}>
-          <BarChart data={dadosGrafico} margin={{ top: 10, right: 0, left: 0, bottom: 60 }}>
-            <defs>
-              <linearGradient id="gradienteBar" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="20%" stopColor="#18756c" stopOpacity={1} />
-                <stop offset="50%" stopColor="#25338d" stopOpacity={1} />
-                <stop offset="80%" stopColor="#2f392d" stopOpacity={1} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey={dataKey}
-              textAnchor="end"
-              interval={0}
-              height={10}
-              stroke="#461212F"
-              tick={TickComIcone}
-            />
-            <YAxis tick={{ fill: "#ffffff" }} />
-            <Tooltip />
-            <Bar dataKey="quantidade" fill="url(#gradienteBar)" />
-          </BarChart>
-        </ResponsiveContainer>
+        <ResponsiveBar
+          data={dadosGrafico}
+          keys={["quantidade"]}
+          indexBy={indexBy}
+          margin={{ top: 50, right: 50, bottom: 60, left: 60 }}
+          padding={0.3}
+          colors={{ scheme: "nivo" }}
+          axisBottom={{
+            tickRotation: filtro !== "categoria" ? -20 : 0,
+            legend: indexBy,
+            legendPosition: "middle",
+            legendOffset: 40,
+            tickSize: 5,
+            tickPadding: 5,
+          }}
+          axisLeft={{
+            legend: "Quantidade",
+            legendPosition: "middle",
+            legendOffset: -50,
+          }}
+          tooltip={({value, indexValue }) => (
+            <div style={{ padding: "6px", background: "#333", color: "#fff" }}>
+              <strong>{indexValue}</strong>: {value}
+            </div>
+          )}
+          theme={{
+            axis: {
+              ticks: {
+                text: { fill: "#ffffff" },
+              },
+              legend: {
+                text: { fill: "#ffffff" },
+              },
+            },
+            tooltip: {
+              container: {
+                background: "#000",
+                color: "#fff",
+              },
+            },
+          }}
+        />
       </div>
     </>
   );

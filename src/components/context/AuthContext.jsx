@@ -31,13 +31,13 @@ export const AuthProvider = ({ children }) => {
     return true;
   };
 
-  const logout = () => {
+  const logOut = () => {
     localStorage.removeItem("usuario_logado");
     setUsuario(null);
   };
 
   return (
-    <AuthContext.Provider value={{ usuario, login, cadastrar, logout }}>
+    <AuthContext.Provider value={{ usuario, login, cadastrar, logOut }}>
       {children}
     </AuthContext.Provider>
   );

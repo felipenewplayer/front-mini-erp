@@ -32,13 +32,12 @@ export default function Vendas() {
         return acc + total;
     }, 0);
 
-    // Aqui você pode colocar qualquer lógica para "vendas hoje"
-    // Supondo que venda tenha uma data (exemplo: venda.data ou venda.createdAt)
-    // Vou supor que há venda.dataEntrada ou venda.dataVenda (string ISO)
-    const hoje = new Date().toISOString().slice(0, 10); // yyyy-mm-dd
 
     const vendasHoje = vendas.reduce((acc, venda) => {
-        const dataVenda = venda.dataVenda?.slice(0, 10) || venda.produto?.dataEntrada?.slice(0,10);
+        const hoje = new Date().toISOString().slice(0, 10);
+        const dataVenda = venda.dataVenda?.slice(0, 10) || venda.produto?.
+            dataEntrada?.slice(0, 10);
+        console.log(dataVenda)
         if (dataVenda === hoje) {
             const total = (venda.produto?.precoUN || 0) * (venda.quantidade || 0);
             return acc + total;
@@ -50,9 +49,11 @@ export default function Vendas() {
     return (
         <DivsDosConteudos>
             <div className="row text-light g-3">
-                <section className="col-12 col-sm-6 col-lg-3 bg-primary pt-1 rounded d-flex justify-content-around align-items-center">
-                    <div className="d-flex flex-column align-items-center">
-                        <strong>{vendasHoje.toFixed(2).replace(".", ",")}</strong>
+                <section className="col-12 col-sm-6 col-lg-3 bg-primary pt-1 rounded d-flex justify-content-around align-items-center"
+                    style={{ background: "linear-gradient(to right, var(--blue-30), var(--blue-100" }}>
+                    <div className="d-flex flex-column align-items-center"
+                    >
+                        <strong>R$ {Number(vendasHoje).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</strong>
                         <p>Vendas Hoje</p>
                     </div>
                     <div className="fs-3">
@@ -60,9 +61,10 @@ export default function Vendas() {
                     </div>
                 </section>
 
-                <section className="col-12 col-sm-6 col-lg-3 bg-success pt-1 rounded d-flex justify-content-around align-items-center">
+                <section className="col-12 col-sm-6 col-lg-3 bg-success pt-1 rounded d-flex justify-content-around align-items-center"
+                   style={{background:"linear-gradient(to right, var(--green-30), var(--green-100"}}>
                     <div className="d-flex flex-column align-items-center">
-                        <strong>{totalVendas.toFixed(2).replace(".", ",")}</strong>
+                        <strong>R$ {Number(totalVendas).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</strong>
                         <p>Total Vendas</p>
                     </div>
                     <div className="fs-3">
@@ -70,9 +72,10 @@ export default function Vendas() {
                     </div>
                 </section>
 
-                <section className="col-12 col-sm-6 col-lg-3 bg-warning pt-1 rounded d-flex justify-content-around align-items-center">
+                <section className="col-12 col-sm-6 col-lg-3 bg-warning pt-1 rounded d-flex justify-content-around align-items-center"
+                   style={{background:"linear-gradient(to right, var(--yellow-30), var(--yellow-100"}}>
                     <div className="d-flex flex-column align-items-center">
-                        <strong>350,00</strong>
+                        <strong>R$ {Number().toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</strong>
                         <p>A Receber Hoje</p>
                     </div>
                     <div className="fs-3">
@@ -80,9 +83,10 @@ export default function Vendas() {
                     </div>
                 </section>
 
-                <section className="col-12 col-sm-6 col-lg-3 bg-danger pt-1 rounded d-flex justify-content-around align-items-center">
+                <section className="col-12 col-sm-6 col-lg-3 bg-danger pt-1 rounded d-flex justify-content-around align-items-center"
+                   style={{background:"linear-gradient(to right, var(--red-30), var(--red-100"}}>
                     <div className="d-flex flex-column align-items-center">
-                        <strong>1.050,00</strong>
+                        <strong>R$ {Number().toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</strong>
                         <p>A Pagar Hoje</p>
                     </div>
                     <div className="fs-3">

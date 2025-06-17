@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-    BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer
-} from "recharts";
+import { ResponsiveBar } from "@nivo/bar";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaSpinner } from "react-icons/fa";
-import { useUser } from "../context/AuthContext";
+import { useProduto } from "../context/ProdutoContext";
 
 export default function EstoqueRelatorio() {
     const [dados, setDados] = useState([]);
@@ -14,15 +12,14 @@ export default function EstoqueRelatorio() {
     const [ordem, setOrdem] = useState("desc");
     const [baixandoExcel, setBaixandoExcel] = useState(false);
     const [baixandoPDF, setBaixandoPDF] = useState(false);
-    const { getProdutosLocal } = useUser();
+    const { getProdutos } = useProduto();
+
     useEffect(() => {
         try {
-            const list = getProdutosLocal();
+            const list = getProdutos();
             setDados(list);
             setLoading(false);
-
         } catch (err) {
-
             setErro("Erro ao carregar dados do relatório.",err);
             setLoading(false);
         }
@@ -42,13 +39,10 @@ export default function EstoqueRelatorio() {
                 link.click();
                 link.remove();
             })
-            .catch(() => {
-                toast.error("Erro ao baixar o relatório em Excel.");
-            })
-            .finally(() => {
-                setBaixandoExcel(false);
-            });
+            .catch(() => toast.error("Erro ao baixar o relatório em Excel."))
+            .finally(() => setBaixandoExcel(false));
     };
+
     const baixarPDF = () => {
         setBaixandoPDF(true);
         axios.get("https://erp-relatorio.onrender.com/relatorio/estoque/pdf", {
@@ -63,12 +57,8 @@ export default function EstoqueRelatorio() {
                 link.click();
                 link.remove();
             })
-            .catch(() => {
-                toast.error("Erro ao baixar o relatório em PDF.");
-            })
-            .finally(() => {
-                setBaixandoPDF(false);
-            });
+            .catch(() => toast.error("Erro ao baixar o relatório em PDF."))
+            .finally(() => setBaixandoPDF(false));
     };
 
     const ordenarDados = (dados) => {
@@ -83,6 +73,7 @@ export default function EstoqueRelatorio() {
     return (
         <>
             <p className="text-light">Relatório de Estoque</p>
+
             <div className="d-flex gap-4 align-items-center mb-3">
                 <select
                     value={ordem}
@@ -119,35 +110,62 @@ export default function EstoqueRelatorio() {
                 </div>
             </div>
 
-            <ResponsiveContainer height={400}>
-                <BarChart
+            <div style={{ height: 400 }}>
+                <ResponsiveBar
                     data={ordenarDados(dados)}
-                    margin={{ top: 10, right: 0, left: 0, bottom: 20 }}
-                >
-                    <defs>
-                        <linearGradient id="gradienteBar" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#0c332f" stopOpacity={1} />
-                            <stop offset="100%" stopColor="#52a08f" stopOpacity={1} />
-                        </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis
-                        dataKey="nome"
-                        angle={-20}
-                        textAnchor="end"
-                        interval={0}
-                        height={65}
-                        style={{ fontSize: 10 }}
-                        stroke="#FFFFF"
-                        tick={{ fill: "#d12e2e" }}
-                    />
-                    <YAxis
-                        tick={{ fill: "#d62929" }} />
-                    <Tooltip />
-                    <Bar dataKey="quantidade" fill="url(#gradienteBar)" />
-                </BarChart>
-            </ResponsiveContainer>
-
+                    keys={["quantidade"]}
+                    indexBy="nome"
+                    margin={{ top: 20, right: 20, bottom: 60, left: 60 }}
+                    padding={0.3}
+                    colors={{ scheme: "nivo" }}
+                    borderRadius={2}
+                    borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
+                    axisBottom={{
+                        tickSize: 5,
+                        tickPadding: 5,
+                        tickRotation: -25,
+                        legend: "Produto",
+                        legendPosition: "middle",
+                        legendOffset: 45
+                    }}
+                    axisLeft={{
+                        tickSize: 5,
+                        tickPadding: 5,
+                        tickRotation: 0,
+                        legend: "Quantidade",
+                        legendPosition: "middle",
+                        legendOffset: -40
+                    }}
+                    tooltip={({value, indexValue }) => (
+                        <strong style={{ color: "#fff", background: "#333", padding: "5px 10px", borderRadius: "4px" }}>
+                            {indexValue}: {value}
+                        </strong>
+                    )}
+                    theme={{
+                        tooltip: {
+                            container: {
+                                background: "#222",
+                                color: "#fff",
+                            },
+                        },
+                        axis: {
+                            ticks: {
+                                text: {
+                                    fill: "#fff",
+                                },
+                            },
+                            legend: {
+                                text: {
+                                    fill: "#fff",
+                                },
+                            },
+                        },
+                    }}
+                    animate
+                    motionStiffness={90}
+                    motionDamping={15}
+                />
+            </div>
         </>
     );
 }

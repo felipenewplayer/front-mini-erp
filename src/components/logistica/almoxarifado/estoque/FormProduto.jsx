@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { produtoSchema } from "../../../schemas/produtoSchema";
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
-import { NumericFormat } from "react-number-format";
+import CurrencyInput from "react-currency-input-field";
 
+import dadosProdutos from "../../../../data/dadosProdutos.json";
 
 export default function FormProduto({ defaultValues, onHandleSubmit, onCancel }) {
 
@@ -28,31 +29,10 @@ export default function FormProduto({ defaultValues, onHandleSubmit, onCancel })
 
 
     const categoriaSelecionada = watch("categoria");
-    const nomesPorCategoria = {
-        CONSOLE: ["PlayStation 5", "Xbox Series X", "Nintendo Switch"],
-        MONITOR: ["Samsung 24\"", "LG Ultrawide", "AOC Gamer"],
-        MOUSE: ["Logitech G203", "Razer Viper", "Microsoft Basic"],
-        TECLADO: ["Redragon Kumara", "Corsair K70", "Logitech K120"],
-        PROCESSADOR: ["Ryzen 5 5600X", "Intel i7 12700K", "Ryzen 7 5800X"],
-    };
     const nomeSelecionado = watch("nome");
-    const codigosPorNome = {
-        "PlayStation 5": "25",
-        "Xbox Series X": "26",
-        "Nintendo Switch": "27",
-        "Samsung 24\"": "31",
-        "LG Ultrawide": "32",
-        "AOC Gamer": "33",
-        "Logitech G203": "41",
-        "Razer Viper": "42",
-        "Microsoft Basic": "43",
-        "Redragon Kumara": "51",
-        "Corsair K70": "52",
-        "Logitech K120": "53",
-        "Ryzen 5 5600X": "61",
-        "Intel i7 12700K": "62",
-        "Ryzen 7 5800X": "63",
-    };
+    const nomesPorCategoria = dadosProdutos.nomesPorCategoria;
+    const codigosPorNome = dadosProdutos.codigosPorNome;
+
     useEffect(() => {
         if (nomeSelecionado) {
             const codigoGerado = codigosPorNome[nomeSelecionado] || "";
@@ -129,18 +109,15 @@ export default function FormProduto({ defaultValues, onHandleSubmit, onCancel })
                     control={control}
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <>
-                            <NumericFormat
+                            <CurrencyInput
                                 className="form-control"
-                                value={value}
-                                decimalSeparator=","
-                                thousandSeparator="."
                                 prefix="R$ "
-                                decimalScale={2}
-                                fixedDecimalScale
-                                allowNegative={false}
-                                onValueChange={({ floatValue }) => onChange(floatValue || 0)}
+                                decimalSeparator=","
+                                groupSeparator="."
+                                value={value}
+                                decimalsLimit={2}
+                                onValueChange={(val) => onChange(parseFloat(val?.replace(",", ".")) || 0)}
                             />
-
                             {error && <span className="text-danger">{error.message}</span>}
                         </>
                     )}
