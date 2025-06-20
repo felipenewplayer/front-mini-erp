@@ -132,7 +132,7 @@
     height: 50px;
 }
 
-.container_dos_conteudos{
-    max-width: 400px;
-    background-color: blue;
+.container_dos_conteudos {
+    background: linear-gradient(to right top, var(--gray-20), var(--gray-70));
+    max-width: 800px
 }

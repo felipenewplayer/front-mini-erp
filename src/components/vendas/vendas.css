@@ -1,0 +1,107 @@
+@keyframes brilho {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+.vendas-hoje {
+    background: linear-gradient(to right, var(--blue-30), var(--blue-100));
+    transition: 0.5s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.vendas-hoje::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: brilho 2s infinite;
+}
+
+
+
+
+.vendas-total {
+    background: linear-gradient(to right, var(--green-30), var(--green-100));
+    transition: 0.5s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.vendas-total::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: brilho 2s infinite;
+}
+
+.receber-hoje {
+    background: linear-gradient(to right, var(--yellow-30), var(--yellow-100));
+    transition: 0.5s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.receber-hoje::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: brilho 2s infinite;
+}
+
+.pagar-hoje {
+    background: linear-gradient(to right, var(--red-30), var(--red-100));
+    transition: 0.5s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.pagar-hoje::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: brilho 2s infinite;
+}
+
+section:hover {
+    gap: 3px;
+    transform: scale(1.05);
+}
+/* mobile */
+@media(max-width:768px) { 
+    @keyframes slideIn {
+        0% {
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .entrada-slide {
+        animation: slideIn 0.8s ease-out;
+    }
+}

@@ -136,7 +136,7 @@ export default function Sidebar() {
             <main
                 style={{
                     marginTop: !isMobile ? '-360px' : '0',
-                    paddingLeft: '20px',
+                    paddingLeft: !isMobile ? '290px': '20px',
                     marginLeft: !isMobile ? "" : "-20px"
                 }}
             >

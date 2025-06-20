@@ -6,7 +6,7 @@ import { HiDocumentReport } from "react-icons/hi";
 import VendasForm from "../components/vendas/VendasForm";
 import VendasListaClientes from "../components/vendas/VendasListaClientes";
 import { useVendas } from "../components/context/VendasContext";
-
+import "../components/vendas/vendas.css"
 export default function Vendas() {
     const [abaAberta, setAbaAberta] = useState("");
     const [vendas, setVendas] = useState([]);
@@ -16,7 +16,7 @@ export default function Vendas() {
     useEffect(() => {
         const vendasDoStorage = JSON.parse(localStorage.getItem("vendas")) || [];
         setVendas(vendasDoStorage);
-    }, [abaAberta]);
+    }, []);
 
     const handleSubmitPedido = (pedido) => {
         addVendas(pedido);
@@ -37,7 +37,6 @@ export default function Vendas() {
         const hoje = new Date().toISOString().slice(0, 10);
         const dataVenda = venda.dataVenda?.slice(0, 10) || venda.produto?.
             dataEntrada?.slice(0, 10);
-        console.log(dataVenda)
         if (dataVenda === hoje) {
             const total = (venda.produto?.precoUN || 0) * (venda.quantidade || 0);
             return acc + total;
@@ -45,14 +44,11 @@ export default function Vendas() {
         return acc;
     }, 0);
 
-
     return (
         <DivsDosConteudos>
-            <div className="row text-light g-3">
-                <section className="col-12 col-sm-6 col-lg-3 bg-primary pt-1 rounded d-flex justify-content-around align-items-center"
-                    style={{ background: "linear-gradient(to right, var(--blue-30), var(--blue-100" }}>
-                    <div className="d-flex flex-column align-items-center"
-                    >
+            <div className="row text-light g-4">
+                <section className="vendas-hoje entrada-slide col-12 col-sm-6 col-lg-3 bg-primary pt-1 rounded d-flex justify-content-around align-items-center">
+                    <div className="d-flex flex-column align-items-center">
                         <strong>R$ {Number(vendasHoje).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</strong>
                         <p>Vendas Hoje</p>
                     </div>
@@ -61,8 +57,7 @@ export default function Vendas() {
                     </div>
                 </section>
 
-                <section className="col-12 col-sm-6 col-lg-3 bg-success pt-1 rounded d-flex justify-content-around align-items-center"
-                   style={{background:"linear-gradient(to right, var(--green-30), var(--green-100"}}>
+                <section className="vendas-total entrada-slide col-12 col-sm-6 col-lg-3 bg-success pt-1 rounded d-flex justify-content-around align-items-center">
                     <div className="d-flex flex-column align-items-center">
                         <strong>R$ {Number(totalVendas).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</strong>
                         <p>Total Vendas</p>
@@ -72,10 +67,9 @@ export default function Vendas() {
                     </div>
                 </section>
 
-                <section className="col-12 col-sm-6 col-lg-3 bg-warning pt-1 rounded d-flex justify-content-around align-items-center"
-                   style={{background:"linear-gradient(to right, var(--yellow-30), var(--yellow-100"}}>
+                <section className="receber-hoje entrada-slide col-12 col-sm-6 col-lg-3 bg-warning pt-1 rounded d-flex justify-content-around align-items-center">
                     <div className="d-flex flex-column align-items-center">
-                        <strong>R$ {Number().toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</strong>
+                        <strong>R$ {Number(0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</strong>
                         <p>A Receber Hoje</p>
                     </div>
                     <div className="fs-3">
@@ -83,10 +77,9 @@ export default function Vendas() {
                     </div>
                 </section>
 
-                <section className="col-12 col-sm-6 col-lg-3 bg-danger pt-1 rounded d-flex justify-content-around align-items-center"
-                   style={{background:"linear-gradient(to right, var(--red-30), var(--red-100"}}>
+                <section className="pagar-hoje entrada-slide  col-12 col-sm-6 col-lg-3 bg-danger pt-1 rounded d-flex justify-content-around align-items-center">
                     <div className="d-flex flex-column align-items-center">
-                        <strong>R$ {Number().toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</strong>
+                        <strong>R$ {Number(0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</strong>
                         <p>A Pagar Hoje</p>
                     </div>
                     <div className="fs-3">
