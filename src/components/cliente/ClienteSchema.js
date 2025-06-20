@@ -15,12 +15,6 @@ export const clienteSchema = z.object({
         .min(1, "Telefone obrigatório")
         .regex(/^[()\d\s\-+]+$/, "Telefone deve conter apenas números e caracteres válidos"),
 
-
-
-    endereco: z.string()
-        .min(5, "Endereço muito curto (mín. 5 caracteres)")
-        .max(200, "Endereço muito longo (máx. 200 caracteres)"),
-
     estado: z.string()
         .min(1, "Estado obrigatório"),
 

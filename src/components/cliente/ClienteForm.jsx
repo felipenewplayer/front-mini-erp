@@ -34,7 +34,7 @@ export default function ClienteForm({ handleFormSubmit, defaultValues, onCancel 
     const uf = e.target.value;
     setValue("estado", uf);
     setEstadoSelecionado(uf);
-    setValue("cidade", ""); // limpa cidade ao trocar estado
+    setValue("cidade", "");
   };
 
   return (
@@ -72,16 +72,6 @@ export default function ClienteForm({ handleFormSubmit, defaultValues, onCancel 
         />
         {errors.telefone && <span className="text-danger">{errors.telefone.message}</span>}
       </div>
-
-      <div>
-        <label className="form-label mt-4">Endereço</label>
-        <input
-          className={`form-control w-75 ${errors.endereco ? "is-invalid" : ""}`}
-          {...register("endereco")}
-        />
-        {errors.endereco && <span className="text-danger">{errors.endereco.message}</span>}
-      </div>
-
       <div>
         <label className="form-label mt-4">Estado</label>
         <select
