@@ -20,11 +20,4 @@ export const clienteSchema = z.object({
 
     cidade: z.string()
         .min(1, "Cidade obrigatória"),
-})
-    .refine(data => {
-        const digitsOnly = data.telefone.replace(/\D/g, '');
-        return digitsOnly.length >= 10 && digitsOnly.length <= 15;
-    }, {
-        message: "Telefone deve conter entre 10 e 15 dígitos",
-        path: ["telefone"]
-    }); 
+});
