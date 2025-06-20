@@ -83,10 +83,6 @@
     animation: brilho 2s infinite;
 }
 
-section:hover {
-    gap: 3px;
-    transform: scale(1.05);
-}
 /* mobile */
 @media(max-width:768px) { 
     @keyframes slideIn {

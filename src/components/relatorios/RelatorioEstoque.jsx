@@ -20,7 +20,7 @@ export default function EstoqueRelatorio() {
             setDados(list);
             setLoading(false);
         } catch (err) {
-            setErro("Erro ao carregar dados do relatório.",err);
+            setErro("Erro ao carregar dados do relatório.", err);
             setLoading(false);
         }
     }, []);
@@ -110,7 +110,7 @@ export default function EstoqueRelatorio() {
                 </div>
             </div>
 
-            <div style={{ height: 400 }}>
+            <div className="pb-3" style={{ height: 400 }}>
                 <ResponsiveBar
                     data={ordenarDados(dados)}
                     keys={["quantidade"]}
@@ -123,8 +123,7 @@ export default function EstoqueRelatorio() {
                     axisBottom={{
                         tickSize: 5,
                         tickPadding: 5,
-                        tickRotation: -25,
-                        legend: "Produto",
+                        tickRotation: -9,
                         legendPosition: "middle",
                         legendOffset: 45
                     }}
@@ -136,7 +135,7 @@ export default function EstoqueRelatorio() {
                         legendPosition: "middle",
                         legendOffset: -40
                     }}
-                    tooltip={({value, indexValue }) => (
+                    tooltip={({ value, indexValue }) => (
                         <strong style={{ color: "#fff", background: "#333", padding: "5px 10px", borderRadius: "4px" }}>
                             {indexValue}: {value}
                         </strong>

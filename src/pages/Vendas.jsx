@@ -99,7 +99,7 @@ export default function Vendas() {
                     className="btn btn-primary btn-sm"
                     onClick={() => setAbaAberta("clientes")}
                 >
-                    Clientes
+                    Vendas Por Cliente
                 </button>
             </div>
 

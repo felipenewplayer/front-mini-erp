@@ -1,10 +1,39 @@
-import { createContext, useContext} from "react";
+import { createContext, useContext, useEffect } from "react";
 
 const ProdutoContext = createContext();
 export const useProduto = () => useContext(ProdutoContext);
 
+
+const produtosIniciais = [
+    {
+        id: 1,
+        categoria: "CONSOLE",
+        nome: "PlayStation 5",
+        codigo: "PS5-001",
+        precoUN: 4999.99,
+        quantidade: 10,
+        dataEntrada: "2024-06-20",
+    },
+    {
+        id: 2,
+        categoria: "CONSOLE",
+        nome: "Super Nintendo",
+        codigo: 6,
+        precoUN: 199.9,
+        quantidade: 25,
+        dataEntrada: "2024-06-18",
+    },
+];
+
 export const ProdutoProvider = ({ children }) => {
-    
+
+    useEffect(() => {
+        const produtos = getProdutos();
+
+        if (!produtos || produtos.length === 0) {
+            localStorage.setItem("produtos_cadastrados", JSON.stringify(produtosIniciais))
+        }
+    }, [])
     const getProdutos = () =>
         JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
 

@@ -44,7 +44,9 @@ export default function FormProduto({ defaultValues, onHandleSubmit, onCancel })
 
     return (
 
-        <form className="card p-3 mb-4 gap-3" onSubmit={handleSubmit(onHandleSubmit)}>
+        <form className="card p-3 mb-4 gap-3"
+            noValidate
+            onSubmit={handleSubmit(onHandleSubmit)}>
             <button
                 type="button"
                 className="btn btn-secondary mt-2 w-25"

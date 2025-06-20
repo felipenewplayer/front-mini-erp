@@ -13,9 +13,11 @@ export default function FormFinanceiro({ defaultValues, onHandleSubmit }) {
   });
 
 
-  
+
   return (
-    <form className="card p-3 mb-4" onSubmit={handleSubmit(onHandleSubmit)}>
+    <form className="card p-3 mb-4"
+      noValidate
+      onSubmit={handleSubmit(onHandleSubmit)}>
       <div className="mb-2">
         <label className="form-label">Valor</label>
         <input type="number" step="0.01" className="form-control" {...register("valor")} />

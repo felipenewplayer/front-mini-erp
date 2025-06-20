@@ -137,7 +137,8 @@ export default function Sidebar() {
                 style={{
                     marginTop: !isMobile ? '-360px' : '0',
                     paddingLeft: !isMobile ? '290px': '20px',
-                    marginLeft: !isMobile ? "" : "-20px"
+                    marginLeft: !isMobile ? "" : "-20px",
+                    marginRight: !isMobile ? "20px" : ""
                 }}
             >
                 {secaoAtiva === "logistica" && <Logistica />}

@@ -3,7 +3,7 @@ import { useClientes } from "../context/ClienteContext";
 import { toast } from "react-toastify";
 
 export default function useCliente() {
-    const [clientes, setClientes] = useState();
+    const [clientes, setClientes] = useState([]);
     const { getClientes } = useClientes();
     const [error, setError] = useState();
 

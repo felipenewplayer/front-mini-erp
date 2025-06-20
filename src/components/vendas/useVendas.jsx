@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useVendas } from "../context/VendasContext";
 import { toast } from "react-toastify";
 
-export default function useVenda() {
+export default function useVendas() {
     const [venda, setVendas] = useState();
     const { getVendas } = useVendas();
 

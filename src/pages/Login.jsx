@@ -4,8 +4,14 @@ import { loginSchema } from "../components/login/LoginSchema";
 import { useUser } from "../components/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import { BsEye } from "react-icons/bs";
+import { FaEye } from "react-icons/fa";
+import { FiEyeOff } from "react-icons/fi";
+import { RiEyeOffFill } from "react-icons/ri";
 
 export default function Login() {
+    const [senhaVisivel, setSenhaVisivel] = useState(false);
     const { login } = useUser();
     const navigate = useNavigate();
 
@@ -32,17 +38,18 @@ export default function Login() {
     return (
         <div className="container my-5">
             <form
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(onSubmit) }
+                noValidate
                 className="mx-auto p-4 p-md-5 bg-light rounded shadow"
                 style={{ maxWidth: "500px" }}
             >
                 <h2 className="mb-4 text-center">Login</h2>
 
                 <div className="mb-3">
-                    <label className="form-label">Email</label>
+                    <label className="form-label">E-mail</label>
                     <input
                         type="email"
-                        className="form-control"
+                        className={`form-control ${errors.senha ? "is-invalid" : ""} `}
                         autoComplete="email"
                         {...register("email")}
                     />
@@ -51,17 +58,23 @@ export default function Login() {
                     )}
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 position-relative">
                     <label className="form-label">Senha</label>
                     <input
-                        type="password"
-                        className="form-control"
+                        type={senhaVisivel ? "text" : "password"}
+                        className={`form-control ${errors.senha ? "is-invalid" : ""} `}
                         autoComplete="current-password"
                         {...register("senha")}
                     />
-                    {errors.senha && (
+                    {errors.senha ? (
                         <span className="text-danger small">{errors.senha.message}</span>
-                    )}
+                    ) :
+                        <button className="btn position-absolute top-50 end-0  me-2 p-0"
+                            onClick={() => setSenhaVisivel(!senhaVisivel)}>
+                            {senhaVisivel ? <FaEye size={18} /> : <RiEyeOffFill size={18} />
+                            }
+                        </button>
+                    }
                 </div>
 
                 <button type="submit" className="btn btn-success w-100">

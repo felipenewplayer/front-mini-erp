@@ -1,23 +1,22 @@
-import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import ClienteTabela from "../components/cliente/ClienteTabela";
 import ClienteForm from "../components/cliente/ClienteForm";
 import DivsDosConteudos from "../components/DivsDosConteudos";
 import useCliente from "../components/cliente/useCliente";
-import {useClientes} from "../components/context/ClienteContext";
+import { useClientes } from "../components/context/ClienteContext";
 import useFormCliente from "../components/cliente/useFormCliente";
 
 export default function Cliente() {
     const { form, editId, iniciarEdicao, limparForm } = useFormCliente();
     const { clientes, setClientes, error } = useCliente();
-    const { addCliente, atualizarClientes } = useClientes();
-    const [abaAberta, setAbaAberta] = useState("");
+    const { addCliente, atualizarClientes, deletarCliente } = useClientes();
+    const [abaAberta, setAbaAberta] = useState("lista");
 
-
-    
 
     const handleFormSubmit = async (data) => {
+        console.log("Dados recebidos no submit:", data);
+
         try {
             if (editId !== null) {
                 const clienteAtualizado = { ...data, id: editId };
@@ -40,19 +39,29 @@ export default function Cliente() {
         }
     };
 
-
-    const onExcluir = async (id) => {
-        if (!window.confirm("Deseja realmente excluir?")) return;
-
+    const handlerDeletar = (id) => {
+        if (!window.confirm("Tem certeza que quer deletar?")) return;
         try {
-            await axios.delete(`https://mini-erp-y8nj.onrender.com//clientes/${id}`);
-            setClientes(clientes => clientes.filter(cliente => cliente.id !== id));
-            limparForm();
-            toast.success("Cliente excluído com sucesso!!");
-        } catch (error) {
-            toast.error(error.message || "Erro ao excluir cliente");
+            deletarCliente(id);
+            setClientes(prev => prev.filter(p => p.id !== id));
+            toast.success("Cliente excluído com sucesso!");
+        } catch (err) {
+            toast.error("Erro ao excluir o produto", err);
         }
-    };
+    }
+
+    // const onExcluir = async (id) => {
+    //     if (!window.confirm("Deseja realmente excluir?")) return;
+
+    //     try {
+    //         await axios.delete(`https://mini-erp-y8nj.onrender.com//clientes/${id}`);
+    //         setClientes(clientes => clientes.filter(cliente => cliente.id !== id));
+    //         limparForm();
+    //         toast.success("Cliente excluído com sucesso!!");
+    //     } catch (error) {
+    //         toast.error(error.message || "Erro ao excluir cliente");
+    //     }
+    // };
 
     return (
         <DivsDosConteudos
@@ -68,7 +77,8 @@ export default function Cliente() {
                 {abaAberta === "formulario" && <ClienteForm
                     handleFormSubmit={handleFormSubmit}
                     defaultValues={form}
-                    onCancel={() => setAbaAberta("")} />
+                    onCancel={() => setAbaAberta("lista")}
+                />
                 }
 
 
@@ -83,12 +93,10 @@ export default function Cliente() {
                             limparForm()
                             setAbaAberta("formulario")
                         }}
-                        onExcluir={onExcluir}
+                        onExcluir={handlerDeletar}
                     />
                 )}
             </>
-
-
         </DivsDosConteudos>
     );
 }
