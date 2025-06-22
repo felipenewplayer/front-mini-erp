@@ -22,10 +22,10 @@ export default function TabelaProdutos({
             <table className="table table-dark table-bordered overflow-auto">
                 <thead className="table-dark">
                     <tr>
-                        <th className="p-3 text-center">Nome</th>
-                        <th className="p-3 text-center">Categoria</th>
+                        <th className="pt-2 pb-2  text-center">Nome</th>
+                        <th className="pt-2 pb-2  text-center">Categoria</th>
                         <th
-                            className="p-3 text-center"
+                            className="pt-2 pb-2  text-center"
                             style={{ cursor: "pointer" }}
                             onClick={() => onOrdenar("precoUN")}
                         >
@@ -34,7 +34,7 @@ export default function TabelaProdutos({
                         </th>
 
                         <th
-                            className="p-3 text-center"
+                            className="pt-2 pb-2 text-center"
                             style={{ cursor: "pointer" }}
                             onClick={() => onOrdenar("quantidade")}
                         >
@@ -43,14 +43,14 @@ export default function TabelaProdutos({
                                 (ordemAscendente ? "↑" : "↓")}
                         </th>
                         <th
-                            className="p-3 text-center"
+                            className="pt-2 pb-2 text-center"
                             style={{ cursor: "pointer" }}
                             onClick={() => onOrdenar("precoUN")}
                         >
                             Preço(T){" "}
                             {colunaOrdenada === "precoUN" && (ordemAscendente ? "↑" : "↓")}
                         </th>
-                        <th className="p-3 text-center">Ações</th>
+                        <th className="pt-2 pb-2 text-center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>

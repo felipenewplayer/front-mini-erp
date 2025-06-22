@@ -5,11 +5,12 @@ import { useProduto } from "../../../context/ProdutoContext.jsx";
 import useProdutos from "./produto/useProduto";
 import { toast } from "react-toastify";
 import TabelaProdutos from "../estoque/TabelaProdutos.jsx";
+import Alocacao from "./alocacao/Alocacao.jsx";
 
 export default function Estoque() {
     const [abaAtiva, setAbaAtiva] = useState("");
     const { form, editId, setEditId, iniciarEdicao, limparForm } = useFormProduto();
-    const { addProduto , updateProduto, deleteProduto } = useProduto();
+    const { addProduto, updateProduto, deleteProduto } = useProduto();
     const { produtos, setProdutos, isLoading, error } = useProdutos();
     const [colunaOrdenada, setColunaOrdenada] = useState("");
     const [ordemAscendente, setOrdemAscendente] = useState(true);
@@ -73,6 +74,13 @@ export default function Estoque() {
                 >
                     {abaAtiva === "tabela" ? "Fechar Tabela" : "Mostrar Tabela"}
                 </button>
+                <button
+                    className="btn btn-sm text-light"
+                    style={{ background: "linear-gradient(to right, var(--purple-20), var(--purple-40))" }}
+                    onClick={() => setAbaAtiva(abaAtiva === "alocacao" ? "" : "alocacao")}
+                >
+                    {abaAtiva === "alocação" ? "Endereçamento" : "Endereçamento"}
+                </button>
             </div>
 
             {abaAtiva === "tabela" && (
@@ -108,8 +116,7 @@ export default function Estoque() {
                     onCancel={() => setAbaAtiva("tabela")}
                 />
             )}
-
-            {/* {abaAtiva === "" && <EstoqueDashBoard />} */}
+            {abaAtiva === "alocacao" && <Alocacao />}
         </div>
     );
 }

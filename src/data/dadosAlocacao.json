@@ -1,0 +1,429 @@
+{
+  "alocacao": {
+    "rua-A": {
+      "categoria": "CONSOLE",
+      "prateleiras": {
+        "01": {
+          "item": "Magnavox Odyssey",
+          "codigo": "1"
+        },
+        "02": {
+          "item": "Atari 2600",
+          "codigo": "2"
+        },
+        "03": {
+          "item": "Nintendo Entertainment System (NES)",
+          "codigo": "3"
+        },
+        "04": {
+          "item": "Sega Master System",
+          "codigo": "4"
+        },
+        "05": {
+          "item": "Sega Genesis/Mega Drive",
+          "codigo": "5"
+        },
+        "06": {
+          "item": "Super Nintendo Entertainment System (SNES)",
+          "codigo": "6"
+        },
+        "07": {
+          "item": "PlayStation",
+          "codigo": "7"
+        },
+        "08": {
+          "item": "Nintendo 64",
+          "codigo": "8"
+        },
+        "09": {
+          "item": "Sega Dreamcast",
+          "codigo": "9"
+        },
+        "10": {
+          "item": "PlayStation 2",
+          "codigo": "10"
+        },
+        "11": {
+          "item": "Nintendo GameCube",
+          "codigo": "11"
+        },
+        "12": {
+          "item": "Xbox",
+          "codigo": "12"
+        },
+        "13": {
+          "item": "Xbox 360",
+          "codigo": "13"
+        },
+        "14": {
+          "item": "PlayStation 3",
+          "codigo": "14"
+        },
+        "15": {
+          "item": "Wii",
+          "codigo": "15"
+        },
+        "16": {
+          "item": "PlayStation 4",
+          "codigo": "16"
+        },
+        "17": {
+          "item": "Xbox One",
+          "codigo": "17"
+        },
+        "18": {
+          "item": "Nintendo Switch",
+          "codigo": "18"
+        },
+        "19": {
+          "item": "PlayStation 5",
+          "codigo": "19"
+        },
+        "20": {
+          "item": "Xbox Series X/S",
+          "codigo": "20"
+        }
+      }
+    },
+    "rua-B": {
+      "categoria": "MONITOR",
+      "prateleiras": {
+        "01": {
+          "item": "Dell UltraSharp U2720Q",
+          "codigo": "21"
+        },
+        "02": {
+          "item": "LG UltraFine 4K 27UN850-W",
+          "codigo": "22"
+        },
+        "03": {
+          "item": "Samsung Odyssey G7",
+          "codigo": "23"
+        },
+        "04": {
+          "item": "ASUS ROG Swift PG279Q",
+          "codigo": "24"
+        },
+        "05": {
+          "item": "BenQ PD2700U",
+          "codigo": "25"
+        },
+        "06": {
+          "item": "Acer Predator XB273K",
+          "codigo": "26"
+        },
+        "07": {
+          "item": "HP Z27k G3",
+          "codigo": "27"
+        },
+        "08": {
+          "item": "ViewSonic VP2768a",
+          "codigo": "28"
+        },
+        "09": {
+          "item": "MSI Optix MAG274QRF-QD",
+          "codigo": "29"
+        },
+        "10": {
+          "item": "Gigabyte AORUS FI32U",
+          "codigo": "30"
+        },
+        "11": {
+          "item": "Alienware AW3423DW",
+          "codigo": "31"
+        },
+        "12": {
+          "item": "LG OLED Flex LX3",
+          "codigo": "32"
+        },
+        "13": {
+          "item": "ASUS ProArt PA32UCX",
+          "codigo": "33"
+        },
+        "14": {
+          "item": "Philips Brilliance 329P9H",
+          "codigo": "34"
+        },
+        "15": {
+          "item": "AOC Agon AG273QXP",
+          "codigo": "35"
+        },
+        "16": {
+          "item": "EIZO ColorEdge CG319X",
+          "codigo": "36"
+        },
+        "17": {
+          "item": "Corsair XENEON 32QHD165",
+          "codigo": "37"
+        },
+        "18": {
+          "item": "Razer Raptor 27",
+          "codigo": "38"
+        },
+        "19": {
+          "item": "Sony InZone M9",
+          "codigo": "39"
+        },
+        "20": {
+          "item": "Apple Pro Display XDR",
+          "codigo": "40"
+        }
+      }
+    },
+    "rua-C": {
+      "categoria": "MOUSE",
+      "prateleiras": {
+        "01": {
+          "item": "Logitech G Pro X Superlight",
+          "codigo": "41"
+        },
+        "02": {
+          "item": "Razer DeathAdder V3 Pro",
+          "codigo": "42"
+        },
+        "03": {
+          "item": "SteelSeries Aerox 3 Wireless",
+          "codigo": "43"
+        },
+        "04": {
+          "item": "Corsair Dark Core RGB Pro",
+          "codigo": "44"
+        },
+        "05": {
+          "item": "Glorious Model O Wireless",
+          "codigo": "45"
+        },
+        "06": {
+          "item": "HyperX Pulsefire Haste",
+          "codigo": "46"
+        },
+        "07": {
+          "item": "Roccat Kone Pro Air",
+          "codigo": "47"
+        },
+        "08": {
+          "item": "ASUS ROG Keris Wireless",
+          "codigo": "48"
+        },
+        "09": {
+          "item": "Zowie EC2-CW",
+          "codigo": "49"
+        },
+        "10": {
+          "item": "Microsoft Pro IntelliMouse",
+          "codigo": "50"
+        },
+        "11": {
+          "item": "Logitech MX Master 3S",
+          "codigo": "51"
+        },
+        "12": {
+          "item": "Razer Basilisk V3 Pro",
+          "codigo": "52"
+        },
+        "13": {
+          "item": "Cooler Master MM731",
+          "codigo": "53"
+        },
+        "14": {
+          "item": "Endgame Gear XM2we",
+          "codigo": "54"
+        },
+        "15": {
+          "item": "Pulsar X2 Mini",
+          "codigo": "55"
+        },
+        "16": {
+          "item": "Vaxee NP-01S",
+          "codigo": "56"
+        },
+        "17": {
+          "item": "BenQ Zowie S2-C",
+          "codigo": "57"
+        },
+        "18": {
+          "item": "Redragon Cobra",
+          "codigo": "58"
+        },
+        "19": {
+          "item": "Trust GXT 152",
+          "codigo": "59"
+        },
+        "20": {
+          "item": "HP Omen Photon Wireless",
+          "codigo": "60"
+        }
+      }
+    },
+    "rua-D": {
+      "categoria": "TECLADO",
+      "prateleiras": {
+        "01": {
+          "item": "Keychron Q3",
+          "codigo": "61"
+        },
+        "02": {
+          "item": "Razer BlackWidow V4 Pro",
+          "codigo": "62"
+        },
+        "03": {
+          "item": "Logitech G915 TKL",
+          "codigo": "63"
+        },
+        "04": {
+          "item": "SteelSeries Apex Pro",
+          "codigo": "64"
+        },
+        "05": {
+          "item": "Corsair K100 RGB",
+          "codigo": "65"
+        },
+        "06": {
+          "item": "HyperX Alloy Origins Core",
+          "codigo": "66"
+        },
+        "07": {
+          "item": "Ducky One 3 Mini",
+          "codigo": "67"
+        },
+        "08": {
+          "item": "ASUS ROG Strix Scope RX",
+          "codigo": "68"
+        },
+        "09": {
+          "item": "Glorious GMMK Pro",
+          "codigo": "69"
+        },
+        "10": {
+          "item": "Akko 3068B",
+          "codigo": "70"
+        },
+        "11": {
+          "item": "Redragon K530 Draconic",
+          "codigo": "71"
+        },
+        "12": {
+          "item": "Cooler Master CK720",
+          "codigo": "72"
+        },
+        "13": {
+          "item": "Royal Kludge RK84",
+          "codigo": "73"
+        },
+        "14": {
+          "item": "Epomaker TH80",
+          "codigo": "74"
+        },
+        "15": {
+          "item": "Varmilo VA87M",
+          "codigo": "75"
+        },
+        "16": {
+          "item": "Leopold FC750R",
+          "codigo": "76"
+        },
+        "17": {
+          "item": "Drop ALT",
+          "codigo": "77"
+        },
+        "18": {
+          "item": "Microsoft Surface Keyboard",
+          "codigo": "78"
+        },
+        "19": {
+          "item": "Logitech MX Keys Mini",
+          "codigo": "79"
+        },
+        "20": {
+          "item": "Apple Magic Keyboard",
+          "codigo": "80"
+        }
+      }
+    },
+    "rua-E": {
+      "categoria": "PROCESSADOR",
+      "prateleiras": {
+        "01": {
+          "item": "Intel Core i9-14900K",
+          "codigo": "81"
+        },
+        "02": {
+          "item": "AMD Ryzen 9 7950X3D",
+          "codigo": "82"
+        },
+        "03": {
+          "item": "Intel Core i7-13700K",
+          "codigo": "83"
+        },
+        "04": {
+          "item": "AMD Ryzen 7 7800X3D",
+          "codigo": "84"
+        },
+        "05": {
+          "item": "Intel Core i5-13600K",
+          "codigo": "85"
+        },
+        "06": {
+          "item": "AMD Ryzen 5 7600X",
+          "codigo": "86"
+        },
+        "07": {
+          "item": "Intel Core i3-13100F",
+          "codigo": "87"
+        },
+        "08": {
+          "item": "AMD Ryzen 9 7900X",
+          "codigo": "88"
+        },
+        "09": {
+          "item": "Intel Core i9-13900KS",
+          "codigo": "89"
+        },
+        "10": {
+          "item": "AMD Ryzen 7 7700X",
+          "codigo": "90"
+        },
+        "11": {
+          "item": "Intel Xeon W9-3495X",
+          "codigo": "91"
+        },
+        "12": {
+          "item": "AMD Threadripper PRO 5995WX",
+          "codigo": "92"
+        },
+        "13": {
+          "item": "Intel Core i5-12600K",
+          "codigo": "93"
+        },
+        "14": {
+          "item": "AMD Ryzen 5 5600X",
+          "codigo": "94"
+        },
+        "15": {
+          "item": "Intel Core i7-12700KF",
+          "codigo": "95"
+        },
+        "16": {
+          "item": "AMD Ryzen 7 5800X3D",
+          "codigo": "96"
+        },
+        "17": {
+          "item": "Intel Core i3-12100",
+          "codigo": "97"
+        },
+        "18": {
+          "item": "AMD Ryzen 9 5950X",
+          "codigo": "98"
+        },
+        "19": {
+          "item": "Intel Pentium Gold G7400",
+          "codigo": "99"
+        },
+        "20": {
+          "item": "AMD Ryzen 3 4100",
+          "codigo": "100"
+        }
+      }
+    }
+  }
+}
