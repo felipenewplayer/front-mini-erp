@@ -12,7 +12,6 @@ export default function Alocacao() {
     return (
         <div className="container shadow bg-secondary text-white p-4 rounded">
             <h1 className="mb-4 text-center">Alocação de Produtos por Rua</h1>
-
             <span>Pesquisar produto</span>
             <div className="d-flex align-items-center gap-2 mb-4">
                 <input
