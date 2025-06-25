@@ -8,7 +8,7 @@ export default function Alocacao() {
 
     const filtrarItens = (item) =>
         item.toLowerCase().includes(busca.toLowerCase().trim());
-
+    
     return (
         <div className="container shadow bg-secondary text-white p-4 rounded">
             <h1 className="mb-4 text-center">Alocação de Produtos por Rua</h1>
@@ -29,7 +29,7 @@ export default function Alocacao() {
             {Object.entries(ruas).map(([ruaNome, ruaDados]) => {
                 // Filtrar prateleiras com base na busca
                 const prateleirasFiltradas = Object.entries(ruaDados.prateleiras)
-                    .filter(([, dados]) => filtrarItens(dados.item))
+                    .filter(([,dados]) => filtrarItens(dados.item))
                     .sort((a, b) => Number(a[0]) - Number(b[0]));
 
                 // Se nenhuma prateleira da rua tiver match, pula essa rua

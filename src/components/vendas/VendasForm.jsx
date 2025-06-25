@@ -25,7 +25,6 @@ export default function VendasForm({ onSubmit }) {
   const produtoSelecionado = produtos.find(
     (p) => p.id === parseInt(produtoIdSelecionado)
   );
-  console.log("produtoSelecionado é ...", produtoIdSelecionado);
 
   useEffect(() => {
     setProdutos(getProdutos());

@@ -15,8 +15,6 @@ export default function Cliente() {
 
 
     const handleFormSubmit = async (data) => {
-        console.log("Dados recebidos no submit:", data);
-
         try {
             if (editId !== null) {
                 const clienteAtualizado = { ...data, id: editId };

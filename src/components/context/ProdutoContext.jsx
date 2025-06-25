@@ -34,6 +34,7 @@ export const ProdutoProvider = ({ children }) => {
             localStorage.setItem("produtos_cadastrados", JSON.stringify(produtosIniciais))
         }
     }, [])
+    
     const getProdutos = () =>
         JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
 
