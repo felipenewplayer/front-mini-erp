@@ -112,6 +112,7 @@ export default function EstoqueRelatorio() {
         </div>
       </div>
 
+
       <div className="pb-3" style={{ height: 400 }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={ordenarDados(dados)}>

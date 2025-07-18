@@ -18,7 +18,7 @@ export default function Relatorios() {
         <DivsDosConteudos
             title="Relatórios">
             <div
-                style={{ height: 600 }}>
+                style={{ height: "100%" }}>
                 {!showListaMenu && (
                     <div className="d-flex gap-5">
                         <button className="btn btn-sm ms-3 mb-2  rounded shadow  p-2"
