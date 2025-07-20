@@ -1,6 +1,8 @@
 .btn-relatorio {
   background: linear-gradient(to right, var(--blue-10), var(--blue-30));
-  height: 40px;
+  border-radius: 10px;
+  padding-top:15px;
+  border: none;
 }
 
 .btn-relatorio:hover {
@@ -25,5 +27,6 @@
 @media(max-width: 768px){
   .btn-relatorio {
   height: 60px;
+  padding: 5px;
 }
 }

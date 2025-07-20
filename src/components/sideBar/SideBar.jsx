@@ -41,7 +41,6 @@ export default function Sidebar() {
     }, [usuario]);
 
     const handleSectionClickComPermissão = (secao, rolesPermitidos = []) => {
-        // Se rolesPermitidos for vazio, libera para todos
         if (rolesPermitidos.length > 0 && !rolesPermitidos.includes(usuario?.role) && usuario?.role !== "admin") {
             toast.error("Você não tem acesso a essa seção, cadastre-se.");
             return;
@@ -55,8 +54,8 @@ export default function Sidebar() {
             {/* Botão para abrir menu no mobile */}
             {isMobile && !menuAberto && (
                 <button
-                    className="btn mt-2 ms-1"
-                    style={{ background: "var(--gray-50)" }}
+                    className="btn btn-sm mt-2 ms-1"
+                    style={{ background: "var(--gray-50)", width:"100px"}}
                     onClick={() => {
                         setMenuAberto(true);
                         setSecaoAtiva(null);
@@ -82,7 +81,7 @@ export default function Sidebar() {
                     {/* Botão fechar no mobile */}
                     {isMobile && (
                         <button
-                            className="btn btn-cyan mb-4 border"
+                            className="btn btn-cyan mb-2 text-light border"
                             onClick={() => setMenuAberto(false)}
                             aria-label="Fechar menu"
                         >

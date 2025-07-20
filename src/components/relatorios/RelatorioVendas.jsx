@@ -90,19 +90,18 @@ export default function RelatorioVendas() {
     );
   }
 
-
   return (
     <>
       <div className="d-flex flex-column ms-4">
-        <div className="m-1 mb-3 d-flex" >
+        <div className="m-1 mb-3 d-flex justify-content-evenly gap-3" >
           <select
             value={ordem}
             onChange={(e) => setOrdem(e.target.value)}
-            className="form-control w-25">
+            className="rounded">
             <option value="asc">Maior para o menor</option>
             <option value="desc">Menor para o maior</option>
           </select>
-          <h2 className="text-primary ms-5">Total de vendas: {totaTDeVendas}</h2>
+          <h2 className="text-primary">Total de vendas: {totaTDeVendas}</h2>
         </div>
         <div className="pb-3" style={{ height: 400 }}>
           <ComponenteGrafico

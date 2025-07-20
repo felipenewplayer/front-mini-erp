@@ -11,7 +11,7 @@ export default function Relatorios() {
 
     const handleSecaoAtiva = (secao) => {
         setSecaoAtiva(secao);
-        setShowListaMenu(false); // Esconde o menu após clicar (opcional)
+        setShowListaMenu(false);
     };
 
     return (
@@ -23,29 +23,28 @@ export default function Relatorios() {
                     <div className="d-flex gap-5">
                         <button className="btn btn-sm ms-3 mb-2  rounded"
                             style={{
-                                background: "linear-gradient(to right, var(--orange-10), var(--orange-30))",
-                                height: "28px",
+                                background: "linear-gradient(to right, var(--orange-10), var(--orange-30))"
                             }}
                             onClick={() => setShowListaMenu(true)}>Voltar</button>
                     </div>
 
                 )}
                 {showListaMenu && (
-                    <section className="me-5 container d-flex  gap-2">
+                    <section className="me-5 container d-flex gap-2">
                         <button
-                            className="btn btn-relatorio text-light  shadow"
+                            className=" btn-relatorio text-light "
                             onClick={() => handleSecaoAtiva("estoque-relatorio")}
                         >
                             <p>Relatório do estoque</p>
                         </button>
                         <button
-                            className="btn btn-relatorio text-light shadow"
+                            className=" btn-relatorio text-light "
                             onClick={() => handleSecaoAtiva("clientes-relatorio")}
                         >
                             <p>Relatório de clientes</p>
                         </button>
                         <button
-                            className="btn btn-relatorio text-light shadow"
+                            className=" btn-relatorio text-light "
                             onClick={() => handleSecaoAtiva("vendas-relatorio")}
                         >
                             <p>Relatório de vendas</p>

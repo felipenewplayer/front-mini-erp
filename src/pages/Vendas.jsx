@@ -25,7 +25,7 @@ export default function Vendas() {
         setVendas(vendasDoStorage);
     };
 
-    
+
     const totalVendas = vendas.reduce((acc, venda) => {
         const total = (venda.produto?.precoUN || 0) * (venda.quantidade || 0);
         return acc + total;

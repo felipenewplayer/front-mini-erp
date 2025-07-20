@@ -11,10 +11,11 @@ export default function Logistica() {
 
   return (
     <DivsDosConteudos>
-      <nav className="d-flex gap-3 mb-3 botoes-logistica flex-wrap">        <button className="btn rounded text-light" onClick={() => setAbaAtiva(abaAtiva === "almoxarifado" ? "" : "almoxarifado")}
-        style={{ background: "linear-gradient(to right, var(--red-30), var(--yellow-80))" }}>
-        Almoxarifado  <FaWarehouse className="ms-2" />
-      </button>
+      <nav className="d-flex gap-3 mb-3 botoes-logistica flex-wrap">
+        <button className="btn rounded text-light" onClick={() => setAbaAtiva(abaAtiva === "almoxarifado" ? "" : "almoxarifado")}
+          style={{ background: "linear-gradient(to right, var(--red-30), var(--yellow-80))" }}>
+          Almoxarifado <FaWarehouse className="ms-2" />
+        </button>
         <button className="btn rounded bg-primary text-light" onClick={() => setAbaAtiva(abaAtiva === "expedicao" ? "" : "expedicao")}
           style={{ background: "linear-gradient(to right, var(--blue-30), var(--purple-80))" }}>
           Expedição <TbTruckDelivery className="ms-2" />

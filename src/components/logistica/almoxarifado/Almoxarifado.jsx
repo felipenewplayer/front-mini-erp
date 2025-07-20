@@ -6,26 +6,26 @@ export default function Almoxarifado() {
 
     return (
         <>
-            <div className="border-bottom border-top d-flex align-items-center p-2 rounded"
+            <div className="border-bottom border-top d-flex align-items-center  rounded"
                 style={{ background: "linear-gradient(to left,var(--gray-30),var(--gray-60))" }}>
 
                 <button
-                    className="btn  btn-sm me-2 botao-custom "
+                    className=" botao-custom "
                     onClick={() => setAbaAtiva(abaAtiva === "estoque" ? "" : "estoque")}>
                     Estoque
                 </button>
                 <button
-                    className="btn  btn-sm me-3 botao-custom"
+                    className=" botao-custom"
                     onClick={() => setAbaAtiva(abaAtiva === "inventario" ? "" : "inventario")}>
                     Inventário
                 </button>
                 <button
-                    className="btn  btn-sm me-3 botao-custom"
+                    className="  botao-custom"
                     onClick={() => setAbaAtiva(abaAtiva === "entrada" ? "" : "entrada")}>
                     Entrada
                 </button>
                 <button
-                    className="btn btn-sm me-3 botao-custom"
+                    className=" botao-custom"
                     onClick={() => setAbaAtiva(abaAtiva === "saida" ? "" : "saida")}>
                     Saída
                 </button>

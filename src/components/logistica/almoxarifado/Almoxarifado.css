@@ -3,12 +3,24 @@
   color: white;
   border: 1px solid var(--gray-50);
   transition: all 0.2s ease;
+  width: 100px;
+  margin: 10px 5px 10px 4px;
+  font-size: 0.85rem;
+  border-radius: 10px;
+  padding: 10px 10px;
+  height: auto;
 }
 
 .botao-custom:hover {
-    color: white;
+  color: white;
   background: linear-gradient(to right, var(--gray-70), var(--gray-40));
   transform: scale(1.02);
 }
 
 
+@media (max-width: 576px) {
+  .botao-custom {
+    font-size: 0.95rem;
+    padding: 8px 8px;
+  }
+}
