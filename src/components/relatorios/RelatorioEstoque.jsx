@@ -117,11 +117,11 @@ export default function EstoqueRelatorio() {
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={ordenarDados(dados)}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="nome" stroke="#fff" tick={{ fill: "#fff", fontSize: 12 }} angle={-10} interval={0} />
+            <XAxis dataKey="nome" stroke="#fff" tick={{ fill: "#fff", fontSize: 12 }} angle={-7}/>
             <YAxis stroke="#fff" tick={{ fill: "#fff" }} />
             <Tooltip contentStyle={{ backgroundColor: "#333", color: "#fff" }} />
             <Legend />
-            <Bar dataKey="quantidade" fill="#8884d8" radius={[6, 6, 0, 0]} />
+            <Bar dataKey="quantidade" fill="#0a0654"/>
           </BarChart>
         </ResponsiveContainer>
       </div>

@@ -6,6 +6,27 @@
   overflow: hidden;
 }
 
+
+tr.estoque-baixo td {
+  background-color: #ff4d4d !important;
+  color: white;
+}
+
+tr.estoque-medio td {
+  background-color: #fff3cd !important;
+  color: #856404;
+}
+
+tr.estoque-bom td {
+  background-color: #d4edda !important;
+  color: #155724;
+}
+
+.table tbody td {
+  vertical-align: middle;
+}
+
+
 @media (max-width: 768px) {
 
   .table td,

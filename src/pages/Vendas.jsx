@@ -12,7 +12,6 @@ export default function Vendas() {
     const [vendas, setVendas] = useState([]);
     const { addVendas } = useVendas();
 
-    // Atualiza o estado de vendas toda vez que o componente monta ou que a aba mudar, para atualizar a lista e totais
     useEffect(() => {
         const vendasDoStorage = JSON.parse(localStorage.getItem("vendas")) || [];
         setVendas(vendasDoStorage);
@@ -26,7 +25,7 @@ export default function Vendas() {
         setVendas(vendasDoStorage);
     };
 
-    // Calcula os totais dinamicamente
+    
     const totalVendas = vendas.reduce((acc, venda) => {
         const total = (venda.produto?.precoUN || 0) * (venda.quantidade || 0);
         return acc + total;

@@ -1,5 +1,6 @@
 .btn-relatorio {
   background: linear-gradient(to right, var(--blue-10), var(--blue-30));
+  height: 40px;
 }
 
 .btn-relatorio:hover {
@@ -19,4 +20,10 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@media(max-width: 768px){
+  .btn-relatorio {
+  height: 60px;
+}
 }

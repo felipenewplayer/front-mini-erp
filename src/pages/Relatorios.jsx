@@ -21,8 +21,11 @@ export default function Relatorios() {
                 style={{ height: "100%" }}>
                 {!showListaMenu && (
                     <div className="d-flex gap-5">
-                        <button className="btn btn-sm ms-3 mb-2  rounded shadow  p-2"
-                            style={{ background: "linear-gradient(to right, var(--orange-10), var(--orange-30))" }}
+                        <button className="btn btn-sm ms-3 mb-2  rounded"
+                            style={{
+                                background: "linear-gradient(to right, var(--orange-10), var(--orange-30))",
+                                height: "28px",
+                            }}
                             onClick={() => setShowListaMenu(true)}>Voltar</button>
                     </div>
 
@@ -30,7 +33,7 @@ export default function Relatorios() {
                 {showListaMenu && (
                     <section className="me-5 container d-flex  gap-2">
                         <button
-                            className="btn btn-relatorio  text-light  shadow"
+                            className="btn btn-relatorio text-light  shadow"
                             onClick={() => handleSecaoAtiva("estoque-relatorio")}
                         >
                             <p>Relatório do estoque</p>

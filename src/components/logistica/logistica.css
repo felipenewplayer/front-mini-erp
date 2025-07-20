@@ -1,9 +1,10 @@
-.bnt {
+.btn {
   padding: 8px 16px;
   font-size: 1rem;
   transition: all 0.3s ease;
   border: none;
 }
+
 
 .bnt:hover {
   opacity: 0.9;
@@ -11,7 +12,7 @@
 }
 
 @media (max-width: 768px) {
-  .bnt {
+  .btn {
     width: 100%;
     font-size: 0.90rem;
   }
@@ -33,7 +34,7 @@
     flex-direction: column;
   }
 
-  .nav-bar .bnt {
+  .nav-bar .btn {
     width: 100%;
     justify-content: space-between;
   }

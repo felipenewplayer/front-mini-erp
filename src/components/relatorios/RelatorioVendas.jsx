@@ -84,7 +84,6 @@ export default function RelatorioVendas() {
   }
   const totaTDeVendas = dados.length;
 
-
   const ordenarDados = (dados) => {
     return [...dados].sort((a, b) =>
       ordem === "asc" ? a.quantidade - b.quantidade : b.quantidade - a.quantidade
@@ -93,12 +92,9 @@ export default function RelatorioVendas() {
 
 
   return (
-
     <>
       <div className="d-flex flex-column ms-4">
-
-
-        <div className="m-1 mb-3" >
+        <div className="m-1 mb-3 d-flex" >
           <select
             value={ordem}
             onChange={(e) => setOrdem(e.target.value)}
@@ -106,8 +102,8 @@ export default function RelatorioVendas() {
             <option value="asc">Maior para o menor</option>
             <option value="desc">Menor para o maior</option>
           </select>
+          <h2 className="text-primary ms-5">Total de vendas: {totaTDeVendas}</h2>
         </div>
-        <h2 className="text-primary ms-5">Total de vendas: {totaTDeVendas}</h2>
         <div className="pb-3" style={{ height: 400 }}>
           <ComponenteGrafico
             titulo="Vendas por Cliente"
@@ -124,8 +120,8 @@ export default function RelatorioVendas() {
               nome: item?.produtoNome ?? "Sem produto",
               quantidade: item.quantidade
             }))
-          }
-           color="#ffffff"
+            }
+            color="#ffffff"
           />
         </div>
         <div className="pb-3" style={{ height: 400 }}>
