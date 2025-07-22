@@ -146,6 +146,7 @@ export default function Sidebar() {
                 {secaoAtiva === "cliente" && <Cliente />}
                 {secaoAtiva === "relatorios" && <Relatorios />}
                 {secaoAtiva === null && <Comecar />}
+
             </main>
         </>
     );

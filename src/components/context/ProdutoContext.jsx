@@ -1,67 +1,102 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../../firebase"; // ajuste o caminho para o seu arquivo de config Firebase
 
 const ProdutoContext = createContext();
 export const useProduto = () => useContext(ProdutoContext);
 
-
-const produtosIniciais = [
-    {
-        id: 1,
-        categoria: "CONSOLE",
-        nome: "PlayStation 5",
-        codigo: "PS5-001",
-        precoUN: 4999.99,
-        quantidade: 10,
-        dataEntrada: "2024-06-20",
-    },
-    {
-        id: 2,
-        categoria: "CONSOLE",
-        nome: "Super Nintendo",
-        codigo: 6,
-        precoUN: 199.9,
-        quantidade: 25,
-        dataEntrada: "2024-06-18",
-    },
-];
-
 export const ProdutoProvider = ({ children }) => {
+  const [produtos, setProdutos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const produtos = getProdutos();
+  // Função para carregar produtos do Firestore
+  const carregarProdutos = async () => {
+    setLoading(true);
+    try {
+      const querySnapshot = await getDocs(collection(db, "produtos"));
+      const listaProdutos = [];
+      querySnapshot.forEach((doc) => {
+        listaProdutos.push({ id: doc.id, ...doc.data() });
+      });
+      setProdutos(listaProdutos);
+    } catch (error) {
+      console.error("Erro ao carregar produtos:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        if (!produtos || produtos.length === 0) {
-            localStorage.setItem("produtos_cadastrados", JSON.stringify(produtosIniciais))
-        }
-    }, [])
-    
-    const getProdutos = () =>
-        JSON.parse(localStorage.getItem("produtos_cadastrados")) || [];
+  useEffect(() => {
+    carregarProdutos();
+  }, []);
 
-    const addProduto = (produto) => {
-        const produtos = getProdutos();
-        if (produtos.some(p => p.nome === produto.nome)) return false;
+  // Adicionar produto (verifica nome duplicado)
+  const addProduto = async (produto) => {
+    try {
+      // Verifica se já existe produto com mesmo nome
+      const q = query(
+        collection(db, "produtos"),
+        where("nome", "==", produto.nome)
+      );
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        return false; // já existe
+      }
 
-        const atualizados = [...produtos, produto];
-        localStorage.setItem("produtos_cadastrados", JSON.stringify(atualizados));
-        return true;
-    };
+      const docRef = await addDoc(collection(db, "produtos"), produto);
+      setProdutos((prev) => [...prev, { id: docRef.id, ...produto }]);
+      return true;
+    } catch (error) {
+      console.error("Erro ao adicionar produto:", error);
+      return false;
+    }
+  };
 
-    const updateProduto = (produto) => {
-        const produtos = getProdutos().map(p =>
-            p.id === produto.id ? produto : p
-        );
-        localStorage.setItem("produtos_cadastrados", JSON.stringify(produtos));
-    };
+  // Atualizar produto
+  const updateProduto = async (produto) => {
+    try {
+      const produtoRef = doc(db, "produtos", produto.id);
+      await updateDoc(produtoRef, produto);
+      setProdutos((prev) =>
+        prev.map((p) => (p.id === produto.id ? produto : p))
+      );
+    } catch (error) {
+      console.error("Erro ao atualizar produto:", error);
+    }
+  };
 
-    const deleteProduto = (id) => {
-        const produtos = getProdutos().filter(p => p.id !== id);
-        localStorage.setItem("produtos_cadastrados", JSON.stringify(produtos));
-    };
+  // Deletar produto
+  const deleteProduto = async (id) => {
+    try {
+      const produtoRef = doc(db, "produtos", id);
+      await deleteDoc(produtoRef);
+      setProdutos((prev) => prev.filter((p) => p.id !== id));
+    } catch (error) {
+      console.error("Erro ao deletar produto:", error);
+    }
+  };
 
-    return (
-        <ProdutoContext.Provider value={{ getProdutos, addProduto, updateProduto, deleteProduto }}>
-            {children}
-        </ProdutoContext.Provider>
-    );
+  return (
+    <ProdutoContext.Provider
+      value={{
+        produtos,
+        loading,
+        carregarProdutos,
+        addProduto,
+        updateProduto,
+        deleteProduto,
+      }}
+    >
+      {children}
+    </ProdutoContext.Provider>
+  );
 };

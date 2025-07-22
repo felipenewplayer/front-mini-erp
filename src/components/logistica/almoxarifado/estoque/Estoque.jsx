@@ -2,30 +2,27 @@ import { useState } from "react";
 import useFormProduto from "./produto/useFormProduto";
 import FormProduto from "./FormProduto";
 import { useProduto } from "../../../context/ProdutoContext.jsx";
-import useProdutos from "./produto/useProduto";
 import { toast } from "react-toastify";
 import TabelaProdutos from "../estoque/TabelaProdutos.jsx";
 import Alocacao from "./alocacao/Alocacao.jsx";
 
 export default function Estoque() {
+    const { produtos, loading: isLoading, error, addProduto, updateProduto, deleteProduto } = useProduto();
+
     const [abaAtiva, setAbaAtiva] = useState("");
     const { form, editId, setEditId, iniciarEdicao, limparForm } = useFormProduto();
-    const { addProduto, updateProduto, deleteProduto } = useProduto();
-    const { produtos, setProdutos, isLoading, error } = useProdutos();
     const [colunaOrdenada, setColunaOrdenada] = useState("");
     const [ordemAscendente, setOrdemAscendente] = useState(true);
 
-    const handleSubmit = (data) => {
+    const handleSubmit = async (data) => {
         if (editId) {
             const produtoAtualizado = { ...data, id: editId };
-            updateProduto(produtoAtualizado);
-            setProdutos(prev => prev.map(p => p.id === editId ? produtoAtualizado : p));
+            await updateProduto(produtoAtualizado);
             toast.success("Produto atualizado com sucesso!");
         } else {
             const produtoComId = { ...data, id: Date.now() };
-            const sucesso = addProduto(produtoComId);
+            const sucesso = await addProduto(produtoComId);
             if (sucesso) {
-                setProdutos(prev => [...prev, produtoComId]);
                 toast.success("Produto cadastrado com sucesso!");
             } else {
                 toast.error("Erro ao cadastrar produto");
@@ -36,12 +33,10 @@ export default function Estoque() {
         setAbaAtiva("tabela");
     };
 
-    const handleDeletar = (id) => {
+    const handleDeletar = async (id) => {
         if (!window.confirm("Tem certeza que quer deletar?")) return;
-
         try {
-            deleteProduto(id);
-            setProdutos(prev => prev.filter(p => p.id !== id));
+            await deleteProduto(id);
             toast.success("Produto excluído com sucesso!");
         } catch (err) {
             toast.error("Erro ao excluir o produto", err);
