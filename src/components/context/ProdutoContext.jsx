@@ -10,6 +10,7 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase"; // ajuste o caminho para o seu arquivo de config Firebase
+import { toast } from "react-toastify";
 
 const ProdutoContext = createContext();
 export const useProduto = () => useContext(ProdutoContext);
@@ -28,13 +29,14 @@ export const ProdutoProvider = ({ children }) => {
         listaProdutos.push({ id: doc.id, ...doc.data() });
       });
       setProdutos(listaProdutos);
+      return listaProdutos;
     } catch (error) {
-      console.error("Erro ao carregar produtos:", error);
+      toast.error("Erro ao carregar produtos:", error);
+      return [];
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     carregarProdutos();
   }, []);
@@ -56,7 +58,7 @@ export const ProdutoProvider = ({ children }) => {
       setProdutos((prev) => [...prev, { id: docRef.id, ...produto }]);
       return true;
     } catch (error) {
-      console.error("Erro ao adicionar produto:", error);
+      toast.error("Erro ao adicionar produto:", error);
       return false;
     }
   };
@@ -70,7 +72,7 @@ export const ProdutoProvider = ({ children }) => {
         prev.map((p) => (p.id === produto.id ? produto : p))
       );
     } catch (error) {
-      console.error("Erro ao atualizar produto:", error);
+      toast.error("Erro ao atualizar produto:", error);
     }
   };
 
@@ -81,7 +83,7 @@ export const ProdutoProvider = ({ children }) => {
       await deleteDoc(produtoRef);
       setProdutos((prev) => prev.filter((p) => p.id !== id));
     } catch (error) {
-      console.error("Erro ao deletar produto:", error);
+      toast.error("Erro ao deletar produto:", error);
     }
   };
 

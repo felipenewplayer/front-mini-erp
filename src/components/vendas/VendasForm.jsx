@@ -8,7 +8,7 @@ import { FaCartPlus } from "react-icons/fa";
 
 export default function VendasForm({ onSubmit }) {
   const { getClientes } = useClientes();
-  const { updateProduto, getProdutos } = useProduto();
+  const { updateProduto, carregarProdutos } = useProduto();
   const [produtos, setProdutos] = useState([]);
   const [clientes, setClientes] = useState([]);
 
@@ -27,8 +27,12 @@ export default function VendasForm({ onSubmit }) {
   );
 
   useEffect(() => {
-    setProdutos(getProdutos());
-    setClientes(getClientes());
+    const fectchData = async () => {
+      const produtosCarregados = await carregarProdutos();
+      setProdutos(produtosCarregados || []);
+      setClientes(getClientes());
+    }
+    fectchData();
   }, []);
 
   const handleAdicionar = (data) => {
@@ -51,7 +55,9 @@ export default function VendasForm({ onSubmit }) {
     };
 
     updateProduto(produtoAtualizado);
-    setProdutos(getProdutos());
+    carregarProdutos().then((produtosAtualizados) => {
+      setProdutos(produtosAtualizados || []);
+    });
 
     onSubmit({
       cliente: clienteSelecionado,

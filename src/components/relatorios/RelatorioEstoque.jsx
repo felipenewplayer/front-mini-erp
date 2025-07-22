@@ -1,3 +1,6 @@
+import { Outlet } from "react-router-dom";
+import DivsDosConteudos from "../DivsDosConteudos";
+
 const iframeContainerStyle = {
   position: 'relative',
   paddingBottom: '60%', // proporção 16:9 ~ 56%, 60% fica legal pra dashboard
@@ -16,13 +19,18 @@ const iframeStyle = {
 
 export default function EstoqueRelatorio() {
   return (
-    <div style={iframeContainerStyle}>
-      <iframe
-        title="TesteNOPROJETO"
-        src="https://app.powerbi.com/view?r=eyJrIjoiYmI0NDIxYmYtNjY4OS00NTI2LWJiNGQtNTEyODVhNDllNWIyIiwidCI6IjgxMGI4ZGQ3LTk0NTYtNDRlYy04YjA5LTVlY2Q4YmIzZTEyNyJ9&locale=pt-BR"
-        allowFullScreen={true}
-        style={iframeStyle}
-      />
-    </div>
+    <>
+      <DivsDosConteudos
+      title="Produtos em estoque">
+        {<div style={iframeContainerStyle}>
+          <iframe
+            title="TesteNOPROJETO"
+            src="https://app.powerbi.com/view?r=eyJrIjoiYmI0NDIxYmYtNjY4OS00NTI2LWJiNGQtNTEyODVhNDllNWIyIiwidCI6IjgxMGI4ZGQ3LTk0NTYtNDRlYy04YjA5LTVlY2Q4YmIzZTEyNyJ9&locale=pt-BR"
+            allowFullScreen={true}
+            style={iframeStyle}
+          />
+        </div>}
+      </DivsDosConteudos>
+    </>
   );
 }

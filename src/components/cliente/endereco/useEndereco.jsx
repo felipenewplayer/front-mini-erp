@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function useEndereco() {
   const [estados, setEstados] = useState([]);
@@ -14,14 +15,13 @@ export default function useEndereco() {
         const ordenados = res.data.sort((a, b) => a.nome.localeCompare(b.nome));
         setEstados(ordenados);
       } catch (error) {
-        console.error("Erro ao buscar estados:", error);
+        toast.error("Erro ao buscar estados:", error);
       }
     }
 
     carregarEstados();
   }, []);
 
-  // Buscar cidades ao mudar o estado
   useEffect(() => {
     async function carregarCidades() {
       if (estadoSelecionado) {
@@ -30,7 +30,7 @@ export default function useEndereco() {
           const ordenados = res.data.sort((a, b) => a.nome.localeCompare(b.nome));
           setCidades(ordenados);
         } catch (error) {
-          console.error("Erro ao buscar cidades:", error);
+          toast.error("Erro ao buscar cidades:", error);
         }
       } else {
         setCidades([]);

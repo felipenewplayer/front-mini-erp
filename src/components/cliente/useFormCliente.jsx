@@ -37,6 +37,6 @@ export default function useFormCliente() {
         editId, 
         iniciarEdicao, 
         limparForm,
-        setForm // Adicionado para maior flexibilidade
+        setForm
     };
 }
