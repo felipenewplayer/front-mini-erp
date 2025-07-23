@@ -1,48 +1,20 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  query,
+  where
+} from "firebase/firestore";
+import { db } from "../../firebase";
+import { toast } from "react-toastify";
 
-export const ClienteContext = createContext();
-const CLIENTES_INICIAIS = [
-  {
-    id: 1,
-    nome: "João Silva",
-    email: "joao.silva@email.com",
-    telefone: "(11) 99999-9999",
-    endereco: "Rua das Flores, 123",
-    estado: "SP",
-    cidade: "São Paulo",
-  },
-  {
-    id: 2,
-    nome: "Maria Souza",
-    email: "maria.souza@email.com",
-    telefone: "(21) 98888-8888",
-    endereco: "Av. Brasil, 456",
-    estado: "RJ",
-    cidade: "Rio de Janeiro",
-  },
-];
+const ClienteContext = createContext();
 export function useClientes() {
 
-  const CLIENTES_INICIAIS = [
-    {
-      id: 1,
-      nome: "João Silva",
-      email: "joao.silva@email.com",
-      telefone: "(11) 99999-9999",
-      endereco: "Rua das Flores, 123",
-      estado: "SP",
-      cidade: "São Paulo",
-    },
-    {
-      id: 2,
-      nome: "Maria Souza",
-      email: "maria.souza@email.com",
-      telefone: "(21) 98888-8888",
-      endereco: "Av. Brasil, 456",
-      estado: "RJ",
-      cidade: "Rio de Janeiro",
-    },
-  ];
   const context = useContext(ClienteContext);
   if (!context) {
     throw new Error("useClientes deve ser usado dentro de ClienteProvider");
@@ -51,43 +23,71 @@ export function useClientes() {
 }
 
 export function ClienteProvider({ children }) {
-  const [clienteSelecionado, setClienteSelecionado] = useState(null);
+  const [clientes, setClientes] = useState();
+  const [loading, setLoading] = useState(true);
 
-  // Função para pegar clientes do localStorage
-  const getClientes = () => JSON.parse(localStorage.getItem("clientes")) || [];
-
-  // Inicializa localStorage com dados padrões, se estiver vazio
-  useEffect(() => {
-    const clientes = getClientes();
-    if (!clientes || clientes.length === 0) {
-      localStorage.setItem("clientes", JSON.stringify(CLIENTES_INICIAIS));
+  const carregarClientes = async () => {
+    setLoading();
+    try {
+      const querySnapshot = await getDocs(collection(db, "clientes"));
+      const listClientes = [];
+      querySnapshot.forEach((doc) => {
+        listClientes.push({ id: doc.id, ...doc.data() });
+      });
+      setClientes(listClientes);
+      return listClientes;
+    } catch (error) {
+      toast.error("Não foi possível carregar os dados!", error);
+    } finally {
+      setLoading(false);
     }
+  }
+
+  useEffect(() => {
+    carregarClientes();
   }, []);
 
-  const addCliente = (novoCliente) => {
-    const clientes = getClientes();
-    if (clientes.some(c => c.nome === novoCliente.nome)) return null;
+  const addCliente = async (cliente) => {
+    try {
+      const q = query(
+        collection(db, "clientes"),
+        where("nome", "==", cliente.nome)
+      );
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        return false;
+      }
+      const docRef = await addDoc(collection(db, "clientes"), cliente);
+      setClientes((prev) => [...prev, { id: docRef.id, ...cliente }]);
+      return true;
+    } catch (error) {
+      toast.error("Erro ao adicionar cliente:", error);
+      return false;
+    }
+  }
 
-    const clienteComId = { ...novoCliente, id: Date.now() };
-    const novosClientes = [...clientes, clienteComId];
-    localStorage.setItem("clientes", JSON.stringify(novosClientes));
-
-    return clienteComId;
+  const updateCliente = async (cliente) => {
+    try {
+      const clienteRef = doc(db, "clientes", cliente.id);
+      await updateDoc(clienteRef, cliente);
+      setClientes((prev) => prev.map((p) => (p.id === cliente.id ? cliente : p)));
+    } catch (error) {
+      toast.error("Erro ao atualizar cliente:", error);
+    }
   };
 
-  const atualizarCliente = (clienteAtualizado) => {
-    const clientes = getClientes();
-    const atualizados = clientes.map(c => c.id === clienteAtualizado.id ? clienteAtualizado : c);
-    localStorage.setItem("clientes", JSON.stringify(atualizados));
-  };
-
-  const deletarCliente = (id) => {
-    const clientes = getClientes().filter(c => c.id !== id);
-    localStorage.setItem("clientes", JSON.stringify(clientes));
-  };
+  const deletarCliente = async (id) => {
+    try {
+      const clienteRef = doc(db, "clientes", id);
+      await deleteDoc(clienteRef);
+      setClientes((prev) => prev.filter((p) => p.id !== id));
+    } catch (error) {
+      toast.error("Erro ao deletar cliente!", error);
+    }
+  }
 
   return (
-    <ClienteContext.Provider value={{ getClientes, addCliente, atualizarCliente, deletarCliente, clienteSelecionado, setClienteSelecionado }}>
+    <ClienteContext.Provider value={{ clientes, loading, carregarClientes, addCliente, updateCliente, deletarCliente }}>
       {children}
     </ClienteContext.Provider>
   );

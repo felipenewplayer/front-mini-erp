@@ -3,23 +3,19 @@ import { toast } from "react-toastify";
 import ClienteTabela from "../components/cliente/ClienteTabela";
 import ClienteForm from "../components/cliente/ClienteForm";
 import DivsDosConteudos from "../components/DivsDosConteudos";
-import useCliente from "../components/cliente/useCliente";
 import { useClientes } from "../components/context/ClienteContext";
 import useFormCliente from "../components/cliente/useFormCliente";
 
 export default function Cliente() {
     const { form, editId, iniciarEdicao, limparForm } = useFormCliente();
-    const { clientes, setClientes, error } = useCliente();
-    const { addCliente, atualizarClientes, deletarCliente } = useClientes();
+    const { clientes, error, addCliente, updateCliente, deletarCliente } = useClientes();
     const [abaAberta, setAbaAberta] = useState("lista");
-
 
     const handleFormSubmit = async (data) => {
         try {
             if (editId !== null) {
                 const clienteAtualizado = { ...data, id: editId };
-                atualizarClientes(clienteAtualizado); // Atualiza no localStorage
-                setClientes(c => c.map(c => c.id === editId ? clienteAtualizado : c)); // Atualiza no estado
+                updateCliente(clienteAtualizado);
                 toast.success("Cliente atualizado com sucesso!");
             } else {
                 const novoCliente = { ...data, id: Date.now() };
@@ -27,7 +23,6 @@ export default function Cliente() {
                     toast.error("Já existe um cliente com esse nome.");
                     return;
                 }
-                setClientes(prev => [...prev, novoCliente]);
                 toast.success("Cliente criado com sucesso!");
             }
             limparForm();
@@ -41,7 +36,6 @@ export default function Cliente() {
         if (!window.confirm("Tem certeza que quer deletar?")) return;
         try {
             deletarCliente(id);
-            setClientes(prev => prev.filter(p => p.id !== id));
             toast.success("Cliente excluído com sucesso!");
         } catch (err) {
             toast.error("Erro ao excluir o produto", err);

@@ -9,7 +9,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../../firebase"; // ajuste o caminho para o seu arquivo de config Firebase
+import { db } from "../../firebase";
 import { toast } from "react-toastify";
 
 const ProdutoContext = createContext();
@@ -19,7 +19,6 @@ export const ProdutoProvider = ({ children }) => {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Função para carregar produtos do Firestore
   const carregarProdutos = async () => {
     setLoading(true);
     try {
@@ -41,17 +40,16 @@ export const ProdutoProvider = ({ children }) => {
     carregarProdutos();
   }, []);
 
-  // Adicionar produto (verifica nome duplicado)
   const addProduto = async (produto) => {
     try {
-      // Verifica se já existe produto com mesmo nome
+
       const q = query(
         collection(db, "produtos"),
         where("nome", "==", produto.nome)
       );
       const querySnapshot = await getDocs(q);
       if (!querySnapshot.empty) {
-        return false; // já existe
+        return false;
       }
 
       const docRef = await addDoc(collection(db, "produtos"), produto);
@@ -63,7 +61,6 @@ export const ProdutoProvider = ({ children }) => {
     }
   };
 
-  // Atualizar produto
   const updateProduto = async (produto) => {
     try {
       const produtoRef = doc(db, "produtos", produto.id);
@@ -76,7 +73,6 @@ export const ProdutoProvider = ({ children }) => {
     }
   };
 
-  // Deletar produto
   const deleteProduto = async (id) => {
     try {
       const produtoRef = doc(db, "produtos", id);

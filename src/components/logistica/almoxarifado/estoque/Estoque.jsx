@@ -8,7 +8,6 @@ import Alocacao from "./alocacao/Alocacao.jsx";
 
 export default function Estoque() {
     const { produtos, loading: isLoading, error, addProduto, updateProduto, deleteProduto } = useProduto();
-
     const [abaAtiva, setAbaAtiva] = useState("");
     const { form, editId, setEditId, iniciarEdicao, limparForm } = useFormProduto();
     const [colunaOrdenada, setColunaOrdenada] = useState("");
